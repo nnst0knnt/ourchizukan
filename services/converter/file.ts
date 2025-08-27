@@ -11,7 +11,13 @@ export const toThumbnail = async (
         : document.createElement("canvas");
     const context = canvas.getContext("2d");
 
-    if (!context) {
+    if (
+      !context ||
+      !(
+        context instanceof CanvasRenderingContext2D ||
+        context instanceof OffscreenCanvasRenderingContext2D
+      )
+    ) {
       reject(new Error("🔥 キャンバスがサポートされていません"));
 
       return;
