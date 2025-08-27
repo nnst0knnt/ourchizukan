@@ -19,5 +19,24 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: "512x512",
       },
     ],
+    shortcuts: [
+      {
+        name: "おうちずかん",
+        short_name: "おうちずかん",
+        url: "/",
+        icons: [
+          {
+            src: "/favicon-192x192.png",
+            type: "image/png",
+            sizes: "192x192",
+          },
+          {
+            src: "/favicon-512x512.png",
+            type: "image/png",
+            sizes: "512x512",
+          },
+        ],
+      },
+    ],
   };
 }
