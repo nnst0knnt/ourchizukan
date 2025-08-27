@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from "react";
+import { type PropsWithChildren, memo } from "react";
 
 import { cn } from "@/styles/functions";
 
@@ -8,14 +8,16 @@ import { cn } from "@/styles/functions";
  * アプリケーション全体のコンテンツ部分です。
  * アプリケーションの中心部分に常時表示されます。
  */
-export const Content = ({ children }: PropsWithChildren) => (
+export const Content = memo(({ children }: PropsWithChildren) => (
   <main
     className={cn(
-      "mx-auto w-full max-w-7xl flex-1",
+      "relative mx-auto w-full max-w-7xl flex-1",
       "py-4 md:py-6 lg:py-8",
       "px-4 md:px-6 lg:px-8",
     )}
   >
     {children}
   </main>
-);
+));
+
+Content.displayName = "Content";

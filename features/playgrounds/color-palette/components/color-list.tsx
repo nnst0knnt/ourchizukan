@@ -2,6 +2,7 @@
 
 import { Ellipsis } from "lucide-react";
 
+import { Description, Title } from "@/components/elements";
 import { useContrast, useTheme, useWindow } from "@/hooks";
 import { varsToHex } from "@/styles/functions";
 
@@ -17,78 +18,77 @@ const colors: Color[] = [
   {
     name: "ベースカラー",
     category: "背景色",
-    description: "ページ全体のトーンを決定する",
+    description: "ページ全体のトーンに使用されます",
     className: "bg-foundation",
     cssVar: "--color-foundation",
   },
   {
     name: "ブランドカラー",
     category: "背景色",
-    description: "らしさを表現する特徴的な色で重要な要素に注目させる",
+    description: "特に重要な要素へ注目させるために使用されます",
     className: "bg-brand",
     cssVar: "--color-brand",
   },
   {
     name: "アクセントカラー",
     category: "背景色",
-    description: "アクセントとしてブラントカラーを強調させる",
+    description: "ブラントカラーを強調するために使用されます",
     className: "bg-accent",
     cssVar: "--color-accent",
   },
   {
-    name: "テキストカラー",
-    category: "文字色",
-    description: "濃い背景上で読みやすい明るめの文字色で目の負担を軽減させる",
-    className: "bg-foreground",
-    cssVar: "--color-foreground",
-  },
-  {
     name: "プライマリーカラー",
     category: "文字色",
-    description: "タイトルや本文に使う基本的な文字色で読みやすさを高める",
+    description: "タイトルや本文などの基本的なテキストに使用されます",
     className: "bg-primary",
     cssVar: "--color-primary",
   },
   {
     name: "セカンダリーカラー",
     category: "文字色",
-    description:
-      "説明文やヒントなどの補助的な役割でプライマリーカラーを補完する",
+    description: "説明文やヒントなどの補助的なテキストに使用されます",
     className: "bg-secondary",
     cssVar: "--color-secondary",
   },
   {
+    name: "フォアグラウンドカラー",
+    category: "文字色",
+    description: "濃い背景色の上へ配置されるテキストに使用されます",
+    className: "bg-foreground",
+    cssVar: "--color-foreground",
+  },
+  {
     name: "サクセスカラー",
     category: "背景色",
-    description: "操作成功や完了を伝える",
+    description: "操作の成功や完了を伝えるために使用されます",
     className: "bg-success",
     cssVar: "--color-success",
   },
   {
     name: "エラーカラー",
     category: "背景色",
-    description: "操作失敗やエラーを伝える",
+    description: "操作の失敗やエラーを伝えるために使用されます",
     className: "bg-error",
     cssVar: "--color-error",
   },
   {
     name: "フォーカスカラー",
     category: "区切り色",
-    description: "現在選んでいる項目や入力中の場所を強調する",
+    description: "現在選んでいる項目や入力中の場所を強調するために使用されます",
     className: "bg-focus",
     cssVar: "--color-focus",
   },
   {
     name: "アウトラインカラー",
     category: "区切り色",
-    description: "要素間の境界線や枠線を強調する",
+    description: "要素の境界を明確にするために使用されます",
     className: "bg-outline",
     cssVar: "--color-outline",
   },
   {
     name: "トラックカラー",
     category: "区切り色",
-    description: "スライダーやプログレスバーの要素を強調する",
+    description: "スライダーやプログレスバーの背景に使用されます",
     className: "bg-track",
     cssVar: "--color-track",
   },
@@ -105,10 +105,9 @@ export const ColorList = () => {
 
   return (
     <section className="flex flex-col gap-4">
-      <h2 className="relative inline-flex items-center font-bold text-2xl tracking-tight">
-        <span className="relative z-10">一覧</span>
-        <span className="absolute bottom-1 left-0 z-0 h-3 w-16 rounded-sm bg-brand opacity-20" />
-      </h2>
+      <Title as="h2" accented>
+        一覧
+      </Title>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-8">
         {colors.map((color) => (
           <div
@@ -132,13 +131,15 @@ export const ColorList = () => {
 
             <div className="flex min-h-45 flex-1 flex-col justify-between gap-4 bg-foundation p-5">
               <div className="flex flex-col gap-1.5">
-                <h3 className="flex items-center gap-2 font-bold text-lg text-primary">
+                <Title as="h3" className="flex items-center gap-2">
                   <span
                     className={`inline-block h-3 w-3 rounded-full ${color.className} border border-outline`}
                   />
                   {color.name}
-                </h3>
-                <p className="text-secondary text-sm">{color.description}</p>
+                </Title>
+                <Description size="small">
+                  <p>{color.description}</p>
+                </Description>
               </div>
 
               <div className="flex justify-start">

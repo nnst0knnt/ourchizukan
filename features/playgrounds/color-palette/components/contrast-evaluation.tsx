@@ -1,5 +1,6 @@
 "use client";
 
+import { Title } from "@/components/elements";
 import { useContrast, useTheme, useWindow } from "@/hooks";
 import { evaluateContrast, varsToHex } from "@/styles/functions";
 
@@ -12,40 +13,41 @@ type Evaluation = {
 
 const evaluations: Evaluation[] = [
   {
-    name: "基本カラー",
-    description: "アプリケーションの基本的な色を表現する",
+    name: "基本テキスト",
+    description: "アプリケーションの基本的なテキストです",
     background: "--color-foundation",
     foreground: "--color-primary",
   },
   {
-    name: "補助カラー",
-    description: "アプリケーションの補助的な色を表現する",
+    name: "補助テキスト",
+    description: "アプリケーションの補助的なテキストです",
     background: "--color-foundation",
     foreground: "--color-secondary",
   },
   {
     name: "主要ボタン",
-    description: "「保存」や「次へ」など、ユーザーの主要アクションを促す",
+    description: "「保存」や「次へ」など、ユーザーの主要アクションを促します",
     background: "--color-brand",
     foreground: "--color-foreground",
   },
   {
     name: "補助ボタン",
-    description: "「キャンセル」や「前へ」など、補助的な操作を促す",
+    description:
+      "「キャンセル」や「前へ」など、ユーザーの補助アクションを促します",
     background: "--color-accent",
     foreground: "--color-foreground",
   },
   {
     name: "成功メッセージ",
     description:
-      "操作が完了したことをユーザーへ通知する肯定的なフィードバックを表す",
+      "操作が完了したことをユーザーへ通知する肯定的なフィードバックを表します",
     background: "--color-success",
     foreground: "--color-foreground",
   },
   {
     name: "エラーメッセージ",
     description:
-      "操作が失敗したことをユーザーへ通知する否定的なフィードバックを表す",
+      "操作が失敗したことをユーザーへ通知する否定的なフィードバックを表します",
     background: "--color-error",
     foreground: "--color-foreground",
   },
@@ -62,12 +64,11 @@ export const ContrastEvaluation = () => {
 
   return (
     <section className="flex flex-col gap-4">
-      <h2 className="relative inline-flex items-center font-bold text-2xl tracking-tight">
-        <span className="relative z-10">評価</span>
-        <span className="absolute bottom-1 left-0 z-0 h-3 w-16 rounded-sm bg-accent opacity-20" />
-      </h2>
+      <Title as="h2" accented>
+        評価
+      </Title>
       {window.enabled && (
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2 lg:gap-8">
           {evaluations.map((evaluation) => {
             const evaluated = evaluateContrast(
               varsToHex(evaluation.foreground),
