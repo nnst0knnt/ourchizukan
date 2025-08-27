@@ -1,0 +1,40 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ourchizukan",
+  "compatibility_date": "2025-03-21",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": ".vercel/output/static",
+  "observability": {
+    "enabled": true
+  }
+  /**
+   * Placement
+   *
+   * @see https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
+   */
+  /**
+   * Bindings
+   *
+   * @see https://developers.cloudflare.com/workers/runtime-apis/bindings/
+   */
+  /**
+   * Environment Variables
+   *
+   * @see https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+   * @see https://developers.cloudflare.com/workers/configuration/secrets/
+   */
+  /**
+   * Static Assets
+   *
+   * @see https://developers.cloudflare.com/workers/static-assets/binding/
+   */
+  /**
+   * Service Bindings
+   *
+   * @see https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
+   */
+}
