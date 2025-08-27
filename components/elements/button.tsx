@@ -131,7 +131,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       sizeStyles[size],
       statusStyles[status],
       fullWidth ? "w-full" : "",
-      isDisabled ? "opacity-60 cursor-not-allowed" : "",
       className,
     );
 

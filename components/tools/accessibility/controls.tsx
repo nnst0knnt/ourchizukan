@@ -43,7 +43,6 @@ export const AccessibilityControls = forwardRef<
         icon={!theme.value ? CircleDashed : theme.isLight ? Sun : Moon}
         size="small"
         kind="ghost"
-        filled={theme.isDark}
         onClick={theme.toggle}
         aria-label={
           theme.isLight ? "ダークモードに変更する" : "ライトモードに変更する"
@@ -53,9 +52,9 @@ export const AccessibilityControls = forwardRef<
 
       <IconButton
         icon={Glasses}
+        iconProps={contrast.isHigh ? { strokeWidth: 3 } : {}}
         size="small"
         kind="ghost"
-        filled={contrast.isHigh}
         onClick={contrast.toggle}
         aria-label={
           contrast.isNormal

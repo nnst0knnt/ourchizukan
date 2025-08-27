@@ -35,6 +35,21 @@
     cursor: pointer;
   }
 
+  /* ボタン、リンク、その他クリック可能要素の非活性状態 */
+  button:disabled,
+  [role="button"]:disabled,
+  a:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+    box-shadow: none;
+    background-color: var(--color-outline);
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+  }
+
   /* ボタン、リンク、その他クリック可能要素の最小サイズ */
   button,
   [role="button"],

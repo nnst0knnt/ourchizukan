@@ -4,7 +4,7 @@ import { type ButtonHTMLAttributes, forwardRef, useState } from "react";
 
 import { cn } from "@/styles/functions";
 
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon, LucideProps } from "lucide-react";
 
 /**
  * アイコンボタンの種類
@@ -27,6 +27,8 @@ type TooltipPosition = "top" | "right" | "bottom" | "left";
 export type IconButtonProps = {
   /** アイコン */
   icon: LucideIcon;
+  /** アイコンのプロパティ */
+  iconProps?: LucideProps;
   /** ボタンのサイズ */
   size?: IconButtonSize;
   /** ボタンの種類 */
@@ -53,6 +55,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
       icon: Icon,
+      iconProps,
       size = "default",
       kind = "primary",
       filled = false,
@@ -72,13 +75,16 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
     const kindStyles = {
       primary: filled
-        ? "bg-brand text-foreground"
+        ? "bg-brand text-foreground border-2 border-brand/30"
         : "bg-transparent text-brand border-2 border-brand/30 hover:bg-brand/30 active:bg-brand/40",
       secondary: filled
-        ? "bg-accent text-foreground"
+        ? "bg-accent text-foreground border-2 border-accent/30"
         : "bg-transparent text-accent border-2 border-accent/30 hover:bg-accent/30 active:bg-accent/40",
       ghost: filled
-        ? "bg-primary/10 text-primary"
+        ? cn(
+            "bg-primary/10 text-primary",
+            disabled ? "border-none" : "border-2 border-primary/20",
+          )
         : "bg-transparent text-primary border-2 border-primary/20 hover:bg-primary/10 active:bg-primary/20",
     };
 
@@ -144,7 +150,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       baseStyles,
       kindStyles[kind],
       sizeStyles[size],
-      disabled ? "opacity-60 cursor-not-allowed" : "",
       className,
     );
 
@@ -163,7 +168,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           onBlur={() => tooltip && setEnabledTooltip(false)}
           {...props}
         >
-          <Icon size={iconSizes[size]} aria-hidden="true" />
+          <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
 
           {tooltip && (
             <div
