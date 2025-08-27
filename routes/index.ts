@@ -1,4 +1,5 @@
 import { except } from "hono/combine";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { families } from "./endpoints/families";
 import { url, factory, redirect } from "./helpers";
 import { environment, guard } from "./middlewares";
@@ -17,6 +18,7 @@ export const app = factory
     except(
       ["/api/families/me"],
       guard({
+        guests: ["/api/families/enter"],
         failure: {
           unauthenticated: {
             message: "おうちに入ることができませんでした",
@@ -29,4 +31,7 @@ export const app = factory
     ),
   )
   .route("/families", families)
+  .notFound((context) =>
+    context.json(ReasonPhrases.NOT_FOUND, StatusCodes.NOT_FOUND),
+  )
   .onError((_, context) => context.redirect(url(context, redirect.unexpected)));
