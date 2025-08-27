@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
-import { ColorPalette } from "@/features/playgrounds/color-palette";
+import { ColorPalettes } from "@/features/playgrounds/color-palettes";
 
 export const metadata: Metadata = {
   title: "カラーパレット",
 };
 
 export default function Page() {
-  return <ColorPalette />;
+  return <ColorPalettes />;
 }

@@ -94,7 +94,7 @@ const colors: Color[] = [
   },
 ];
 
-export const ColorList = () => {
+export const ColorsInUse = () => {
   const window = useWindow();
 
   /**
