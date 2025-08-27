@@ -6,4 +6,5 @@ export { Link } from "./link";
 export { LogoLink } from "./logo-link";
 export { Logo } from "./logo";
 export { Mark } from "./mark";
+export { Textarea } from "./textarea";
 export { Title } from "./title";

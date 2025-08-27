@@ -30,9 +30,9 @@ export type InputProps = {
   size?: InputSize;
   /** 通常のヘルプテキスト */
   helperText?: string;
-  /** エラーメッセージ（存在する場合はエラー状態になる） */
+  /** エラーメッセージ */
   error?: string;
-  /** 成功メッセージ（存在する場合は成功状態になる） */
+  /** 成功メッセージ */
   success?: string;
   /** 入力欄を表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
@@ -89,13 +89,23 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         : "default";
 
     const sizeStyles = {
-      default: "py-2 px-4 min-h-11 text-base",
-      large: "py-3 px-6 min-h-14 text-lg",
+      default: "py-3 px-4 min-h-11 text-base",
+      large: "py-4 px-5 min-h-14 text-lg",
+    };
+
+    const markStyles = {
+      default: "top-1/2 left-3",
+      large: "top-1/2 left-4",
     };
 
     const markSizes = {
       default: 20,
       large: 24,
+    };
+
+    const markPaddings = {
+      default: "pl-10",
+      large: "pl-12.5",
     };
 
     const statusStyles = {
@@ -111,14 +121,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     };
 
     const classNames = cn(
-      "w-full rounded-md border bg-foundation text-primary",
+      "w-full rounded-md border bg-foundation text-primary placeholder:text-secondary/70!",
       "transition-colors duration-200",
       /** @see https://docs.keeper.io/en/user-guides/troubleshooting/website-developers */
       "keeper-ignore",
-      disabled && "cursor-not-allowed opacity-60",
       sizeStyles[size],
       statusStyles[status],
-      Mark && "pl-10.5",
+      Mark && markPaddings[size],
       className,
     );
 
@@ -141,7 +150,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
         <div className="relative">
           {Mark && (
-            <div className="-translate-y-1/2 absolute top-1/2 left-3">
+            <div className={cn("-translate-y-1/2 absolute", markStyles[size])}>
               <Mark
                 size={markSizes[size]}
                 className="text-secondary"

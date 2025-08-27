@@ -15,7 +15,7 @@ export type LogoLinkProps = {
   size?: LinkProps["size"];
   /** 印のみ表示 */
   markOnly?: boolean;
-} & HTMLAttributes<HTMLDivElement>;
+} & HTMLAttributes<HTMLAnchorElement>;
 
 /**
  * LogoLink
@@ -23,7 +23,7 @@ export type LogoLinkProps = {
  * おうちずかんのロゴのリンクです。
  * 押下時にルートへ遷移します。
  */
-export const LogoLink = forwardRef<HTMLDivElement, LogoLinkProps>(
+export const LogoLink = forwardRef<HTMLAnchorElement, LogoLinkProps>(
   ({ size = "default", markOnly = false, className, ...props }, ref) => {
     const sizeStyles = {
       small: "text-base",
@@ -32,15 +32,17 @@ export const LogoLink = forwardRef<HTMLDivElement, LogoLinkProps>(
     };
 
     return (
-      <div ref={ref} className={cn("flex items-center", className)} {...props}>
+      <div className="flex items-center">
         <Link
+          ref={ref}
           href="/"
           kind="default"
           mark={Logo}
           size={size}
-          className="flex flex-row items-center gap-2"
+          className={cn("flex flex-row items-center gap-2", className)}
           underline={false}
           aria-label="おうちずかんのトップページへ戻る"
+          {...props}
         >
           {!markOnly && (
             <span
