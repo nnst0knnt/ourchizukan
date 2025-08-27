@@ -1,5 +1,6 @@
 "use client";
 
+import { uniqBy } from "es-toolkit/array";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type InfinityScrollOptions<Datum> = {
@@ -15,16 +16,14 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
 }: InfinityScrollOptions<Datum>) => {
   const [data, setData] = useState<Datum[]>(defaultData);
   const [more, setMore] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const offset = useRef(0);
   const observer = useRef<IntersectionObserver | null>(null);
   const trigger = useRef<HTMLDivElement | null>(null);
 
   const load = useCallback(async () => {
-    if (loading || !more || refreshing) return;
-
-    setLoading(true);
+    if (!more || refreshing) return;
 
     try {
       const fetched = await fetch(offset.current, limit);
@@ -35,11 +34,14 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
 
       if (offset.current === 0) {
         setData(fetched);
+        offset.current = fetched.length;
       } else {
-        setData((previous) => [...previous, ...fetched]);
-      }
+        setData((previous) =>
+          uniqBy([...previous, ...fetched], ({ id }) => id),
+        );
 
-      offset.current += fetched.length;
+        offset.current += fetched.length;
+      }
     } catch (e) {
       console.error("🔥 データの読み込みに失敗しました", e);
 
@@ -47,7 +49,7 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
     } finally {
       setLoading(false);
     }
-  }, [fetch, limit, loading, more, refreshing]);
+  }, [fetch, limit, more, refreshing]);
 
   const refresh = useCallback(() => {
     if (refreshing || loading) return;
@@ -86,10 +88,10 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
   }, [more, loading, refreshing, load]);
 
   useEffect(() => {
-    if (data.length === 0 && more && !loading && !refreshing) {
+    if (data.length === 0 && more && !refreshing) {
       load();
     }
-  }, [data.length, more, loading, refreshing, load]);
+  }, [data.length, more, refreshing, load]);
 
   return {
     data,
