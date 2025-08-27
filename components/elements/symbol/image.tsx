@@ -4,6 +4,7 @@ import { ImageOff, LoaderCircle } from "lucide-react";
 import NextImage, { type ImageProps } from "next/image";
 import { forwardRef, useState } from "react";
 import { useEnabledWindow } from "@/hooks";
+import { cn } from "@/styles/functions";
 
 const Status = {
   Idle: "Idle",
@@ -39,6 +40,10 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
     <NextImage
       ref={ref}
       {...props}
+      className={cn(
+        props.className,
+        (status === Status.Idle || status === Status.Loading) && "opacity-0",
+      )}
       onLoadStart={() => setStatus(Status.Loading)}
       onLoadingComplete={() => setStatus(Status.Complete)}
       onError={() => setStatus(Status.Error)}

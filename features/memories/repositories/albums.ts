@@ -27,14 +27,16 @@ export const list = async ({
     );
   }
 
-  return (await response.json()).map((album) => ({
+  const { data } = await response.json();
+
+  return data.map((album) => ({
     id: album.id,
     name: album.title,
     thumbnailUrl: album.thumbnailId
       ? `${env.APP_URL}/api/pictures/${album.thumbnailId}?kind=${ObjectKey.Picture.thumbnail}`
       : "",
     count: album.count,
-    updatedAt: date(album.updatedAt).format("YYYY-MM-DD"),
+    createdAt: date(album.createdAt).format("YYYY-MM-DD"),
   }));
 };
 
@@ -53,12 +55,12 @@ export const get = async (path: GetAlbumPathParameter) => {
     );
   }
 
-  const album = await response.json();
+  const { data } = await response.json();
 
   return {
-    id: album.id,
-    title: album.title,
-    createdAt: date(album.createdAt).format("YYYY-MM-DD"),
+    id: data.id,
+    title: data.title,
+    createdAt: date(data.createdAt).format("YYYY-MM-DD"),
   };
 };
 
@@ -72,12 +74,4 @@ export const create = async (body: CreateAlbumBody) => {
       (await response.json()).message || "アルバムの作成に失敗しました",
     );
   }
-
-  const album = await response.json();
-
-  return {
-    id: album.id,
-    title: album.title,
-    createdAt: date(album.createdAt).format("YYYY-MM-DD"),
-  };
 };

@@ -20,10 +20,19 @@ type Props = {
 export const Album = ({ id }: Props) => {
   const [open, toggle] = useToggle(false);
   const [datum, setDatum] = useState<AlbumDescription>();
+  const [count, setCount] = useState<number>();
 
   const fetch = useCallback(
     async (offset: number, limit: number) => {
-      return await repositories.pictures.list({ albumId: id, offset, limit });
+      const [count, data] = await repositories.pictures.list({
+        albumId: id,
+        offset,
+        limit,
+      });
+
+      setCount(count);
+
+      return data;
     },
     [id],
   );
@@ -38,14 +47,14 @@ export const Album = ({ id }: Props) => {
     })();
   }, [id]);
 
-  return datum && data ? (
+  return datum && data && count !== undefined ? (
     <PullToRefresh onRefresh={refresh}>
       <Container className="h-[calc(100%-4rem)] md:h-[calc(100%-4.5rem)]">
         <div className={cn("flex flex-col gap-4", open ? "hidden" : "flex")}>
           <Title as="h1">{datum.title}</Title>
           <Description>
             <p className="flex items-center gap-x-1">
-              {data.length}枚の写真があります。
+              {count}枚の写真があります。
             </p>
             <p>写真をタップすると大きく表示されます。</p>
           </Description>

@@ -35,9 +35,11 @@ export const get = factory.createHandlers(
 
       return context.json(
         {
-          id: album.id,
-          title: album.title,
-          createdAt: album.createdAt,
+          data: {
+            id: album.id,
+            title: album.title,
+            createdAt: album.createdAt,
+          },
         },
         StatusCodes.OK,
       );

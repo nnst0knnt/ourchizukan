@@ -6,11 +6,13 @@ export const member = factory.createHandlers(async (context) => {
     const session = await context.var.keeper.session.get(context.var.ip);
 
     return context.json(
-      session
-        ? {
-            method: session.method,
-          }
-        : null,
+      {
+        data: session
+          ? {
+              method: session.method,
+            }
+          : null,
+      },
       StatusCodes.OK,
     );
   } catch (e) {

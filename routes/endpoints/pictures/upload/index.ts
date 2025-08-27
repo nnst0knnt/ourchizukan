@@ -113,7 +113,7 @@ export const upload = factory.createHandlers(
         }
       }
 
-      return context.json(data, StatusCodes.CREATED);
+      return context.json({ data }, StatusCodes.CREATED);
     } catch (e) {
       console.error("🔥 写真のアップロードに失敗しました", e);
 

@@ -24,13 +24,18 @@ export const list = async ({
     );
   }
 
-  return (await response.json()).map((picture) => ({
-    id: picture.id,
-    albumId: picture.albumId,
-    originalUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.original}`,
-    thumbnailUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.thumbnail}`,
-    takenAt: date(picture.takenAt).format("YYYY-MM-DD"),
-  }));
+  const { count, data } = await response.json();
+
+  return [
+    count,
+    data.map((picture) => ({
+      id: picture.id,
+      albumId: picture.albumId,
+      originalUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.original}`,
+      thumbnailUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.thumbnail}`,
+      takenAt: date(picture.takenAt).format("YYYY-MM-DD"),
+    })),
+  ] as const;
 };
 
 export const upload = async (body: UploadPicturesBody) => {
@@ -43,6 +48,4 @@ export const upload = async (body: UploadPicturesBody) => {
       (await response.json()).message || "写真のアップロードに失敗しました",
     );
   }
-
-  return await response.json();
 };

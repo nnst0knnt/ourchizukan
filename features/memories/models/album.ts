@@ -3,7 +3,7 @@ export type AlbumCard = {
   name: string;
   thumbnailUrl: string;
   count: number;
-  updatedAt: string;
+  createdAt: string;
 };
 
 export type AlbumDescription = {

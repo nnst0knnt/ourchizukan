@@ -41,10 +41,7 @@ export const enter = factory.createHandlers(
         );
       }
 
-      return context.json(
-        { message: "おうちずかんへようこそ！" },
-        StatusCodes.OK,
-      );
+      return context.json({ data: "おうちずかんへようこそ！" }, StatusCodes.OK);
     } catch (e) {
       console.error("🔥 入室に失敗しました", e);
 

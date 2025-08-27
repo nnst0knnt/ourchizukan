@@ -22,9 +22,11 @@ export const create = factory.createHandlers(
 
       return context.json(
         {
-          id,
-          title: body.title,
-          createdAt: now,
+          data: {
+            id,
+            title: body.title,
+            createdAt: now,
+          },
         },
         StatusCodes.CREATED,
       );
