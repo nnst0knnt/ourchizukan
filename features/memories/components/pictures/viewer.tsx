@@ -1,5 +1,5 @@
 import { Button } from "@/components/elements/trigger";
-import { Footer } from "@/components/structures";
+import { Footer, Header } from "@/components/structures";
 import { useKeyboard } from "@/hooks";
 import { date } from "@/services/date";
 import { cn } from "@/styles/functions";
@@ -38,12 +38,12 @@ export const Viewer = memo<ViewerProps>(
     return (
       <div
         className={cn(
-          "fixed inset-0 z-fullscreen flex flex-col bg-foundation",
+          "fullscreen fixed inset-0 z-fullscreen flex flex-col bg-foundation",
           invisible ? "invisible" : "visible",
         )}
         onKeyDown={keydown}
       >
-        <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-4 md:h-16 md:px-6 lg:px-8">
+        <Header className="relative">
           {!loading && model ? (
             <p className="flex items-center gap-2 text-sm">
               <Camera className="inline-block h-4 w-4" />
@@ -52,7 +52,7 @@ export const Viewer = memo<ViewerProps>(
           ) : (
             <p className="text-base text-secondary">&nbsp;</p>
           )}
-        </div>
+        </Header>
 
         <div className="relative flex flex-1 items-center justify-center border-outline border-t p-4">
           {loading || !model ? (

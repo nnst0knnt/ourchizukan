@@ -1,9 +1,10 @@
 "use client";
 
 import { Button } from "@/components/elements/trigger";
+import { useLandscape } from "@/hooks";
 import { cn } from "@/styles/functions";
 import { useRouter } from "next/navigation";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 
 type Path = string;
 
@@ -16,16 +17,24 @@ type FooterProps = {
 
 export const Footer = memo<FooterProps>(({ to, fixed = false }) => {
   const router = useRouter();
+  const isLandscape = useLandscape();
 
   const click = useCallback(
-    () => (typeof to === "string" ? router.push(to) : to()),
+    () => (typeof to === "string" ? router.replace(to) : to()),
     [to, router],
   );
+
+  useEffect(() => {
+    if (typeof to === "string") {
+      router.prefetch(to);
+    }
+  }, [fixed, to, router]);
 
   return (
     <footer
       className={cn(
         "w-full border-outline border-t bg-foundation",
+        isLandscape && "hidden",
         fixed && "fixed right-0 bottom-0 left-0 z-cover",
         !fixed && "relative",
       )}

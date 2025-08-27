@@ -3,7 +3,7 @@ import { cn } from "@/styles/functions";
 import { Images } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import type { AlbumCard } from "../../models/card";
 
 type CardProps = {
@@ -15,13 +15,19 @@ export const Card = memo<CardProps>(({ model = null, loading = false }) => {
   const router = useRouter();
 
   const click = useCallback(
-    () => (model ? router.push(`/albums/${model.id}`) : null),
+    () => (model ? router.replace(`/albums/${model.id}`) : null),
     [model, router],
   );
 
   const { keydown } = useKeyboard({
     Enter: click,
   });
+
+  useEffect(() => {
+    if (model) {
+      router.prefetch(`/albums/${model.id}`);
+    }
+  }, [model, router]);
 
   if (loading || !model) {
     return (

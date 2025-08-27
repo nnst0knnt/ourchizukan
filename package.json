@@ -36,6 +36,7 @@
     "next": "15.3.2",
     "nextjs-toploader": "^3.8.16",
     "react": "^19.1.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^19.1.0",
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.56.3",

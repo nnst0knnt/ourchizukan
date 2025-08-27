@@ -7,6 +7,7 @@ export {
 export { useEnabledWindow } from "./use-enabled-window";
 export { useForwardedRef } from "./use-forwarded-ref";
 export { useKeyboard } from "./use-keyboard";
+export { useLandscape } from "./use-landscape";
 export { useLockOnFocus } from "./use-lock-on-focus";
 export { useLockScroll } from "./use-lock-scroll";
 export { useNoPullToRefresh } from "./use-no-pull-to-refresh";
