@@ -5,31 +5,15 @@ import { forwardRef, type MouseEvent, useState } from "react";
 import { sleep } from "@/services/timer";
 import { Button, type ButtonProps, ButtonStatus } from "./button";
 
-/**
- * AsyncButtonProps
- */
 type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
-  /** クリック時の非同期処理 */
   onClick?: (e: MouseEvent<HTMLButtonElement>) => Promise<void>;
-  /** 成功時の処理 */
   onSuccess?: () => void;
-  /** エラー時の処理 */
   onError?: (error: unknown) => void;
-  /** 成功・エラー時に自動でリセットするかどうか */
   autoReset?: boolean;
-  /** ステータスを自動リセットするまでの時間 */
   resetDelayMs?: number;
-  /** 成功もしくはエラー後の待機時間 */
   waitMs?: number;
 };
 
-/**
- * AsyncButton
- *
- * 非同期処理を実行するボタンです。
- * 内部で状態管理を行い、非同期処理の状態に応じてボタンの表示を切り替えます。
- * 高齢者にも使いやすいよう、処理中や結果を視覚的に分かりやすく表示します。
- */
 export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
   (
     {

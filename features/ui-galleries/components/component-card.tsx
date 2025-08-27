@@ -9,28 +9,14 @@ import { cn } from "@/styles/functions";
 import { CodeSnippet } from "./code-snippet";
 import { CopyToClipboard } from "./copy-to-clipboard";
 
-/**
- * ComponentCardProps
- */
 type ComponentCardProps = {
-  /** コンポーネントのタイトル */
   title: string;
-  /** コンポーネントの説明 */
   description: string;
-  /** サンプルコード */
   code: string;
-  /** コードの言語 */
   language?: ComponentProps<typeof CodeSnippet>["language"];
-  /** 表示するコンポーネント */
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>;
 
-/**
- * ComponentCard
- *
- * UIコンポーネントを展示するためのカードです。
- * コンポーネントのタイトル、説明、実際の表示、サンプルコードを含みます。
- */
 export const ComponentCard = memo<ComponentCardProps>(
   ({
     title,

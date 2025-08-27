@@ -11,48 +11,24 @@ import { cn } from "@/styles/functions";
 
 import type { SelectSize, SelectStatus } from "./select-group";
 
-/**
- * MobileSelectGroupProps
- */
 type MobileSelectGroupProps = {
-  /** 開閉状態 */
   open: boolean;
-  /** ID */
   id: string;
-  /** グループ名 */
   name: string;
-  /** 選択されたラベル */
   label: string;
-  /** 選択された値 */
   value: string;
-  /** セレクトのサイズ */
   size: SelectSize;
-  /** セレクトの状態 */
   status: SelectStatus;
-  /** グループを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** プレースホルダー */
   placeholder: string;
-  /** 必須項目かどうか */
   required: boolean;
-  /** クラス名 */
   className: string;
-  /** aria-invalid属性 */
   ariaInvalid: boolean;
-  /** aria-describedby属性 */
   ariaDescribedBy: string;
-  /** 選択肢 */
   children: ReactNode;
-  /** 開閉を切り替えるハンドラー */
   toggle: () => void;
 };
 
-/**
- * MobileSelectGroup
- *
- * モバイル向けに複数の選択肢をグループ化します。
- * 画面下部からスライドアップするボトムシート形式で選択肢を表示します。
- */
 export const MobileSelectGroup = ({
   open,
   id,

@@ -1,11 +1,5 @@
-/**
- * RGB色
- */
 export type Rgb = { r: number; g: number; b: number };
 
-/**
- * 16進数カラーコードをRGB値に変換する
- */
 export const hexToRgb = (hex: string): Rgb => {
   const replaced = hex.startsWith("#") ? hex.slice(1) : hex;
 

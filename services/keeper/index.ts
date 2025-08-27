@@ -11,9 +11,6 @@ import {
 } from "@/models";
 import { date } from "../date";
 
-/**
- * セッションの管理
- */
 const session = (kv: KeyValueStorage) => {
   const prefix = "sessions";
 
@@ -76,9 +73,6 @@ const session = (kv: KeyValueStorage) => {
   };
 };
 
-/**
- * ホワイトリストの管理
- */
 const whitelist = (kv: KeyValueStorage) => {
   const prefix = "whitelist";
 
@@ -122,9 +116,6 @@ const whitelist = (kv: KeyValueStorage) => {
   };
 };
 
-/**
- * 試行回数の管理
- */
 const attempts = (kv: KeyValueStorage) => {
   const prefix = "attempts";
 
@@ -177,9 +168,6 @@ const attempts = (kv: KeyValueStorage) => {
   };
 };
 
-/**
- * セッション、ホワイトリスト、試行回数の管理
- */
 export const keeper = (kv: KeyValueStorage) => ({
   session: session(kv),
   whitelist: whitelist(kv),

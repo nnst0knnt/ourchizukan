@@ -23,20 +23,12 @@ const highlighter = async () => {
   return _highlighter;
 };
 
-/**
- * CodeSnippetProps
- */
 type CodeSnippetProps = {
   code: string;
   language?: "tsx";
   className?: string;
 };
 
-/**
- * CodeSnippet
- *
- * コンポーネント使用例のコードを展示します。
- */
 export const CodeSnippet = memo<CodeSnippetProps>(
   ({ code, language = "tsx", className }) => {
     const [snippet, setSnippet] = useState<JSX.Element | null>(null);

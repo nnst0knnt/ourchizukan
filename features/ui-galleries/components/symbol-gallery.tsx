@@ -5,11 +5,6 @@ import { Title } from "@/components/elements/typography";
 
 import { ComponentCard } from "./component-card";
 
-/**
- * SymbolGallery
- *
- * ロゴなどのシンボル関連コンポーネントを展示します。
- */
 export const SymbolGallery = memo(() => {
   return (
     <section className="flex flex-col gap-4">

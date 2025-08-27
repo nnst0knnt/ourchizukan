@@ -5,12 +5,6 @@ import TopLoader, {
 } from "nextjs-toploader";
 import { forwardRef } from "react";
 
-/**
- * TransitionProgress
- *
- * ページ遷移時に表示されるローディングバーを提供します。
- * ページの読み込み中にユーザーにフィードバックを提供するために使用されます。
- */
 export const TransitionProgress = forwardRef<HTMLDivElement, TopLoaderProps>(
   (props, ref) => (
     <div ref={ref}>

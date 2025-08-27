@@ -16,14 +16,8 @@ import {
 import { cn } from "@/styles/functions";
 import type { CheckboxStatus } from "./checkbox-option";
 
-/**
- * チェックボックスのサイズ
- */
 export type CheckboxSize = "default" | "large";
 
-/**
- * チェックボックスグループの状態
- */
 export const CheckboxGroupState = createContext<{
   value: string[];
   size: CheckboxSize;
@@ -32,40 +26,20 @@ export const CheckboxGroupState = createContext<{
   size: "default",
 });
 
-/**
- * CheckboxGroupProps
- */
 type CheckboxGroupProps = {
-  /** グループのラベル */
   label?: string;
-  /** 現在の選択値 */
   value?: string | string[];
-  /** チェックボックスのサイズ */
   size?: CheckboxSize;
-  /** グループのヘルプテキスト */
   helperText?: string;
-  /** エラーメッセージ */
   error?: string;
-  /** 成功メッセージ */
   success?: string;
-  /** グループを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** 必須項目かどうか */
   required?: boolean;
-  /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
-  /** 子要素 */
   children: ReactNode;
-  /** 値が変更されたときのハンドラー */
   onChange?: (value: string[]) => void;
 } & Omit<HTMLAttributes<HTMLFieldSetElement>, "onChange" | "defaultValue">;
 
-/**
- * CheckboxGroup
- *
- * 複数のチェックボックスをグループ化します。
- * チェックボックスの選択状態を管理するために、Checkboxと組み合わせて使用します。
- */
 export const CheckboxGroup = forwardRef<
   HTMLFieldSetElement,
   CheckboxGroupProps

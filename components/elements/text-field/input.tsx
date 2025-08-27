@@ -11,42 +11,20 @@ import {
 import { useForwardedRef, useLockOnFocus } from "@/hooks";
 import { cn } from "@/styles/functions";
 
-/**
- * 入力欄のサイズ
- */
 type InputSize = "default" | "large";
 
-/**
- * 入力欄の状態
- */
 type InputStatus = "default" | "error" | "success";
 
-/**
- * InputProps
- */
 type InputProps = {
-  /** 入力欄のラベル */
   label?: string;
-  /** 入力欄のサイズ */
   size?: InputSize;
-  /** 通常のヘルプテキスト */
   helperText?: string;
-  /** エラーメッセージ */
   error?: string;
-  /** 成功メッセージ */
   success?: string;
-  /** 入力欄を表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "size">;
 
-/**
- * Input
- *
- * 様々な入力タイプに対応する入力欄です。
- * 状態に応じた視覚的フィードバックを提供します。
- */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {

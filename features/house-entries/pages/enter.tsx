@@ -4,11 +4,6 @@ import { Container } from "@/components/structures/content/container";
 import { PullToRefresh } from "@/components/tools";
 import { EmailController } from "../components/email-controller";
 
-/**
- * Enter
- *
- * `おうちずかん`への入口となるページです。
- */
 export const Enter = () => (
   <PullToRefresh>
     <Centered>

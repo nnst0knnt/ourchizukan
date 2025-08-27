@@ -5,9 +5,6 @@ import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { z } from "zod";
 import { factory, toBody } from "../helpers";
 
-/**
- * リクエストボディ必須のミドルウェア
- */
 const hasBody = <Kind extends keyof Pick<ValidationTargets, "json" | "form">>(
   kind: Kind,
 ) =>
@@ -26,9 +23,6 @@ const hasBody = <Kind extends keyof Pick<ValidationTargets, "json" | "form">>(
     },
   );
 
-/**
- * JSONボディのバリデーションを行うミドルウェア
- */
 const json = <Schema extends z.ZodType>(schema: Schema) => {
   const middleware = zValidator("json", schema, ({ success }, context) => {
     if (!success) {
@@ -42,9 +36,6 @@ const json = <Schema extends z.ZodType>(schema: Schema) => {
   return every(hasBody("json"), middleware) as typeof middleware;
 };
 
-/**
- * フォームボディのバリデーションを行うミドルウェア
- */
 const form = <Schema extends z.ZodType>(schema: Schema) => {
   const middleware = factory.createMiddleware(async (context, next) => {
     const body = await toBody(context, schema);
@@ -62,9 +53,6 @@ const form = <Schema extends z.ZodType>(schema: Schema) => {
   return middleware;
 };
 
-/**
- * パスパラメータのバリデーションを行うミドルウェア
- */
 const path = <Schema extends z.ZodType>(schema: Schema) =>
   zValidator("param", schema, ({ success }, context) => {
     if (!success) {
@@ -75,9 +63,6 @@ const path = <Schema extends z.ZodType>(schema: Schema) =>
     }
   });
 
-/**
- * クエリパラメータのバリデーションを行うミドルウェア
- */
 const query = <Schema extends z.ZodType>(schema: Schema) =>
   zValidator("query", schema, ({ success }, context) => {
     if (!success) {
@@ -88,9 +73,6 @@ const query = <Schema extends z.ZodType>(schema: Schema) =>
     }
   });
 
-/**
- * リクエストをバリデーションするミドルウェア
- */
 export const validator = {
   json,
   form,

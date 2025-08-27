@@ -5,11 +5,6 @@ import { Description, Title } from "@/components/elements/typography";
 
 import { ComponentCard } from "./component-card";
 
-/**
- * TypographyGallery
- *
- * タイトルや説明文などのタイポグラフィ関連コンポーネントを展示します。
- */
 export const TypographyGallery = memo(() => {
   return (
     <section className="flex flex-col gap-4">

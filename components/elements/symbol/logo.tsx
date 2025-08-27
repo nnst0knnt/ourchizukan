@@ -1,21 +1,11 @@
 import { forwardRef, type HTMLAttributes } from "react";
 
-/**
- * LogoProps
- */
 type LogoProps = {
-  /** ロゴの色 */
   color?: string;
 } & HTMLAttributes<
   Omit<SVGElement, "size" | "width" | "height" | "strokeWidth">
 >;
 
-/**
- * Logo
- *
- * `おうちずかん`のロゴです。
- * `size`を指定しない場合は`16px`となります。
- */
 export const Logo = forwardRef<SVGSVGElement, LogoProps>(
   ({ color = "currentColor", ...props }, ref) => {
     return (

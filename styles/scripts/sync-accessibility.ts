@@ -10,11 +10,6 @@ import {
   ThemeLocalStorageKey,
 } from "@/hooks";
 
-/**
- * アクセシビリティの設定を同期する
- *
- * これにより、画面のちらつき(FOUC)を防止します。
- */
 const sync = () => {
   try {
     const theme = localStorage.getItem(ThemeLocalStorageKey) || ThemeKind.Light;

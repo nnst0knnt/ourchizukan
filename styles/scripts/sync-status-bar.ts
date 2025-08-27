@@ -1,8 +1,5 @@
 import { ContrastDomAttributeName, ThemeDomAttributeName } from "@/hooks";
 
-/**
- * ステータスバーの色を同期する
- */
 const sync = () => {
   try {
     update();
@@ -22,9 +19,6 @@ const sync = () => {
   }
 };
 
-/**
- * ステータスバーの色を更新する
- */
 const update = () => {
   let meta = document.querySelector(
     'meta[name="theme-color"]',

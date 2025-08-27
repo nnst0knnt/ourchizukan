@@ -14,24 +14,12 @@ import { cn } from "@/styles/functions";
 
 import { SelectGroupState } from "./select-group";
 
-/**
- * SelectOptionProps
- */
 type SelectOptionProps = {
-  /** オプションのラベル */
   label: string;
-  /** オプションの値 */
   value: string;
-  /** 無効状態かどうか */
   disabled?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
-/**
- * SelectOption
- *
- * セレクトボックスの選択肢を表示します。
- * SelectGroupと組み合わせて使用することでセレクトボックスを制御することができます。
- */
 export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
   (
     { id, value, label, disabled = false, className, children, ...props },

@@ -14,42 +14,22 @@ import { cn } from "@/styles/functions";
 
 import { RadioGroupState, type RadioSize } from "./radio-group";
 
-/**
- * ラジオボタンの状態
- */
 export type RadioStatus = "default" | "error" | "success";
 
-/**
- * RadioOptionProps
- */
 type RadioOptionProps = {
-  /** ラジオボタンのラベル */
   label?: string;
-  /** ラジオボタンのサイズ */
   size?: RadioSize;
-  /** 選択されているかどうか */
   checked?: boolean;
-  /** ヘルプテキスト */
   helperText?: string;
-  /** エラーメッセージ */
   error?: string;
-  /** 成功メッセージ */
   success?: string;
-  /** 必須項目かどうか */
   required?: boolean;
-  /** 値が変更されたときのハンドラー */
   onChange?: (checked: boolean) => void;
 } & Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "type" | "checked" | "size" | "onChange"
 >;
 
-/**
- * RadioOption
- *
- * 複数の選択肢から一つを選択するラジオボタンです。
- * RadioGroupと組み合わせて使用することで複数の選択肢をグループ化できます。
- */
 export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
   (
     {

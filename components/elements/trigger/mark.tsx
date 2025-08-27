@@ -10,52 +10,26 @@ import {
 } from "react";
 import { cn } from "@/styles/functions";
 
-/**
- * 印の種類
- */
 type MarkKind = "primary" | "secondary" | "ghost";
 
-/**
- * 印のサイズ
- */
 type MarkSize = "small" | "default" | "large";
 
-/**
- * ツールチップの表示位置
- */
 type TooltipPosition = "top" | "right" | "bottom" | "left";
 
-/**
- * MarkProps
- */
 type MarkProps = {
-  /** 印 */
   value:
     | LucideIcon
     | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>
     | null;
-  /** 印のサイズ */
   size?: MarkSize;
-  /** 印の種類 */
   kind?: MarkKind;
-  /** 背景色を適用するかどうか */
   filled?: boolean;
-  /** ツールチップのテキスト */
   tooltip?: string;
-  /** ツールチップの表示位置 */
   tooltipPosition?: TooltipPosition;
-  /** アクセシビリティのためのラベル */
+
   "aria-label": string;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "value" | "aria-label">;
 
-/**
- * Mark
- *
- * 印のみを表示するコンパクトなボタンです。
- * 認識しやすいサイズとツールチップによる説明をサポートしています。
- * トグル機能も備えており、選択状態を視覚的に表示できます。
- * ツールチップの表示位置を上下左右に変更できます。
- */
 export const Mark = forwardRef<HTMLButtonElement, MarkProps>(
   (
     {

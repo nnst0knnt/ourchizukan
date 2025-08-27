@@ -11,46 +11,24 @@ import {
 
 import { cn } from "@/styles/functions";
 
-/**
- * トグルの状態
- */
 type ToggleStatus = "default" | "error" | "success";
 
-/**
- * トグルのサイズ
- */
 type ToggleSize = "default" | "large";
 
-/**
- * ToggleProps
- */
 type ToggleProps = {
-  /** トグルのラベル */
   label?: string;
-  /** トグルのサイズ */
   size?: ToggleSize;
-  /** トグルがオンかどうか */
   checked?: boolean;
-  /** ヘルプテキスト */
   helperText?: string;
-  /** エラーメッセージ */
   error?: string;
-  /** 成功メッセージ */
   success?: string;
-  /** 必須項目かどうか */
   required?: boolean;
-  /** 値が変更されたときのハンドラー */
   onChange?: (checked: boolean) => void;
 } & Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "type" | "checked" | "size" | "onChange"
 >;
 
-/**
- * Toggle
- *
- * オンとオフの切り替えをするトグルです。
- */
 export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
   (
     {

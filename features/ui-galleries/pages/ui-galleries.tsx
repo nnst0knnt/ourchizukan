@@ -12,11 +12,6 @@ import { TextFieldGallery } from "../components/text-field-gallery";
 import { TriggerGallery } from "../components/trigger-gallery";
 import { TypographyGallery } from "../components/typography-gallery";
 
-/**
- * UIGalleries
- *
- * `おうちずかん`で使用しているUIコンポーネントを展示するページです。
- */
 export const UIGalleries = memo(() => {
   return (
     <Container>

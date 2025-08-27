@@ -2,23 +2,13 @@
 
 import { useMedia } from "react-use";
 
-/**
- * デバイスサイズの閾値
- */
 export const DeviceSizes = {
-  /** モバイルとタブレットの境界ピクセル */
   MobileBreakpoint: 768,
-  /** タブレットとデスクトップの境界ピクセル */
   TabletBreakpoint: 1024,
 } as const;
 
-/**
- * UIコンポーネントの寸法定数
- */
 export const UIDimensions = {
-  /** セレクトドロップダウンの推定最大高さ（ピクセル） */
   SelectDropdownMaxHeight: 320,
-  /** 画面下部のマージン（ピクセル） */
   BottomSafetyMargin: 90,
 } as const;
 

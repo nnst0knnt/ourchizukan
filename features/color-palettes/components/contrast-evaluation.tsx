@@ -58,9 +58,6 @@ const evaluations: Evaluation[] = [
 export const ContrastEvaluation = memo(() => {
   const enabled = useEnabledWindow();
 
-  /**
-   * テーマとコントラストの変更時に再レンダリングさせる
-   */
   useTheme();
   useContrast();
 

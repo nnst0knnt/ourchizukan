@@ -15,46 +15,23 @@ import { cn } from "@/styles/functions";
 
 import type { SelectSize, SelectStatus } from "./select-group";
 
-/**
- * DesktopSelectGroupProps
- */
 type DesktopSelectGroupProps = {
-  /** 開閉状態 */
   open: boolean;
-  /** ID */
   id: string;
-  /** 選択されたラベル */
   label: string;
-  /** 選択された値 */
   value: string;
-  /** セレクトのサイズ */
   size: SelectSize;
-  /** セレクトの状態 */
   status: SelectStatus;
-  /** グループを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** プレースホルダー */
   placeholder: string;
-  /** 必須項目かどうか */
   required: boolean;
-  /** クラス名 */
   className: string;
-  /** aria-invalid属性 */
   ariaInvalid: boolean;
-  /** aria-describedby属性 */
   ariaDescribedBy: string;
-  /** 選択肢 */
   children: ReactNode;
-  /** 開閉を切り替えるハンドラー */
   toggle: () => void;
 };
 
-/**
- * DesktopSelectGroup
- *
- * デスクトップ向けに複数の選択肢をグループ化します。
- * ドロップダウン形式で選択肢を表示します。
- */
 export const DesktopSelectGroup = ({
   open,
   id,

@@ -29,28 +29,16 @@ const useStore = create<{
 export const useContrast = () => {
   const { value, set } = useStore();
 
-  /**
-   * コントラストが標準か
-   */
   const isNormal = useMemo(() => value === ContrastKind.Normal, [value]);
 
-  /**
-   * コントラストが高いか
-   */
   const isHigh = useMemo(() => value === ContrastKind.High, [value]);
 
-  /**
-   * コントラストを更新する
-   */
   const update = useCallback((value: ContrastKind) => {
     document.documentElement.setAttribute(ContrastDomAttributeName, value);
 
     localStorage.setItem(ContrastLocalStorageKey, value);
   }, []);
 
-  /**
-   * コントラストを切り替える
-   */
   const toggle = useCallback(
     () =>
       update(
@@ -63,9 +51,6 @@ export const useContrast = () => {
     [set, update, value],
   );
 
-  /**
-   * マウント時にローカルストレージからコントラストを読み込む
-   */
   useEffect(() => {
     const value = (localStorage.getItem(ContrastLocalStorageKey) ||
       ContrastKind.Normal) as ContrastKind;

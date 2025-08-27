@@ -14,42 +14,22 @@ import { useKeyboard } from "@/hooks";
 import { cn } from "@/styles/functions";
 import { CheckboxGroupState, type CheckboxSize } from "./checkbox-group";
 
-/**
- * チェックボックスの状態
- */
 export type CheckboxStatus = "default" | "error" | "success";
 
-/**
- * CheckboxOptionProps
- */
 type CheckboxOptionProps = {
-  /** チェックボックスのラベル */
   label?: string;
-  /** チェックボックスのサイズ */
   size?: CheckboxSize;
-  /** チェックされているかどうか */
   checked?: boolean;
-  /** ヘルプテキスト */
   helperText?: string;
-  /** エラーメッセージ */
   error?: string;
-  /** 成功メッセージ */
   success?: string;
-  /** 必須項目かどうか */
   required?: boolean;
-  /** 値が変更されたときのハンドラー */
   onChange?: (checked: boolean) => void;
 } & Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "type" | "checked" | "size" | "onChange"
 >;
 
-/**
- * CheckboxOption
- *
- * 複数の選択肢やオプションを選択するためのチェックボックスです。
- * 単独で使用することも、CheckboxGroupと組み合わせて使用することもできます。
- */
 export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
   (
     {

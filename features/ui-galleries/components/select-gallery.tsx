@@ -8,11 +8,6 @@ import { Title } from "@/components/elements/typography";
 
 import { ComponentCard } from "./component-card";
 
-/**
- * SelectGallery
- *
- * セレクトボックス関連コンポーネントを展示します。
- */
 export const SelectGallery = memo(() => {
   return (
     <section className="flex flex-col gap-4">

@@ -16,54 +16,33 @@ import { sleep } from "@/services/timer";
 import { cn } from "@/styles/functions";
 
 const Dimensions = {
-  /** 抵抗が切り替わる距離 */
   Break: 50,
-  /** リフレッシュ時の高さ */
   RefreshHeight: 60,
-  /** 最大の高さ */
   MaxHeight: 100,
-  /** 距離に対する高さの比率 */
   HeightRatio: 1.5,
 } as const;
 
 const Resistances = {
-  /** 初期抵抗（85%） */
   Default: 0.85,
-  /** 強抵抗（20%） */
   Strong: 0.2,
 } as const;
 
 enum Status {
-  /** 初期状態 */
   Idle = "idle",
-  /** リフレッシュ中 */
+
   Refreshing = "refreshing",
-  /** リフレッシュ完了 */
+
   Refreshed = "refreshed",
 }
 
-/**
- * PullToRefreshProps
- */
 type PullToRefreshProps = {
-  /** リフレッシュに必要な引き下げ距離（ピクセル） */
   threshold?: number;
-  /** 誤動作防止の最小距離（ピクセル） */
   deadzone?: number;
-  /** リフレッシュ発動に必要な保持時間（ミリ秒） */
   holdTime?: number;
-  /** リフレッシュUIを適用する要素のセレクタ（relativeである必要がある） */
   selector?: string;
-  /** リフレッシュしたときのハンドラー */
   onRefresh?: () => Promise<void>;
 } & HTMLAttributes<HTMLDivElement>;
 
-/**
- * PullToRefresh
- *
- * コンテンツをプルダウンしてリフレッシュする機能を提供します。
- * onRefreshが省略された場合は、ページの再読み込みを行います。
- */
 export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
   (
     {
@@ -100,7 +79,6 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
         if (onRefresh) {
           await onRefresh();
         } else {
-          /** デフォルトでページを再読み込み */
           window.location.reload();
         }
       } catch (e) {
@@ -132,9 +110,6 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
 
         if (!element) return;
 
-        /**
-         * コンテンツ領域の最上部にいて、かつリフレッシュ中でない場合のみ開始位置を記録
-         */
         if (element.scrollTop <= 0 && status === Status.Idle) {
           startY.current = e.touches[0].clientY;
           startMs.current = date().valueOf();
@@ -151,7 +126,6 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
 
         if (!element) return;
 
-        /** プルダウン中でない場合、または要素が最上部にない場合は無視 */
         if (
           startY.current === 0 ||
           status !== Status.Idle ||
@@ -163,19 +137,11 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
         moveY.current = e.touches[0].clientY;
         let difference = moveY.current - startY.current;
 
-        /** 誤動作防止のため、deadzone以下の動きは無視 */
         if (difference <= deadzone) return;
 
         if (difference > 0) {
-          /** デッドゾーンを除いた引き下げ距離 */
           difference = difference - deadzone;
 
-          /**
-           * 抵抗計算
-           *
-           * - 最初の50pxまでは実際の動きの85%
-           * - それ以降は動きの20%（大きく引いても少ししか動かない）
-           */
           let distance: number;
           if (difference <= Dimensions.Break) {
             distance = difference * Resistances.Default;
@@ -197,7 +163,6 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
     const end = useCallback(() => {
       if (status !== Status.Idle) return;
 
-      /** 保持時間を満たさない場合はリセット */
       if (date().valueOf() - startMs.current < holdTime) {
         reset();
         return;
@@ -229,7 +194,6 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
 
       if (!element) return;
 
-      /** ユーザー操作によるスクロールを無効化 */
       const options = { passive: false };
 
       element.addEventListener("touchstart", start, options);

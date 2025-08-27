@@ -4,11 +4,6 @@ import { Container } from "@/components/structures/content/container";
 import { ColorsInUse } from "../components/colors-in-use";
 import { ContrastEvaluation } from "../components/contrast-evaluation";
 
-/**
- * ColorPalettes
- *
- * `おうちずかん`で使用している色を紹介するページです。
- */
 export const ColorPalettes = () => (
   <Container>
     <Container>

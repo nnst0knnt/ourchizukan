@@ -1,7 +1,6 @@
 import { memo, type PropsWithChildren } from "react";
 
 type HtmlProps = PropsWithChildren<{
-  /** 言語 */
   lang?: string;
 }>;
 

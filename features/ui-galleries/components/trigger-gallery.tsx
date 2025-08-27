@@ -13,11 +13,6 @@ import { Title } from "@/components/elements/typography";
 
 import { ComponentCard } from "./component-card";
 
-/**
- * TriggerGallery
- *
- * ボタン、トグルなどのトリガー関連コンポーネントを展示します。
- */
 export const TriggerGallery = memo(() => {
   return (
     <section className="flex flex-col gap-4">

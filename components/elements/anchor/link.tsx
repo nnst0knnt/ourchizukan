@@ -11,24 +11,12 @@ import {
 
 import { cn } from "@/styles/functions";
 
-/**
- * リンクの種類
- */
 type LinkKind = "default" | "button" | "ghost";
 
-/**
- * リンクのサイズ
- */
 type LinkSize = "small" | "default" | "large";
 
-/**
- * リンクを表す印の表示位置
- */
 type MarkPosition = "left" | "right";
 
-/**
- * 外部リンクかどうかを判定する
- */
 const isExternalUrl = (url: string): boolean => {
   return (
     url.startsWith("http://") ||
@@ -42,37 +30,19 @@ const isExternalUrl = (url: string): boolean => {
   );
 };
 
-/**
- * LinkProps
- */
 export type LinkProps = {
-  /** リンク先URL */
   href: string;
-  /** リンクの種類 */
   kind?: LinkKind;
-  /** リンクのサイズ */
   size?: LinkSize;
-  /** リンクを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** リンクを表す印の表示位置 */
   markPosition?: MarkPosition;
-  /** 下線を表示するかどうか */
   underline?: boolean;
-  /** 新しいタブで開くかどうか */
   openInNewTab?: boolean;
-  /** 外部リンクとして扱うかどうか */
   external?: boolean;
-  /** リンクとしての機能をオフにする */
   fake?: boolean;
 } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target" | "rel"> &
   NextLinkProps;
 
-/**
- * Link
- *
- * ページ遷移時に使用するシンプルなリンクです。
- * 内部リンクと外部リンクを自動的に判別します。
- */
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   (
     {

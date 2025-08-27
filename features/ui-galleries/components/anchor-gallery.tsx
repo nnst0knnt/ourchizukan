@@ -6,11 +6,6 @@ import { Title } from "@/components/elements/typography";
 
 import { ComponentCard } from "./component-card";
 
-/**
- * AnchorGallery
- *
- * リンクなどのアンカー関連コンポーネントを展示します。
- */
 export const AnchorGallery = memo(() => {
   return (
     <section className="flex flex-col gap-4">

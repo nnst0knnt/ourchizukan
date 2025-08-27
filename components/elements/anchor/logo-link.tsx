@@ -5,24 +5,12 @@ import { cn } from "@/styles/functions";
 import { Logo } from "../symbol";
 import { Link, type LinkProps } from "./link";
 
-/**
- * LogoLinkProps
- */
 type LogoLinkProps = {
-  /** リンクのサイズ */
   size?: LinkProps["size"];
-  /** 印のみ表示 */
   markOnly?: boolean;
-  /** リンクとしての機能をオフにする */
   fake?: boolean;
 } & HTMLAttributes<HTMLAnchorElement>;
 
-/**
- * LogoLink
- *
- * `おうちずかん`のロゴのリンクです。
- * 押下時にルートへ遷移します。
- */
 export const LogoLink = forwardRef<HTMLAnchorElement, LogoLinkProps>(
   ({ size = "default", markOnly = false, className, ...props }, ref) => {
     const sizeStyles = {
@@ -42,7 +30,6 @@ export const LogoLink = forwardRef<HTMLAnchorElement, LogoLinkProps>(
           className={cn("flex flex-row items-center gap-2", className)}
           underline={false}
           aria-label="おうちずかんのトップページへ戻る"
-          /** プリフェッチによって未認証時に / へ遷移できる状態を回避する */
           prefetch={false}
           {...props}
         >

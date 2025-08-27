@@ -10,58 +10,32 @@ import {
 } from "react";
 import { cn } from "@/styles/functions";
 
-/**
- * ボタンの種類
- */
 type ButtonKind = "primary" | "secondary" | "ghost";
 
-/**
- * ボタンのサイズ
- */
 type ButtonSize = "default" | "large";
 
-/**
- * ボタンを表す印の表示位置
- */
 type ButtonMarkPosition = "left" | "right";
 
-/**
- * ボタンの状態
- */
 export const ButtonStatus = {
   Idle: "idle",
   Loading: "loading",
   Success: "success",
   Error: "error",
 } as const;
+
 export type ButtonStatus = (typeof ButtonStatus)[keyof typeof ButtonStatus];
 
-/**
- * ButtonProps
- */
 export type ButtonProps = {
-  /** ボタンの種類 */
   kind?: ButtonKind;
-  /** ボタンのサイズ */
   size?: ButtonSize;
-  /** ボタンを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** ボタンを表す印の表示位置 */
   markPosition?: ButtonMarkPosition;
-  /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
-  /** ボタンの状態 */
   status?: ButtonStatus;
-  /** アクセシビリティのためのラベル（テキストがない場合や説明が必要な場合） */
+
   "aria-label"?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-/**
- * Button
- *
- * 印付きサポートのシンプルなボタンです。
- * ステータスを変更することで視覚的に進捗を表示します。
- */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {

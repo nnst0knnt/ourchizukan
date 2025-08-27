@@ -16,14 +16,8 @@ import {
 import { cn } from "@/styles/functions";
 import type { RadioStatus } from "./radio-option";
 
-/**
- * ラジオボタンのサイズ
- */
 export type RadioSize = "default" | "large";
 
-/**
- * ラジオボタングループの状態
- */
 export const RadioGroupState = createContext<{
   value: string;
   size: RadioSize;
@@ -32,40 +26,20 @@ export const RadioGroupState = createContext<{
   size: "default",
 });
 
-/**
- * RadioGroupProps
- */
 type RadioGroupProps = {
-  /** グループのラベル */
   label?: string;
-  /** 現在の選択値 */
   value?: string;
-  /** ラジオボタンのサイズ */
   size?: RadioSize;
-  /** グループのヘルプテキスト */
   helperText?: string;
-  /** エラーメッセージ */
   error?: string;
-  /** 成功メッセージ */
   success?: string;
-  /** グループを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** 必須項目かどうか */
   required?: boolean;
-  /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
-  /** 子要素 */
   children: ReactNode;
-  /** 値が変更されたときのハンドラー */
   onChange?: (value: string) => void;
 } & Omit<HTMLAttributes<HTMLFieldSetElement>, "onChange" | "defaultValue">;
 
-/**
- * RadioGroup
- *
- * 複数のラジオボタンをグループ化します。
- * ラジオボタンの選択状態を管理するために、RadioOptionと組み合わせて使用します。
- */
 export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
   (
     {

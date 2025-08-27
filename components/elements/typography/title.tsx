@@ -7,24 +7,12 @@ import {
 } from "react";
 import { cn } from "@/styles/functions";
 
-/**
- * TitleProps
- */
 type TitleProps = {
-  /** アクセシブルな見出しレベル (デフォルトはh1) */
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-  /** アクセント下線を表示するかどうか */
   accented?: boolean;
-  /** タイトルを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
 } & HTMLAttributes<HTMLHeadingElement>;
 
-/**
- * Title
- *
- * ページや各セクションのタイトルを表示します。
- * 見出しレベルによってスタイルが変わります。
- */
 export const Title = forwardRef<HTMLHeadingElement, TitleProps>(
   (
     {

@@ -98,9 +98,6 @@ const colors: Color[] = [
 export const ColorsInUse = memo(() => {
   const enabled = useEnabledWindow();
 
-  /**
-   * テーマとコントラストの変更時に再レンダリングさせる
-   */
   useTheme();
   useContrast();
 

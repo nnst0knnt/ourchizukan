@@ -1,26 +1,13 @@
 import { hexToRgb, type Rgb } from "./hex-to-rgb";
 
-/**
- * WCAGアクセシビリティ基準値
- *
- * https://www.w3.org/TR/WCAG20-TECHS/G17.html
- */
 const WcagContrastRatios = {
-  /** AA基準の大きなテキストの最小コントラスト比 */
   AALarge: 3,
-  /** AA基準の通常テキストの最小コントラスト比 */
   AANormal: 4.5,
-  /** AAA基準の大きなテキストの最小コントラスト比 */
   AAALarge: 4.5,
-  /** AAA基準の通常テキストの最小コントラスト比 */
   AAANormal: 7,
-  /** 高齢者向けの推奨最小コントラスト比 */
   ElderlyFriendly: 7,
 } as const;
 
-/**
- * コントラスト評価のレベル
- */
 const ContrastLevels = {
   Perfect: "perfect",
   VeryGood: "very-good",
@@ -31,9 +18,6 @@ const ContrastLevels = {
 } as const;
 type ContrastLevel = (typeof ContrastLevels)[keyof typeof ContrastLevels];
 
-/**
- * コントラスト評価のバッジ
- */
 const ContrastBadges = {
   "perfect": "最高",
   "very-good": "非常に良い",
@@ -44,9 +28,6 @@ const ContrastBadges = {
 } as const satisfies Record<ContrastLevel, string>;
 type ContrastBadge = (typeof ContrastBadges)[keyof typeof ContrastBadges];
 
-/**
- * コントラスト評価の説明
- */
 const ContrastDescriptions = {
   "perfect": "高齢者向けにも適した視認性",
   "very-good": "すべてのWCAG基準を満たす",
@@ -58,9 +39,6 @@ const ContrastDescriptions = {
 type ContrastDescription =
   (typeof ContrastDescriptions)[keyof typeof ContrastDescriptions];
 
-/**
- * コントラスト評価のカラー
- */
 const ContrastColors = {
   "perfect": "#00796B",
   "very-good": "#388E3C",
@@ -71,9 +49,6 @@ const ContrastColors = {
 } as const satisfies Record<ContrastLevel, string>;
 type ContrastColor = (typeof ContrastColors)[keyof typeof ContrastColors];
 
-/**
- * 色のコントラスト比を評価する
- */
 export const evaluateContrast = (
   foreground: string,
   background: string,
@@ -114,9 +89,6 @@ export const evaluateContrast = (
   };
 };
 
-/**
- * 色の相対輝度を計算する
- */
 const getLuminance = (color: Rgb): number => {
   const sRGB = {
     r: color.r / 255,
@@ -133,9 +105,6 @@ const getLuminance = (color: Rgb): number => {
   return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
 };
 
-/**
- * 2色間のコントラスト比を計算する
- */
 const getRatio = (color1: string, color2: string): number => {
   const rgb1 = hexToRgb(color1);
   const rgb2 = hexToRgb(color2);

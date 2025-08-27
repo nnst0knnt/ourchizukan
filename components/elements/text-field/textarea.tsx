@@ -14,50 +14,24 @@ import {
 import { useForwardedRef, useLockOnFocus } from "@/hooks";
 import { cn } from "@/styles/functions";
 
-/**
- * テキストエリアのサイズ
- */
 type TextareaSize = "default" | "large";
 
-/**
- * テキストエリアの状態
- */
 type TextareaStatus = "default" | "error" | "success";
 
-/**
- * TextareaProps
- */
 type TextareaProps = {
-  /** テキストエリアのラベル */
   label?: string;
-  /** テキストエリアのサイズ */
   size?: TextareaSize;
-  /** 通常のヘルプテキスト */
   helperText?: string;
-  /** エラーメッセージ */
   error?: string;
-  /** 成功メッセージ */
   success?: string;
-  /** テキストエリアを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
-  /** 高さを自動調整するかどうか */
   autoResize?: boolean;
-  /** 最小行数 */
   minRows?: number;
-  /** 最大行数（自動調整時のみ有効） */
   maxRows?: number;
-  /** 文字数カウンターを表示するかどうか */
   counter?: boolean;
 } & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "size">;
 
-/**
- * Textarea
- *
- * 複数行の入力に対応するテキストエリアです。
- * 状態に応じた視覚的フィードバックを提供し、自動リサイズにも対応します。
- */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
@@ -93,16 +67,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const resize = useCallback(() => {
       if (!autoResize || !textareaRef.current) return;
 
-      /** テキストエリアの高さをリセット */
       textareaRef.current.style.height = "auto";
 
-      /** 行の高さ */
       const lineHeight =
         Number.parseFloat(getComputedStyle(textareaRef.current).lineHeight) ||
-        /** @see https://developer.mozilla.org/ja/docs/Web/CSS/line-height#normal */
         Number.parseFloat(getComputedStyle(textareaRef.current).fontSize) * 1.2;
 
-      /** 上下の余白 */
       const paddingTop = Number.parseFloat(
         getComputedStyle(textareaRef.current).paddingTop,
       );
@@ -111,16 +81,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       );
       const totalPadding = paddingTop + paddingBottom;
 
-      /** 最小高さと最大高さ */
       const minHeight = minRows * lineHeight + totalPadding;
       const maxHeight = maxRows
         ? maxRows * lineHeight + totalPadding
         : Number.POSITIVE_INFINITY;
 
-      /** スクロールの高さ */
       const scrollHeight = textareaRef.current.scrollHeight;
 
-      /** 最小値と最大値の範囲内で高さを調整 */
       textareaRef.current.style.height = `${Math.min(Math.max(scrollHeight, minHeight), maxHeight)}px`;
     }, [autoResize, textareaRef, minRows, maxRows]);
 

@@ -10,18 +10,10 @@ import { Cards } from "../components/albums/cards";
 import type { AlbumCard } from "../models/album";
 import repositories from "../repositories";
 
-/**
- * Albums
- *
- * アルバム一覧を表示するページです。
- */
 export const Albums = () => {
   const [open, toggle] = useToggle(false);
   const [albums, setAlbums] = useState<AlbumCard[]>([]);
 
-  /**
-   * アルバム一覧を取得
-   */
   const fetch = useCallback(async () => {
     setAlbums(await repositories.albums.list());
   }, []);

@@ -19,19 +19,10 @@ import { cn } from "@/styles/functions";
 import { DesktopSelectGroup } from "./desktop-select-group";
 import { MobileSelectGroup } from "./mobile-select-group";
 
-/**
- * セレクトのサイズ
- */
 export type SelectSize = "default" | "large";
 
-/**
- * セレクトの状態
- */
 export type SelectStatus = "default" | "error" | "success";
 
-/**
- * セレクトグループの状態
- */
 export const SelectGroupState = createContext<{
   value: string;
   open: boolean;
@@ -46,46 +37,21 @@ export const SelectGroupState = createContext<{
   toggle: () => {},
 });
 
-/**
- * SelectGroupProps
- */
 type SelectGroupProps = {
-  /** グループのラベル */
   label?: string;
-  /** 選択された値 */
   value?: string;
-  /** セレクトのサイズ */
   size?: SelectSize;
-  /** グループのヘルプテキスト */
   helperText?: string;
-  /** エラーメッセージ */
   error?: string;
-  /** 成功メッセージ */
   success?: string;
-  /** グループを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** プレースホルダー */
   placeholder?: string;
-  /** 必須項目かどうか */
   required?: boolean;
-  /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
-  /** 子要素 */
   children: ReactNode;
-  /** 値が変更されたときのハンドラー */
   onChange?: (value: string) => void;
 } & Omit<HTMLAttributes<HTMLDivElement>, "onChange">;
 
-/**
- * SelectGroup
- *
- * 複数の選択肢をグループ化します。
- * ドロップダウンで選択肢を表示し、選択することができます。
- * セレクトボックスの状態を管理するために、SelectOptionと組み合わせて使用します。
- *
- * デスクトップでは通常のドロップダウン表示、モバイルではボトムシートとして表示されます。
- * 画面下部での使用時には自動的に上方向に表示される機能を備えています。
- */
 export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
   (
     {

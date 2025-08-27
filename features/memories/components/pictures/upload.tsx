@@ -81,9 +81,6 @@ export const Upload = memo<UploadProps>(
       try {
         await repositories.pictures.upload(data);
 
-        /**
-         * 成功時に写真一覧を更新
-         */
         onSuccess?.();
       } catch (e: any) {
         setError("files", {

@@ -35,9 +35,6 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
     try {
       await repositories.albums.create(data);
 
-      /**
-       * 成功時に写真一覧を更新
-       */
       onSuccess?.();
     } catch (e: any) {
       setError("title", {

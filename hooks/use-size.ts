@@ -30,32 +30,17 @@ const useStore = create<{
 export const useSize = () => {
   const { value, set } = useStore();
 
-  /**
-   * 文字サイズが小さいか
-   */
   const isSmall = useMemo(() => value === SizeKind.Small, [value]);
 
-  /**
-   * 文字サイズが標準か
-   */
   const isNormal = useMemo(() => value === SizeKind.Normal, [value]);
 
-  /**
-   * 文字サイズが大きいか
-   */
   const isLarge = useMemo(() => value === SizeKind.Large, [value]);
 
-  /**
-   * 文字サイズを更新する
-   */
   const update = useCallback((value: SizeKind) => {
     document.documentElement.setAttribute(SizeDomAttributeName, value);
     localStorage.setItem(SizeLocalStorageKey, value);
   }, []);
 
-  /**
-   * 文字サイズを拡大する
-   */
   const increase = useCallback(
     () =>
       update(
@@ -70,9 +55,6 @@ export const useSize = () => {
     [set, update, value],
   );
 
-  /**
-   * 文字サイズを縮小する
-   */
   const decrease = useCallback(
     () =>
       update(
@@ -87,9 +69,6 @@ export const useSize = () => {
     [set, update, value],
   );
 
-  /**
-   * マウント時にローカルストレージから文字サイズを読み込む
-   */
   useEffect(() => {
     const value = (localStorage.getItem(SizeLocalStorageKey) ||
       SizeKind.Normal) as SizeKind;

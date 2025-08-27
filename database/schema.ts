@@ -1,8 +1,5 @@
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-/**
- * アルバムテーブル
- */
 export const albums = sqliteTable(
   "albums",
   {
@@ -13,9 +10,6 @@ export const albums = sqliteTable(
   (table) => [index("albums_created_at").on(table.createdAt)],
 );
 
-/**
- * 写真テーブル
- */
 export const pictures = sqliteTable(
   "pictures",
   {

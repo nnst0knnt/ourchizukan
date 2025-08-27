@@ -8,9 +8,6 @@ import {
 } from "@/services/storage";
 import { factory } from "../helpers";
 
-/**
- * 環境変数
- */
 export type Environment = {
   Bindings: Cloudflare.Env;
   Variables: {
@@ -23,16 +20,10 @@ export type Environment = {
   };
 };
 
-/**
- * 環境変数を注入するミドルウェア
- */
 export const environment = () =>
   factory.createMiddleware(async (context, next) => {
     const _context = context as unknown as Context<Environment>;
 
-    /**
-     * IPアドレス
-     */
     context.set(
       "ip",
       getConnInfo(context).remote.address ||
@@ -42,21 +33,12 @@ export const environment = () =>
         "127.0.0.1",
     );
 
-    /**
-     * 認証クライアント
-     */
     context.set("keeper", keeper(createKeyValueStorage(_context.env.Families)));
 
-    /**
-     * バケット
-     */
     context.set("buckets", {
       pictures: createObjectStorage(_context.env.Pictures),
     });
 
-    /**
-     * データベース
-     */
     context.set("database", createDatabaseStorage(_context.env.Database));
 
     await next();
