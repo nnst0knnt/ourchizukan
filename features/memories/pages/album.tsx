@@ -1,6 +1,10 @@
+"use client";
+
 import { Description, Title } from "@/components/elements/typography";
 import { Container } from "@/components/structures";
 import { PullToRefresh } from "@/components/tools";
+import { cn } from "@/styles/functions";
+import { useToggle } from "react-use";
 import { Cards } from "../components/pictures/cards";
 import { pictures } from "../mock";
 import { albums } from "../mock";
@@ -10,6 +14,8 @@ type Props = {
 };
 
 export const Album = ({ id }: Props) => {
+  const [open, toggle] = useToggle(false);
+
   /** 実際のデータからアルバムを取得 */
   const album = albums.find((album) => album.id === id);
 
@@ -19,7 +25,7 @@ export const Album = ({ id }: Props) => {
   return (
     <PullToRefresh>
       <Container className="h-[calc(100%-4rem)] md:h-[calc(100%-4.5rem)]">
-        <div className="flex flex-col gap-4">
+        <div className={cn("flex flex-col gap-4", open ? "hidden" : "flex")}>
           <Title as="h1">{album ? album.name : "アルバム"}</Title>
           {album && (
             <Description>
@@ -33,7 +39,12 @@ export const Album = ({ id }: Props) => {
         </div>
 
         <div className="pb-20 md:pb-24 lg:pb-28">
-          <Cards cards={picturesOfAlbum} albumId={id} />
+          <Cards
+            cards={picturesOfAlbum}
+            albumId={id}
+            open={open}
+            toggle={toggle}
+          />
         </div>
       </Container>
     </PullToRefresh>

@@ -179,7 +179,7 @@ export const Mark = forwardRef<HTMLButtonElement, MarkProps>(
           {tooltip && (
             <div
               className={cn(
-                "z-50 flex transform items-center whitespace-nowrap rounded shadow-md transition-opacity duration-200",
+                "z-popup flex transform items-center whitespace-nowrap rounded shadow-md transition-opacity duration-200",
                 tooltipStyles[kind],
                 tooltipSizeStyles[size],
                 tooltipPositionStyles[tooltipPosition],

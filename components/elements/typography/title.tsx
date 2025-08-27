@@ -70,8 +70,8 @@ export const Title = forwardRef<HTMLHeadingElement, TitleProps>(
           {Mark && <Mark className={markStyles[Component]} />}
           {accented ? (
             <span className="relative inline-flex items-center">
-              <span className="relative z-10">{children}</span>
-              <span className="absolute bottom-1 left-0 z-0 h-3 w-[calc(100%+8px)] rounded-sm bg-brand opacity-20" />
+              <span className="relative">{children}</span>
+              <span className="absolute bottom-1 left-0 h-3 w-[calc(100%+8px)] rounded-sm bg-brand opacity-20" />
             </span>
           ) : (
             children

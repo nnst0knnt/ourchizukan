@@ -38,7 +38,7 @@ export const Card = memo<CardProps>(({ model = null, loading = false }) => {
   return (
     <div
       className={cn(
-        "flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-lg",
+        "flex w-full cursor-pointer flex-col overflow-hidden rounded-lg",
         "border border-outline bg-foundation shadow-sm transition-shadow duration-300 hover:shadow-md",
       )}
       role="link"

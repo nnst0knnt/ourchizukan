@@ -6,7 +6,7 @@ import { LogoLink } from "../../elements/anchor";
 import { AccessibilityControls } from "../../tools";
 
 export const Header = memo(() => (
-  <header className="sticky top-0 z-10 w-full border-outline border-b bg-foundation">
+  <header className="sticky top-0 z-cover w-full border-outline border-b bg-foundation">
     <div
       className={cn(
         "mx-auto flex h-14 w-full max-w-7xl items-center justify-between md:h-16",

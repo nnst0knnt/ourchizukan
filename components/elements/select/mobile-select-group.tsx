@@ -143,7 +143,7 @@ export const MobileSelectGroup = ({
 
       <div
         className={cn(
-          "fixed inset-0 z-9999 bg-primary/30 transition-opacity duration-300",
+          "fixed inset-0 z-fullscreen bg-primary/30 transition-opacity duration-300",
           open ? "opacity-100" : "pointer-events-none opacity-0",
         )}
         aria-hidden={!open}
@@ -151,7 +151,7 @@ export const MobileSelectGroup = ({
       >
         <div
           className={cn(
-            "fixed right-0 bottom-0 left-0 z-50 max-h-[80vh] overflow-auto rounded-t-xl bg-foundation shadow-lg",
+            "fixed right-0 bottom-0 left-0 z-popup max-h-[80vh] overflow-auto rounded-t-xl bg-foundation shadow-lg",
             "transform transition-transform duration-300",
             open ? "translate-y-0" : "translate-y-full",
           )}

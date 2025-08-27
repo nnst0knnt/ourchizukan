@@ -170,7 +170,7 @@ export const DesktopSelectGroup = ({
 
       <div
         className={cn(
-          "absolute z-10 w-full rounded-md border border-outline bg-foundation shadow-lg",
+          "absolute z-popup w-full rounded-md border border-outline bg-foundation shadow-lg",
           "transition-all duration-200",
           open ? "opacity-100" : "pointer-events-none opacity-0",
           isPositionedAbove ? "bottom-full mb-2" : "top-full mt-2",

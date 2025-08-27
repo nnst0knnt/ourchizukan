@@ -38,7 +38,7 @@ export const Viewer = memo<ViewerProps>(
     return (
       <div
         className={cn(
-          "fixed inset-0 z-50 flex flex-col bg-foundation",
+          "fixed inset-0 z-fullscreen flex flex-col bg-foundation",
           invisible ? "invisible" : "visible",
         )}
         onKeyDown={keydown}

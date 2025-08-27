@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/elements/trigger";
 import { Covered } from "@/components/structures";
 import { useScrollToTop } from "@/hooks";
@@ -7,20 +5,19 @@ import { uuid } from "@/services/uuid";
 import { cn } from "@/styles/functions";
 import { FolderOpen, FolderPlus } from "lucide-react";
 import { memo } from "react";
-import { useToggle } from "react-use";
 import type { AlbumCard } from "../../models/card";
 import { Card } from "./card";
 import { Create } from "./create";
 
 type CardsProps = {
   cards: AlbumCard[];
+  open: boolean;
   loading?: boolean;
+  toggle: () => void;
 };
 
-export const Cards = memo<CardsProps>(({ cards, loading }) => {
+export const Cards = memo<CardsProps>(({ cards, open, loading, toggle }) => {
   useScrollToTop();
-
-  const [open, toggle] = useToggle(false);
 
   return (
     <div className="flex flex-col">

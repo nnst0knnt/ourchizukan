@@ -21,6 +21,11 @@ const config: Config = {
         outline: "var(--color-outline)",
         track: "var(--color-track)",
       },
+      zIndex: {
+        cover: "10",
+        fullscreen: "50",
+        popup: "100",
+      },
     },
   },
 };

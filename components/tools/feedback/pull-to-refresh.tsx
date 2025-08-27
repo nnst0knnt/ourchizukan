@@ -252,7 +252,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
             <div
               ref={containerRef}
               className={cn(
-                "absolute top-0 right-0 left-0 z-10 flex flex-col items-center justify-center bg-foundation/95",
+                "absolute top-0 right-0 left-0 z-cover flex flex-col items-center justify-center bg-foundation/95",
                 "overflow-hidden transition-all duration-200",
                 className,
               )}

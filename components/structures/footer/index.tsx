@@ -26,7 +26,7 @@ export const Footer = memo<FooterProps>(({ to, fixed = false }) => {
     <footer
       className={cn(
         "w-full border-outline border-t bg-foundation",
-        fixed && "fixed right-0 bottom-0 left-0 z-10",
+        fixed && "fixed right-0 bottom-0 left-0 z-cover",
         !fixed && "relative",
       )}
     >
