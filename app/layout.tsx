@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
-import { Content, Footer, Header } from "@/components/structures";
+import { Footer, Header, Outlet } from "@/components/structures";
 import { MemberProvider, TransitionProgress } from "@/components/tools";
 
 export const metadata: Metadata = {
@@ -56,7 +56,7 @@ export default function Layout({
             <>
               <TransitionProgress />
               <Header />
-              <Content>{children}</Content>
+              <Outlet>{children}</Outlet>
               <Footer member={member} />
             </>
           )}

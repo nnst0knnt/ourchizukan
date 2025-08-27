@@ -2,6 +2,7 @@ import { memo } from "react";
 
 import { Description, Title } from "@/components/elements/typography";
 
+import { Container } from "@/components/structures/content/container";
 import { AnchorGallery } from "../components/anchor-gallery";
 import { CheckboxGallery } from "../components/checkbox-gallery";
 import { RadioGallery } from "../components/radio-gallery";
@@ -18,8 +19,8 @@ import { TypographyGallery } from "../components/typography-gallery";
  */
 export const UIGalleries = memo(() => {
   return (
-    <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
-      <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
+    <Container>
+      <Container>
         <div className="relative flex flex-col gap-4">
           <Title as="h1">UIギャラリー</Title>
           <Description>
@@ -32,7 +33,7 @@ export const UIGalleries = memo(() => {
             </p>
           </Description>
         </div>
-      </div>
+      </Container>
 
       <div className="flex flex-col gap-8 md:gap-12 lg:gap-16">
         <TypographyGallery />
@@ -44,7 +45,7 @@ export const UIGalleries = memo(() => {
         <RadioGallery />
         <SelectGallery />
       </div>
-    </div>
+    </Container>
   );
 });
 

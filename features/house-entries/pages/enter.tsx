@@ -1,4 +1,6 @@
 import { Description, Title } from "@/components/elements/typography";
+import { Centered } from "@/components/structures/content/centered";
+import { Container } from "@/components/structures/content/container";
 import { EmailController } from "../components/email-controller";
 
 /**
@@ -7,8 +9,8 @@ import { EmailController } from "../components/email-controller";
  * `おうちずかん`への入口となるページです。
  */
 export const Enter = () => (
-  <div className="mx-auto h-auto max-w-lg sm:h-full sm:content-center">
-    <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
+  <Centered>
+    <Container>
       <div className="flex flex-col gap-4">
         <Title as="h1">おうちずかんへようこそ</Title>
         <Description>
@@ -17,6 +19,6 @@ export const Enter = () => (
       </div>
 
       <EmailController />
-    </div>
-  </div>
+    </Container>
+  </Centered>
 );

@@ -3,12 +3,12 @@ import { type PropsWithChildren, memo } from "react";
 import { cn } from "@/styles/functions";
 
 /**
- * Content
+ * Outlet
  *
  * アプリケーション全体のコンテンツ部分です。
  * アプリケーションの中心部分に常時表示されます。
  */
-export const Content = memo<PropsWithChildren>(({ children }) => (
+export const Outlet = memo<PropsWithChildren>(({ children }) => (
   <main
     className={cn(
       "relative mx-auto w-full max-w-7xl flex-1",
@@ -21,4 +21,4 @@ export const Content = memo<PropsWithChildren>(({ children }) => (
   </main>
 ));
 
-Content.displayName = "Content";
+Outlet.displayName = "Outlet";
