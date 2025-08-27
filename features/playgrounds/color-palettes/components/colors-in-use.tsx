@@ -2,7 +2,7 @@
 
 import { Ellipsis } from "lucide-react";
 
-import { Description, Title } from "@/components/elements";
+import { Description, Title } from "@/components/elements/typography";
 import { useContrast, useTheme, useWindow } from "@/hooks";
 import { varsToHex } from "@/styles/functions";
 

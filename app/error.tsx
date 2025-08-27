@@ -1,6 +1,6 @@
 "use client";
 
-import { Description, Title } from "@/components/elements";
+import { Description, Title } from "@/components/elements/typography";
 import {
   type ApplicationError,
   NetworkError,

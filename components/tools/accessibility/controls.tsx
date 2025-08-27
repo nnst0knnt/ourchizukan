@@ -4,9 +4,10 @@ import { type HTMLAttributes, forwardRef } from "react";
 
 import { Glasses, Moon, Sun, ZoomIn, ZoomOut } from "lucide-react";
 
-import { Mark } from "@/components/elements";
 import { useContrast, useSize, useTheme } from "@/hooks";
 import { cn } from "@/styles/functions";
+
+import { Mark } from "../../elements/trigger";
 
 /**
  * AccessibilityControlsProps

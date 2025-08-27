@@ -5,7 +5,7 @@ import { type HTMLAttributes, forwardRef } from "react";
 import { cn } from "@/styles/functions";
 
 import { Link, type LinkProps } from "./link";
-import { Logo } from "./logo";
+import { Logo } from "../symbol";
 
 /**
  * LogoLinkProps

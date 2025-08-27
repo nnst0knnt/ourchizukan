@@ -1,4 +1,4 @@
-import { Description, Title } from "@/components/elements";
+import { Description, Title } from "@/components/elements/typography";
 
 /**
  * 404

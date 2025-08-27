@@ -7,8 +7,9 @@ import { usePathname } from "next/navigation";
 import { DoorOpen, Film, Image, type LucideIcon } from "lucide-react";
 
 import { date } from "@/clients/date";
-import { Link } from "@/components/elements";
 import { cn } from "@/styles/functions";
+
+import { Link } from "../elements/anchor";
 
 /**
  * ナビゲーションリンク

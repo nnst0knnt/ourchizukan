@@ -2,7 +2,7 @@ import { memo } from "react";
 
 import { cn } from "@/styles/functions";
 
-import { LogoLink } from "../elements";
+import { LogoLink } from "../elements/anchor";
 import { AccessibilityControls } from "../tools";
 
 /**

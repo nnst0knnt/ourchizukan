@@ -1,4 +1,4 @@
-import { Description, Title } from "@/components/elements";
+import { Description, Title } from "@/components/elements/typography";
 
 import { ColorsInUse } from "../components/colors-in-use";
 import { ContrastEvaluation } from "../components/contrast-evaluation";

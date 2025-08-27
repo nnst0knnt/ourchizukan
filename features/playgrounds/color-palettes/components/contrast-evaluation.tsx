@@ -1,6 +1,6 @@
 "use client";
 
-import { Title } from "@/components/elements";
+import { Title } from "@/components/elements/typography";
 import { useContrast, useTheme, useWindow } from "@/hooks";
 import { evaluateContrast, varsToHex } from "@/styles/functions";
 
