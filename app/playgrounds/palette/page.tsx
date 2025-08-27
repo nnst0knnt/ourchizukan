@@ -164,21 +164,9 @@ export default function Palette() {
           </div>
 
           <div className="flex flex-wrap gap-4 items-center bg-base">
-            <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-outline bg-base">
+            <div className="min-w-47 flex items-center justify-between gap-4 px-4 py-3 rounded-lg border border-outline bg-base">
               <span className="text-sm font-medium flex items-center gap-2 text-primary">
-                <Sun
-                  size={16}
-                  className={
-                    theme.isLight ? "text-brand" : "text-primary opacity-50"
-                  }
-                />
                 テーマ
-                <Moon
-                  size={16}
-                  className={
-                    theme.isDark ? "text-brand" : "text-primary opacity-50"
-                  }
-                />
               </span>
               <button
                 type="button"
@@ -209,23 +197,9 @@ export default function Palette() {
                 </span>
               </button>
             </div>
-            <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-outline bg-base">
+            <div className="min-w-47 flex items-center justify-between gap-4 px-4 py-3 rounded-lg border border-outline bg-base">
               <span className="text-sm font-medium flex items-center gap-2 text-primary">
-                <Eye
-                  size={16}
-                  className={
-                    contrast.isNormal
-                      ? "text-accent"
-                      : "text-primary opacity-50"
-                  }
-                />
                 コントラスト
-                <EyeOff
-                  size={16}
-                  className={
-                    contrast.isHigh ? "text-accent" : "text-primary opacity-50"
-                  }
-                />
               </span>
               <button
                 type="button"
@@ -375,7 +349,7 @@ export default function Palette() {
                             />
                           </div>
 
-                          <p className="text-xs text-secondary flex items-start gap-2">
+                          <p className="text-xs text-secondary flex items-center gap-2">
                             <span
                               className="inline-block w-3 h-3 rounded-full border border-outline"
                               style={{ backgroundColor: evaluated.color }}

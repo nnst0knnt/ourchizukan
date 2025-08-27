@@ -93,8 +93,42 @@ html {
 }
 
 @layer base {
+  /* ホバー状態のカーソルを指定 */
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+
+  /* ボタン、リンク、その他のクリック可能要素に最小サイズを指定 */
+  button,
+  [role="button"],
+  a,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  select,
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* 小さいテキストリンクなどのための垂直方向の余白調整 */
+  a:not(.inline-link),
+  button:not(.inline-button) {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  /* フォーカス状態の視覚的強調 */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* タッチターゲットユーティリティクラス */
+  .touch-target {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }
