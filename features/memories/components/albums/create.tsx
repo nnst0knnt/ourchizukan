@@ -23,8 +23,8 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
   const {
     control,
     formState: { isSubmitting, errors },
-    setError,
     handleSubmit,
+    setError,
   } = useForm<CreateAlbumBody>({
     defaultValues: {
       title: "",

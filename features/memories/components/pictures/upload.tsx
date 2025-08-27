@@ -3,16 +3,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Images, X } from "lucide-react";
 import Image from "next/image";
-import { type MouseEvent, memo, useCallback, useMemo } from "react";
+import { type MouseEvent, memo, useCallback, useEffect, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { AsyncButton, Mark } from "@/components/elements/trigger";
 import { Description, Title } from "@/components/elements/typography";
 import { Footer } from "@/components/structures";
 import { useNoPullToRefresh } from "@/hooks";
-import { UploadPicturesBody } from "@/routes/endpoints/pictures/upload/schema";
 import { toThumbnail } from "@/services/converter/file";
+import { uuid } from "@/services/uuid";
 import { cn } from "@/styles/functions";
+import { UploadPicturesFields } from "../../models/picture";
 import repositories from "../../repositories";
 
 type UploadProps = {
@@ -26,76 +27,47 @@ export const Upload = memo<UploadProps>(
     useNoPullToRefresh();
 
     const {
-      setValue,
-      handleSubmit,
+      control,
       formState: { isSubmitting, errors },
+      handleSubmit,
       setError,
-      watch,
-    } = useForm<UploadPicturesBody>({
+    } = useForm<UploadPicturesFields>({
       defaultValues: {
         albumId,
-        originals: [],
-        thumbnails: [],
+        files: [],
       },
-      resolver: zodResolver(UploadPicturesBody),
+      resolver: zodResolver(UploadPicturesFields),
       mode: "onChange",
     });
 
-    const originals = watch("originals");
-
-    const thumbnails = watch("thumbnails");
-
-    const previews = useMemo(
-      () =>
-        originals.map((file) => ({
-          name: file.name,
-          url: URL.createObjectURL(file),
-        })),
-      [originals],
-    );
+    const { fields, append, remove } = useFieldArray({
+      control,
+      name: "files",
+    });
 
     const message = useMemo(
       () =>
         errors.root
           ? errors.root.message
-          : errors.originals
-            ? errors.originals.message
-            : errors.thumbnails
-              ? errors.thumbnails.message
-              : "",
-      [errors.originals, errors.root, errors.thumbnails],
+          : errors.files
+            ? errors.files.message
+            : "",
+      [errors.files, errors.root],
     );
 
     const drop = useCallback(
-      async (acceptedFiles: File[]) => {
-        const _originals: File[] = [];
-        const _thumbnails: File[] = [];
-
-        for (const _original of acceptedFiles.filter((file) =>
+      (acceptedFiles: File[]) => {
+        for (const file of acceptedFiles.filter((file) =>
           file.type.startsWith("image/"),
         )) {
-          _originals.push(_original);
-
-          try {
-            _thumbnails.push(
-              new File([await toThumbnail(_original)], _original.name, {
-                type: _original.type,
-              }),
-            );
-          } catch (e) {
-            console.error("⚠️ サムネイルの作成に失敗しました", e);
-          }
+          append({
+            id: uuid(),
+            value: file,
+            preview: URL.createObjectURL(file),
+          });
         }
-
-        setValue("originals", [...originals, ..._originals], {
-          shouldValidate: true,
-        });
-
-        setValue("thumbnails", [...thumbnails, ..._thumbnails], {
-          shouldValidate: true,
-        });
       },
-      [originals, thumbnails, setValue],
+      [append],
     );
 
     const dropzone = useDropzone({
@@ -105,28 +77,49 @@ export const Upload = memo<UploadProps>(
       },
     });
 
-    const remove = useCallback(
+    const cancel = useCallback(
       (e: MouseEvent<HTMLButtonElement>, selected: number) => {
         e.stopPropagation();
 
-        setValue(
-          "originals",
-          originals.filter((_, index) => index !== selected),
-          { shouldValidate: true },
-        );
+        if (fields[selected].preview) {
+          URL.revokeObjectURL(fields[selected].preview);
+        }
 
-        setValue(
-          "thumbnails",
-          thumbnails.filter((_, index) => index !== selected),
-          { shouldValidate: true },
-        );
+        remove(selected);
       },
-      [originals, thumbnails, setValue],
+      [fields, remove],
     );
 
     const submit = handleSubmit(async (data) => {
       try {
-        await repositories.pictures.upload(data);
+        const originals: File[] = [];
+        const thumbnails: File[] = [];
+
+        for (const file of data.files) {
+          try {
+            originals.push(file.value);
+
+            const thumbnail = new File(
+              [await toThumbnail(file.value)],
+              file.value.name,
+              { type: file.value.type },
+            );
+
+            thumbnails.push(thumbnail);
+          } catch (e) {
+            console.error("⚠️ サムネイルの作成に失敗しました", e);
+
+            if (originals.length !== thumbnails.length) {
+              originals.pop();
+            }
+          }
+        }
+
+        await repositories.pictures.upload({
+          albumId: data.albumId,
+          originals,
+          thumbnails,
+        });
 
         onSuccess?.();
       } catch (e: any) {
@@ -137,6 +130,14 @@ export const Upload = memo<UploadProps>(
         throw e;
       }
     });
+
+    useEffect(() => {
+      return () => {
+        fields.forEach((field) => {
+          URL.revokeObjectURL(field.preview);
+        });
+      };
+    }, [fields]);
 
     return (
       <div
@@ -170,22 +171,22 @@ export const Upload = memo<UploadProps>(
               </div>
             </div>
 
-            {previews.length > 0 && (
+            {fields.length > 0 && (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 text-sm">
-                  <p>選択された写真（{previews.length}枚）</p>
+                  <p>選択された写真（{fields.length}枚）</p>
                   {message && <p className="text-error">{message}</p>}
                 </div>
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-                  {previews.map((file, index) => (
+                  {fields.map((field, index) => (
                     <li
-                      key={`${file.name}-${index}`}
+                      key={field.id}
                       className="relative aspect-square rounded-md bg-outline/10"
                     >
                       <div className="relative h-full w-full overflow-hidden rounded-md">
                         <Image
-                          src={file.url}
-                          alt={file.name}
+                          src={field.preview}
+                          alt={field.value.name}
                           fill
                           className="object-cover"
                         />
@@ -195,7 +196,7 @@ export const Upload = memo<UploadProps>(
                             size="small"
                             kind="secondary"
                             filled
-                            onClick={(e) => remove(e, index)}
+                            onClick={(e) => cancel(e, index)}
                             aria-label="削除"
                           />
                         </div>
@@ -210,7 +211,7 @@ export const Upload = memo<UploadProps>(
           <AsyncButton
             onClick={submit}
             onSuccess={onClose}
-            disabled={previews.length === 0 || !!errors.root || isSubmitting}
+            disabled={fields.length === 0 || !!errors.root || isSubmitting}
             fullWidth
           >
             アップロードする

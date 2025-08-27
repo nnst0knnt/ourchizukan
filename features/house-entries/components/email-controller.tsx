@@ -15,8 +15,8 @@ export const EmailController = memo(() => {
   const {
     control,
     formState: { isSubmitting, errors },
-    setError,
     handleSubmit,
+    setError,
   } = useForm<EnterFamilyBody>({
     defaultValues: {
       email: "",
