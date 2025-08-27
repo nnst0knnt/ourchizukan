@@ -2,7 +2,7 @@
 
 import { Ellipsis } from "lucide-react";
 
-import { useWindow } from "@/hooks";
+import { useContrast, useTheme, useWindow } from "@/hooks";
 import { varsToHex } from "@/styles/functions";
 
 type Color = {
@@ -96,6 +96,12 @@ const colors: Color[] = [
 
 export const ColorList = () => {
   const window = useWindow();
+
+  /**
+   * テーマとコントラストの変更時に再レンダリングさせる
+   */
+  useTheme();
+  useContrast();
 
   return (
     <section className="flex flex-col gap-4">

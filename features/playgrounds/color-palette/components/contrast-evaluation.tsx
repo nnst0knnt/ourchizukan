@@ -1,6 +1,6 @@
 "use client";
 
-import { useWindow } from "@/hooks";
+import { useContrast, useTheme, useWindow } from "@/hooks";
 import { evaluateContrast, varsToHex } from "@/styles/functions";
 
 type Evaluation = {
@@ -53,6 +53,12 @@ const evaluations: Evaluation[] = [
 
 export const ContrastEvaluation = () => {
   const window = useWindow();
+
+  /**
+   * テーマとコントラストの変更時に再レンダリングさせる
+   */
+  useTheme();
+  useContrast();
 
   return (
     <section className="flex flex-col gap-4">
@@ -113,7 +119,7 @@ export const ContrastEvaluation = () => {
                     <div className="flex flex-col gap-2">
                       <div className="h-3 overflow-hidden rounded-full border border-outline bg-outline/10">
                         <div
-                          className="h-full rounded-full"
+                          className="h-full rounded-full transition-all duration-300"
                           style={{
                             width: `${Math.min(100, (evaluated.ratio / 10) * 100)}%`,
                             backgroundColor: evaluated.color,
