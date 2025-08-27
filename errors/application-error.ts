@@ -1,5 +1,3 @@
-import type { LucideIcon } from "lucide-react";
-
 /**
  * ApplicationErrorProps
  */
@@ -10,8 +8,6 @@ type ApplicationErrorProps = {
   title: string;
   /** エラーの説明 */
   description: string;
-  /** エラーを表す印 */
-  mark: LucideIcon;
 };
 
 /**
@@ -21,18 +17,18 @@ type ApplicationErrorProps = {
  * 具体的なエラーはこのクラスを継承して作成します。
  */
 export class ApplicationError extends Error {
+  name: string;
   code: string;
   title: string;
   description: string;
-  mark: LucideIcon;
 
-  constructor({ code, title, description, mark }: ApplicationErrorProps) {
+  constructor({ code, title, description }: ApplicationErrorProps) {
     super(title);
 
+    this.name = this.constructor.name;
     this.code = code;
     this.title = title;
     this.description = description;
-    this.mark = mark;
 
     Object.setPrototypeOf(this, ApplicationError.prototype);
   }

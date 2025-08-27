@@ -1,5 +1,3 @@
-import { CloudOff } from "lucide-react";
-
 import { ApplicationError } from "./application-error";
 
 /**
@@ -12,9 +10,8 @@ export class NetworkError extends ApplicationError {
   constructor() {
     super({
       code: "NETWORK_ERROR",
-      title: "あら、返事がありません",
+      title: "あら...",
       description: "インターネットの調子が悪いようです。",
-      mark: CloudOff,
     });
 
     Object.setPrototypeOf(this, NetworkError.prototype);

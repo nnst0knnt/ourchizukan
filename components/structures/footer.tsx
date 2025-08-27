@@ -20,7 +20,7 @@ type NavigationLink = {
 };
 
 /**
- * ナビゲーションリンク一覧
+ * ナビゲーションリンクの一覧
  */
 const links: NavigationLink[] = [
   {

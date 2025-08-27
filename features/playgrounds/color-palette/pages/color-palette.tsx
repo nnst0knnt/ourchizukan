@@ -1,5 +1,3 @@
-import { Palette } from "lucide-react";
-
 import { Description, Title } from "@/components/elements";
 
 import { ColorList } from "../components/color-list";
@@ -9,9 +7,7 @@ export const ColorPalette = () => (
   <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
     <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
       <div className="relative flex flex-col gap-4">
-        <Title as="h1" mark={<Palette size={48} />}>
-          カラーパレット
-        </Title>
+        <Title as="h1">カラーパレット</Title>
         <Description>
           <p>
             <strong>おうちずかん</strong>
