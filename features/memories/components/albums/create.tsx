@@ -39,7 +39,7 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
 
       onSuccess?.();
     } catch (e: any) {
-      setError("title", {
+      setError("root", {
         message: e.message || "アルバムの作成に失敗しました",
       });
 
@@ -72,8 +72,8 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
               placeholder="2025年の伊豆旅行"
               value={value}
               onChange={onChange}
-              {...(errors.title
-                ? { error: errors.title.message }
+              {...(errors.root
+                ? { error: errors.root.message }
                 : isValid
                   ? { success: "アルバムを作成できます" }
                   : {

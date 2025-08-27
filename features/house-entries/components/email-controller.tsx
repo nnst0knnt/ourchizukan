@@ -30,7 +30,7 @@ export const EmailController = memo(() => {
 
       router.replace("/");
     } catch (e: any) {
-      setError("email", { message: e.message || "おうちに入れませんでした" });
+      setError("root", { message: e.message || "おうちに入れませんでした" });
 
       throw e;
     }
@@ -53,8 +53,8 @@ export const EmailController = memo(() => {
             placeholder="ourchizukan@example.com"
             value={value}
             onChange={onChange}
-            {...(errors.email
-              ? { error: errors.email.message }
+            {...(errors.root
+              ? { error: errors.root.message }
               : isValid
                 ? { success: "おうちに入る準備ができました" }
                 : {
