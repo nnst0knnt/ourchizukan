@@ -66,13 +66,14 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
         control={control}
         name="title"
         render={({
-          field: { onChange },
+          field: { value, onChange },
           formState: { isSubmitting, isValid },
         }) => (
           <div className="flex flex-col gap-4 md:gap-6">
             <Input
               label="アルバム名"
               placeholder="2025年の伊豆旅行"
+              value={value}
               onChange={onChange}
               {...(errors.title
                 ? { error: errors.title.message }

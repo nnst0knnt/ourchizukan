@@ -40,13 +40,14 @@ export const EmailController = memo(() => {
       control={control}
       name="email"
       disabled={isSubmitting}
-      render={({ field: { onChange }, formState: { isValid } }) => {
+      render={({ field: { value, onChange }, formState: { isValid } }) => {
         return (
           <div className="flex flex-col gap-4 md:gap-6">
             <Input
               label="メールアドレス"
               type="email"
               placeholder="ourchizukan@example.com"
+              value={value}
               onChange={onChange}
               {...(errors.email
                 ? { error: errors.email.message }
