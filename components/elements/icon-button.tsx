@@ -1,3 +1,5 @@
+"use client";
+
 import { type ButtonHTMLAttributes, forwardRef, useState } from "react";
 
 import { cn } from "@/styles/functions";
