@@ -65,6 +65,7 @@ export const Links = memo<LinksProps>(({ disabled = false, ...props }) => {
             mark={link.mark}
             markPosition="left"
             aria-current={isActive ? "page" : undefined}
+            prefetch={!disabled}
           >
             <span className="flex flex-col font-medium text-sm md:text-base">
               {link.name}
