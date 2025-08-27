@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 
-import { CheckCircle2, Loader2, XCircle } from "lucide-react";
+import { CheckCircle2, LoaderCircle, XCircle } from "lucide-react";
 import {
   type ButtonHTMLAttributes,
   Children,
@@ -94,7 +94,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const statusMarks = {
-      loading: <Loader2 className={cn("animate-spin", markStyles[size])} />,
+      loading: (
+        <LoaderCircle className={cn("animate-spin", markStyles[size])} />
+      ),
       success: <CheckCircle2 className={markStyles[size]} />,
       error: <XCircle className={markStyles[size]} />,
     };

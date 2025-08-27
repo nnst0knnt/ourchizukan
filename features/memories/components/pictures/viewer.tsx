@@ -1,6 +1,6 @@
-import { AlertTriangle, Camera, LoaderCircle } from "lucide-react";
-import Image from "next/image";
+import { AlertTriangle, Camera } from "lucide-react";
 import { memo } from "react";
+import { Image } from "@/components/elements/symbol";
 import { Button } from "@/components/elements/trigger";
 import { Footer, Header } from "@/components/structures";
 import { useKeyboard } from "@/hooks";
@@ -52,7 +52,6 @@ export const Viewer = memo<ViewerProps>(
                   invisible ? "opacity-0" : "opacity-100",
                 )}
               >
-                <LoaderCircle className="h-10 w-10 animate-spin text-primary/20" />
                 <Image
                   src={datum.url}
                   alt={`${datum.takenAt}の写真`}
