@@ -24,7 +24,7 @@ export type TitleProps = {
 /**
  * Title
  *
- * ページや各セクションのタイトルを表示するコンポーネントです。
+ * ページや各セクションのタイトルを表示します。
  * 見出しレベルによってスタイルが変わります。
  */
 export const Title = forwardRef<HTMLHeadingElement, TitleProps>(

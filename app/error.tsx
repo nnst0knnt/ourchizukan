@@ -28,7 +28,7 @@ type ErrorProps = {
 /**
  * Error
  *
- * エラーが発生した場合に表示されるコンポーネントです。
+ * エラーが発生した場合に表示されるページです。
  * エラーの内容に応じて、適切なメッセージとアクションを表示します。
  */
 export default function Error({ error: e }: ErrorProps) {

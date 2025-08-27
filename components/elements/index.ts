@@ -11,3 +11,4 @@ export { Logo } from "./logo";
 export { Mark } from "./mark";
 export { Textarea } from "./textarea";
 export { Title } from "./title";
+export { Toggle } from "./toggle";

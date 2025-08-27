@@ -20,7 +20,7 @@ export type DescriptionProps = {
 /**
  * Description
  *
- * 説明文を表示するコンポーネントです。
+ * サイズに応じた説明文を表示します。
  * 主にタイトルの下に表示される補足情報や説明を提供します。
  */
 export const Description = forwardRef<HTMLDivElement, DescriptionProps>(
