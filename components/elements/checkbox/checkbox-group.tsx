@@ -15,8 +15,8 @@ import {
 
 import { cn } from "@/styles/functions";
 
-import type { CheckboxStatus } from "./checkbox-option";
 import type { LucideIcon } from "lucide-react";
+import type { CheckboxStatus } from "./checkbox-option";
 
 /**
  * チェックボックスのサイズ

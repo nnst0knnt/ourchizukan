@@ -15,8 +15,8 @@ import {
 
 import { cn } from "@/styles/functions";
 
-import type { RadioStatus } from "./radio-option";
 import type { LucideIcon } from "lucide-react";
+import type { RadioStatus } from "./radio-option";
 
 /**
  * ラジオボタンのサイズ

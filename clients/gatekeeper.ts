@@ -4,174 +4,204 @@ import {
   type AccessMethod,
   type Attempt,
   type AttemptKind,
+  type KeyValueStorage,
   RateLimitOptions,
   type Session,
   SessionOptions,
 } from "@/models";
 
 import { date } from "./date";
-import { storage } from "./key-value-storage";
 
-export const gatekeeper = {
-  session: {
-    prefix: "sessions",
-    generateKey: (id: string) => `${gatekeeper.session.prefix}:${id}`,
-    get: async (id: string): Promise<Session | null> => {
-      try {
-        const data = await storage.get(gatekeeper.session.generateKey(id));
+const session = (kv: KeyValueStorage) => {
+  const prefix = "sessions";
 
-        return data ? (JSON.parse(data) as Session) : null;
-      } catch (e) {
-        console.error(e);
+  const generateKey = (id: string) => `${prefix}:${id}`;
 
-        return null;
-      }
-    },
-    create: async (
-      ip: string,
-      method: AccessMethod,
-    ): Promise<Session | null> => {
-      const now = date().unix();
+  const get = async (id: string): Promise<Session | null> => {
+    try {
+      const found = await kv.get(generateKey(id));
 
-      const session: Session = {
-        id: uuid(),
-        method,
-        ip,
-        createdAt: now,
-        lastAccessedAt: now,
-        expiredAt: now + SessionOptions.Lifetime,
-      };
+      return found ? (JSON.parse(found) as Session) : null;
+    } catch (e) {
+      console.error(e);
 
-      try {
-        await storage.set(
-          gatekeeper.session.generateKey(session.id),
-          JSON.stringify(session),
-          SessionOptions.Lifetime,
-        );
+      return null;
+    }
+  };
 
-        return session;
-      } catch (e) {
-        console.error(e);
+  const create = async (
+    ip: string,
+    method: AccessMethod,
+  ): Promise<Session | null> => {
+    const now = date().unix();
+    const created: Session = {
+      id: uuid(),
+      method,
+      ip,
+      createdAt: now,
+      lastAccessedAt: now,
+      expiredAt: now + SessionOptions.Lifetime,
+    };
 
-        return null;
-      }
-    },
-    update: async (id: string): Promise<Session | null> => {
-      const session = await gatekeeper.session.get(id);
+    try {
+      await kv.set(
+        generateKey(created.id),
+        JSON.stringify(created),
+        SessionOptions.Lifetime,
+      );
 
-      if (!session) {
-        return null;
-      }
+      return created;
+    } catch (e) {
+      console.error(e);
 
-      const updated: Session = {
-        ...session,
-        lastAccessedAt: date().unix(),
-      };
+      return null;
+    }
+  };
 
-      try {
-        await storage.set(
-          gatekeeper.session.generateKey(id),
-          JSON.stringify(updated),
-          SessionOptions.Lifetime,
-        );
+  const update = async (id: string): Promise<Session | null> => {
+    const found = await get(id);
 
-        return updated;
-      } catch (e) {
-        console.error(e);
+    if (!found) {
+      return null;
+    }
 
-        return null;
-      }
-    },
-    delete: async (id: string): Promise<boolean> => {
-      try {
-        return await storage.delete(gatekeeper.session.generateKey(id));
-      } catch (e) {
-        console.error(e);
+    const updated: Session = {
+      ...found,
+      lastAccessedAt: date().unix(),
+    };
 
-        return false;
-      }
-    },
-  },
-  whitelist: {
-    prefix: "whitelist",
-    generateKey: (kind: "ips" | "emails") =>
-      `${gatekeeper.whitelist.prefix}:${kind}`,
-    ip: async (ip: string): Promise<boolean> => {
-      try {
-        const data = await storage.get(gatekeeper.whitelist.generateKey("ips"));
+    try {
+      await kv.set(
+        generateKey(id),
+        JSON.stringify(updated),
+        SessionOptions.Lifetime,
+      );
 
-        if (!data) {
-          return false;
-        }
+      return updated;
+    } catch (e) {
+      console.error(e);
 
-        return (JSON.parse(data) as string[]).includes(ip);
-      } catch (e) {
-        console.error(e);
+      return null;
+    }
+  };
 
-        return false;
-      }
-    },
-    email: async (email: string): Promise<boolean> => {
-      try {
-        const data = await storage.get(
-          gatekeeper.whitelist.generateKey("emails"),
-        );
+  const remove = async (id: string): Promise<boolean> => {
+    try {
+      return await kv.delete(generateKey(id));
+    } catch (e) {
+      console.error(e);
 
-        if (!data) {
-          return false;
-        }
+      return false;
+    }
+  };
 
-        return (JSON.parse(data) as string[]).includes(email);
-      } catch (e) {
-        console.error(e);
-
-        return false;
-      }
-    },
-  },
-  attempts: {
-    prefix: "attempts",
-    generateKey: (ip: string) => `${gatekeeper.attempts.prefix}:${ip}`,
-    add: async (ip: string, kind: AttemptKind): Promise<void> => {
-      try {
-        const key = gatekeeper.attempts.generateKey(ip);
-        const now = date().unix();
-        const data = await storage.get(key);
-
-        let attempts: Attempt[] = data ? JSON.parse(data) : [];
-
-        attempts = attempts.filter(
-          ({ at }) => now - at < RateLimitOptions.CountingPeriod,
-        );
-
-        attempts.push({ ip, kind, at: now });
-
-        await storage.set(
-          key,
-          JSON.stringify(attempts),
-          RateLimitOptions.LockoutDuration,
-        );
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    verify: async (ip: string): Promise<boolean> => {
-      try {
-        const key = gatekeeper.attempts.generateKey(ip);
-        const data = await storage.get(key);
-
-        if (!data) return true;
-
-        const attempts = (JSON.parse(data) as Attempt[]).filter(
-          ({ at }) => date().unix() - at < RateLimitOptions.CountingPeriod,
-        );
-
-        return attempts.length < RateLimitOptions.MaxAttempts;
-      } catch (e) {
-        console.error(e);
-
-        return true;
-      }
-    },
-  },
+  return {
+    get,
+    create,
+    update,
+    remove,
+  };
 };
+
+const whitelist = (kv: KeyValueStorage) => {
+  const prefix = "whitelist";
+
+  const generateKey = (kind: "ips" | "emails") => `${prefix}:${kind}`;
+
+  const ip = async (ip: string): Promise<boolean> => {
+    try {
+      const found = await kv.get(generateKey("ips"));
+
+      if (!found) {
+        return false;
+      }
+
+      return (JSON.parse(found) as string[]).includes(ip);
+    } catch (e) {
+      console.error(e);
+
+      return false;
+    }
+  };
+
+  const email = async (email: string): Promise<boolean> => {
+    try {
+      const found = await kv.get(generateKey("emails"));
+
+      if (!found) {
+        return false;
+      }
+
+      return (JSON.parse(found) as string[]).includes(email);
+    } catch (e) {
+      console.error(e);
+
+      return false;
+    }
+  };
+
+  return {
+    ip,
+    email,
+  };
+};
+
+const attempts = (kv: KeyValueStorage) => {
+  const prefix = "attempts";
+
+  const generateKey = (ip: string) => `${prefix}:${ip}`;
+
+  const add = async (ip: string, kind: AttemptKind): Promise<void> => {
+    try {
+      const key = generateKey(ip);
+      const now = date().unix();
+      const found = await kv.get(key);
+
+      let attempts: Attempt[] = found ? JSON.parse(found) : [];
+      attempts = attempts.filter(
+        ({ at }) => now - at < RateLimitOptions.CountingPeriod,
+      );
+      attempts.push({ ip, kind, at: now });
+
+      await kv.set(
+        key,
+        JSON.stringify(attempts),
+        RateLimitOptions.LockoutDuration,
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const verify = async (ip: string): Promise<boolean> => {
+    try {
+      const key = generateKey(ip);
+      const found = await kv.get(key);
+
+      if (!found) return true;
+
+      const attempts = (JSON.parse(found) as Attempt[]).filter(
+        ({ at }) => date().unix() - at < RateLimitOptions.CountingPeriod,
+      );
+
+      return attempts.length < RateLimitOptions.MaxAttempts;
+    } catch (e) {
+      console.error(e);
+
+      return true;
+    }
+  };
+
+  return {
+    add,
+    verify,
+  };
+};
+
+export const gatekeeper = (kv: KeyValueStorage) => ({
+  session: session(kv),
+  whitelist: whitelist(kv),
+  attempts: attempts(kv),
+});
+
+export type Gatekeeper = ReturnType<typeof gatekeeper>;

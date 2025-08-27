@@ -1,23 +1,23 @@
 import { date } from "../date";
 
-import type { KeyValueStorage } from "@/models";
+import type { CreateKeyValueStorage } from "@/models";
 
-export const createInMemory = (): KeyValueStorage => {
+export const createInMemory: CreateKeyValueStorage = () => {
   const store = new Map<string, { value: string; expires?: number }>();
 
   return {
     get: async (key: string) => {
-      const data = store.get(key);
+      const found = store.get(key);
 
-      if (!data) return null;
+      if (!found) return null;
 
-      if (data.expires && data.expires < date().unix()) {
+      if (found.expires && found.expires < date().unix()) {
         store.delete(key);
 
         return null;
       }
 
-      return data.value;
+      return found.value;
     },
     set: async (key: string, value: string, ttl?: number) => {
       store.set(key, { value, expires: ttl ? date().unix() + ttl : undefined });

@@ -11,3 +11,8 @@ export type KeyValueStorage = {
   /** 指定したプレフィックスのキーを全て取得する */
   list: (prefix: string) => Promise<string[]>;
 };
+
+/**
+ * キーバリューストレージのファクトリ
+ */
+export type CreateKeyValueStorage = (namespace: KVNamespace) => KeyValueStorage;
