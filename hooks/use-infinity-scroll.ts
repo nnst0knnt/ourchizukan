@@ -78,7 +78,7 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
       },
       {
         threshold: 0,
-        rootMargin: "200px",
+        rootMargin: "20%",
       },
     );
 

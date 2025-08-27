@@ -27,6 +27,7 @@ export {
   SizeLocalStorageKey,
   useSize,
 } from "./use-size";
+export { SourceStatus, useSourceCache } from "./use-source-cache";
 export {
   ThemeDomAttributeName,
   ThemeKind,

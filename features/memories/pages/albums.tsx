@@ -41,7 +41,7 @@ export const Albums = () => {
           toggle={toggle}
           refresh={refresh}
         />
-        {loading && (
+        {loading && !open && (
           <div className="flex items-center justify-center">
             <LoaderCircle className="h-12 w-12 animate-spin" />
           </div>

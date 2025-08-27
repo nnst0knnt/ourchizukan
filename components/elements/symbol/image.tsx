@@ -2,33 +2,34 @@
 
 import { ImageOff, LoaderCircle } from "lucide-react";
 import NextImage, { type ImageProps } from "next/image";
-import { forwardRef, useState } from "react";
-import { useEnabledWindow } from "@/hooks";
+import { forwardRef, useCallback, useEffect } from "react";
+import { SourceStatus, useEnabledWindow, useSourceCache } from "@/hooks";
 import { cn } from "@/styles/functions";
 
-const Status = {
-  Idle: "Idle",
-  Loading: "Loading",
-  Complete: "Complete",
-  Error: "Error",
-} as const;
-
-type Status = (typeof Status)[keyof typeof Status];
-
 export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
-  const [status, setStatus] = useState<Status>(Status.Idle);
-
   const enabled = useEnabledWindow();
 
-  if (!enabled && (status === Status.Idle || status === Status.Loading)) {
-    return (
-      <div className="flex h-full w-full animate-pulse items-center justify-center">
-        <LoaderCircle className="h-8 w-8 animate-spin text-primary/40" />
-      </div>
-    );
-  }
+  const { load, cache } = useSourceCache(props.src);
 
-  if (status === Status.Error || !props.src) {
+  const status = load();
+
+  const complete = useCallback(
+    () => cache(props.src, SourceStatus.Complete),
+    [cache, props.src],
+  );
+
+  const error = useCallback(
+    () => cache(props.src, SourceStatus.Error),
+    [cache, props.src],
+  );
+
+  useEffect(() => {
+    if (enabled && status === SourceStatus.Idle && props.src) {
+      cache(props.src, SourceStatus.Loading);
+    }
+  }, [enabled, status, props.src, cache]);
+
+  if (status === SourceStatus.Error || !props.src) {
     return (
       <div className="flex h-full w-full items-center justify-center">
         <ImageOff className="h-8 w-8 text-primary/40" />
@@ -37,17 +38,24 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
   }
 
   return (
-    <NextImage
-      ref={ref}
-      {...props}
-      className={cn(
-        props.className,
-        (status === Status.Idle || status === Status.Loading) && "opacity-0",
+    <>
+      <NextImage
+        ref={ref}
+        {...props}
+        className={cn(
+          props.className,
+          status !== SourceStatus.Complete && "opacity-0",
+        )}
+        unoptimized
+        onLoad={complete}
+        onError={error}
+      />
+      {(status === SourceStatus.Idle || status === SourceStatus.Loading) && (
+        <div className="absolute inset-0 flex animate-pulse items-center justify-center">
+          <LoaderCircle className="h-8 w-8 animate-spin text-primary/40" />
+        </div>
       )}
-      onLoadStart={() => setStatus(Status.Loading)}
-      onLoadingComplete={() => setStatus(Status.Complete)}
-      onError={() => setStatus(Status.Error)}
-    />
+    </>
   );
 });
 
