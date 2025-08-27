@@ -30,7 +30,7 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: ReactNode;

@@ -1,3 +1,3 @@
-export default function PhotosPage() {
+export default function Page() {
   return <></>;
 }

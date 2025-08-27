@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   title: "カラーパレット",
 };
 
-export default function ColorPalettePage() {
+export default function Page() {
   return <ColorPalette />;
 }
