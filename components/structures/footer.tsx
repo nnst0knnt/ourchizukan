@@ -62,7 +62,7 @@ export const Footer = memo(() => {
             kind="default"
             underline={false}
             className={cn(
-              "flex min-h-14 min-w-14 flex-col items-center justify-center p-2",
+              "flex min-h-14 min-w-14 flex-col items-center justify-center p-3",
               "md:flex-row md:gap-2 md:p-3",
               isActive
                 ? "text-brand hover:text-brand"
@@ -92,8 +92,9 @@ export const Footer = memo(() => {
           {Links}
         </div>
       </div>
-      <div className="pb-2 text-center text-secondary text-xs">
-        <span>© {date().format("YYYY")} おうちずかん</span>
+      <div className="flex items-center justify-center gap-1 pb-3 text-center text-secondary text-xs">
+        <span>© {date().format("YYYY")}</span>
+        <span>おうちずかん</span>
       </div>
     </footer>
   );
