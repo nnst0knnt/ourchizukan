@@ -7,9 +7,9 @@ import {
   useCallback,
   useContext,
   useId,
-  useRef,
 } from "react";
 
+import { useForwardedRef } from "@/hooks";
 import { cn } from "@/styles/functions";
 
 import { RadioGroupState, type RadioSize } from "./radio-group";
@@ -70,7 +70,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
     },
     ref,
   ) => {
-    const defaultRef = useRef<HTMLInputElement>(null);
+    const radioRef = useForwardedRef(ref);
 
     const state = useContext(RadioGroupState);
 
@@ -89,16 +89,10 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
     const click = useCallback(() => {
       if (isChecked) return;
 
-      if (typeof ref !== "function" && ref && ref.current) {
-        ref.current.click();
-
-        return;
+      if (radioRef.current) {
+        radioRef.current.click();
       }
-
-      if (defaultRef.current) {
-        defaultRef.current.click();
-      }
-    }, [isChecked, ref]);
+    }, [isChecked, radioRef]);
 
     const defaultId = useId();
 
@@ -148,7 +142,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
           <div className="flex h-11 items-center">
             <div className="relative flex items-center">
               <input
-                ref={ref || defaultRef}
+                ref={radioRef}
                 type="radio"
                 id={inputId}
                 value={value}

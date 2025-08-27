@@ -1,0 +1,27 @@
+"use client";
+
+import { useRef, useCallback, type Ref } from "react";
+
+export const useForwardedRef = <T extends HTMLElement>(ref: Ref<T>) => {
+  const innerRef = useRef<T | null>(null);
+
+  const set = useCallback(
+    (node: T | null) => {
+      innerRef.current = node;
+
+      if (!ref) return;
+
+      if (typeof ref === "function") {
+        ref(node);
+      } else {
+        ref.current = node;
+      }
+    },
+    [ref],
+  );
+
+  return {
+    ref: set,
+    current: innerRef.current,
+  };
+};

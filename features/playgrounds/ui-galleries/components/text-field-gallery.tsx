@@ -1,3 +1,5 @@
+"use client";
+
 import { memo } from "react";
 
 import { Mail, Search } from "lucide-react";

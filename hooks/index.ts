@@ -4,6 +4,9 @@ export {
   ContrastLocalStorageKey,
   ContrastDomAttributeName,
 } from "./use-contrast";
+export { useEnabledWindow } from "./use-enabled-window";
+export { useForwardedRef } from "./use-forwarded-ref";
+export { useLockOnFocus } from "./use-lock-on-focus";
 export { useResize } from "./use-resize";
 export {
   useResponsive,
@@ -23,4 +26,3 @@ export {
   ThemeLocalStorageKey,
   ThemeDomAttributeName,
 } from "./use-theme";
-export { useWindow } from "./use-window";

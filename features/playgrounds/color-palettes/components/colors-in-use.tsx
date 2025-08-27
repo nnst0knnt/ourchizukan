@@ -5,7 +5,7 @@ import { memo } from "react";
 import { Ellipsis } from "lucide-react";
 
 import { Description, Title } from "@/components/elements/typography";
-import { useContrast, useTheme, useWindow } from "@/hooks";
+import { useContrast, useEnabledWindow, useTheme } from "@/hooks";
 import { varsToHex } from "@/styles/functions";
 
 type Color = {
@@ -97,7 +97,7 @@ const colors: Color[] = [
 ];
 
 export const ColorsInUse = memo(() => {
-  const window = useWindow();
+  const enabled = useEnabledWindow();
 
   /**
    * テーマとコントラストの変更時に再レンダリングさせる
@@ -123,7 +123,7 @@ export const ColorsInUse = memo(() => {
                 {color.category}
               </div>
               <div className="m-3 rounded border border-outline bg-foundation px-2 py-1 font-mono text-primary text-xs shadow-sm">
-                {window.enabled ? (
+                {enabled ? (
                   varsToHex(color.cssVar)
                 ) : (
                   <Ellipsis className="h-4 w-4" />

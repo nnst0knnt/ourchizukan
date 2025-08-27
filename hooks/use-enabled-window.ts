@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export const useWindow = () => {
+export const useEnabledWindow = () => {
   const [enabled, setEnabled] = useState(false);
 
   /**
@@ -12,7 +12,5 @@ export const useWindow = () => {
     setEnabled(typeof window !== "undefined");
   }, []);
 
-  return {
-    enabled,
-  };
+  return enabled;
 };

@@ -11,6 +11,7 @@ import {
   useRef,
 } from "react";
 
+import { useForwardedRef, useLockOnFocus } from "@/hooks";
 import { cn } from "@/styles/functions";
 
 import type { LucideIcon } from "lucide-react";
@@ -87,7 +88,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ) => {
     const counterRef = useRef<HTMLDivElement>(null);
 
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const textareaRef = useForwardedRef(ref);
+
+    useLockOnFocus(textareaRef);
 
     const resize = useCallback(() => {
       if (!autoResize || !textareaRef.current) return;
@@ -121,7 +124,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
       /** 最小値と最大値の範囲内で高さを調整 */
       textareaRef.current.style.height = `${Math.min(Math.max(scrollHeight, minHeight), maxHeight)}px`;
-    }, [autoResize, minRows, maxRows]);
+    }, [autoResize, textareaRef, minRows, maxRows]);
 
     const count = useCallback(() => {
       if (!counter || !textareaRef.current || !counterRef.current) return;
@@ -137,7 +140,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       } else {
         counterRef.current.textContent = `${currentLength} 文字`;
       }
-    }, [counter]);
+    }, [counter, textareaRef]);
 
     const input = useCallback(() => {
       resize();
@@ -148,7 +151,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       if (textareaRef.current) {
         input();
       }
-    }, [input]);
+    }, [input, textareaRef]);
 
     const defaultId = useId();
 
@@ -234,15 +237,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
 
           <textarea
-            ref={(node) => {
-              if (typeof ref === "function") {
-                ref(node);
-              } else if (ref) {
-                ref.current = node;
-              }
-
-              textareaRef.current = node;
-            }}
+            ref={textareaRef}
             id={inputId}
             placeholder={placeholder}
             disabled={disabled}

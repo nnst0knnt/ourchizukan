@@ -3,7 +3,7 @@
 import { memo } from "react";
 
 import { Title } from "@/components/elements/typography";
-import { useContrast, useTheme, useWindow } from "@/hooks";
+import { useContrast, useEnabledWindow, useTheme } from "@/hooks";
 import { evaluateContrast, varsToHex } from "@/styles/functions";
 
 type Evaluation = {
@@ -56,7 +56,7 @@ const evaluations: Evaluation[] = [
 ];
 
 export const ContrastEvaluation = memo(() => {
-  const window = useWindow();
+  const enabled = useEnabledWindow();
 
   /**
    * テーマとコントラストの変更時に再レンダリングさせる
@@ -69,7 +69,7 @@ export const ContrastEvaluation = memo(() => {
       <Title as="h2" accented>
         評価
       </Title>
-      {window.enabled && (
+      {enabled && (
         <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2 lg:gap-8">
           {evaluations.map((evaluation) => {
             const evaluated = evaluateContrast(

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   type ForwardRefExoticComponent,
   type InputHTMLAttributes,
@@ -6,6 +8,7 @@ import {
   useId,
 } from "react";
 
+import { useForwardedRef, useLockOnFocus } from "@/hooks";
 import { cn } from "@/styles/functions";
 
 import type { LucideIcon } from "lucide-react";
@@ -67,6 +70,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
+    const inputRef = useForwardedRef(ref);
+
+    useLockOnFocus(inputRef);
+
     const defaultId = useId();
 
     const inputId = id || defaultId;
@@ -150,7 +157,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
 
           <input
-            ref={ref}
+            ref={inputRef}
             id={inputId}
             type={type}
             placeholder={placeholder}
