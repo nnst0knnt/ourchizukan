@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { UIGalleries } from "@/features/playgrounds/ui-galleries";
+import { UIGalleries } from "@/features/ui-galleries";
 
 export const metadata: Metadata = {
   title: "UIギャラリー",
