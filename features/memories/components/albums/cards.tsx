@@ -13,11 +13,11 @@ type CardsProps = {
   open: boolean;
   loading: boolean;
   toggle: () => void;
-  onRefresh: () => void;
+  refresh: () => void;
 };
 
 export const Cards = memo<CardsProps>(
-  ({ data, open, loading, toggle, onRefresh }) => {
+  ({ data, open, loading, toggle, refresh }) => {
     useScrollToTop();
 
     return (
@@ -43,7 +43,7 @@ export const Cards = memo<CardsProps>(
 
         {open && (
           <Covered>
-            <Create onClose={toggle} onSuccess={onRefresh} />
+            <Create onClose={toggle} onSuccess={refresh} />
           </Covered>
         )}
       </div>

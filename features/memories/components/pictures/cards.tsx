@@ -1,7 +1,14 @@
 "use client";
 
 import { ImageOff, Upload as UploadIcon } from "lucide-react";
-import { Fragment, memo, useCallback, useMemo, useState } from "react";
+import {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered, Footer } from "@/components/structures";
 import { usePullToRefresh, useScrollToTop } from "@/hooks";
@@ -11,17 +18,21 @@ import { Card } from "./card";
 import { Upload } from "./upload";
 import { Viewer } from "./viewer";
 
+const PrefetchThreshold = 3;
+
 type CardsProps = {
   albumId: string;
   data: PictureCard[];
   open: boolean;
   loading: boolean;
+  more: boolean;
   toggle: () => void;
-  onRefresh: () => void;
+  load: () => Promise<void>;
+  refresh: () => void;
 };
 
 export const Cards = memo<CardsProps>(
-  ({ albumId, data, open, loading, toggle, onRefresh }) => {
+  ({ albumId, data, open, loading, more, toggle, load, refresh }) => {
     useScrollToTop();
 
     const [selected, setSelected] = useState<number | null>(null);
@@ -62,6 +73,14 @@ export const Cards = memo<CardsProps>(
       [hasPrevious, selected],
     );
 
+    useEffect(() => {
+      if (selected === null || !more) return;
+
+      if (data.length - selected <= PrefetchThreshold) {
+        load();
+      }
+    }, [selected, data.length, more, load]);
+
     return (
       <div className="flex flex-col">
         <div className={cn("flex flex-col gap-4", open ? "hidden" : "flex")}>
@@ -100,7 +119,7 @@ export const Cards = memo<CardsProps>(
 
         {open && (
           <Covered>
-            <Upload albumId={albumId} onClose={toggle} onSuccess={onRefresh} />
+            <Upload albumId={albumId} onClose={toggle} onSuccess={refresh} />
           </Covered>
         )}
       </div>

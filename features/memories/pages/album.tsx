@@ -37,9 +37,10 @@ export const Album = ({ id }: Props) => {
     [id],
   );
 
-  const { data, loading, refresh, trigger } = useInfinityScroll<PictureCard>({
-    fetch,
-  });
+  const { data, loading, trigger, more, load, refresh } =
+    useInfinityScroll<PictureCard>({
+      fetch,
+    });
 
   useEffect(() => {
     (async () => {
@@ -67,7 +68,9 @@ export const Album = ({ id }: Props) => {
             open={open}
             loading={loading}
             toggle={toggle}
-            onRefresh={refresh}
+            refresh={refresh}
+            load={load}
+            more={more}
           />
           {loading && (
             <div className="flex items-center justify-center">

@@ -19,7 +19,7 @@ export const Albums = () => {
     return await repositories.albums.list({ offset, limit });
   }, []);
 
-  const { data, loading, refresh, trigger } = useInfinityScroll<AlbumCard>({
+  const { data, loading, trigger, refresh } = useInfinityScroll<AlbumCard>({
     fetch,
   });
 
@@ -39,7 +39,7 @@ export const Albums = () => {
           open={open}
           loading={loading}
           toggle={toggle}
-          onRefresh={refresh}
+          refresh={refresh}
         />
         {loading && (
           <div className="flex items-center justify-center">
