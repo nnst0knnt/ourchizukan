@@ -25,8 +25,8 @@ const colors: Color[] = [
     name: "ベースカラー",
     category: "背景色",
     description: "目に優しく長時間見ても疲れにくくさせる",
-    className: "bg-base",
-    cssVar: "--color-base",
+    className: "bg-foundation",
+    cssVar: "--color-foundation",
   },
   {
     name: "ブランドカラー",
@@ -98,13 +98,13 @@ const evaluations: Evaluation[] = [
   {
     name: "基本カラー",
     description: "アプリケーションの基本的な色を表現する",
-    background: "--color-base",
+    background: "--color-foundation",
     foreground: "--color-primary",
   },
   {
     name: "補助カラー",
     description: "アプリケーションの補助的な色を表現する",
-    background: "--color-base",
+    background: "--color-foundation",
     foreground: "--color-secondary",
   },
   {
@@ -142,10 +142,10 @@ export default function ColorPalette() {
   if (!theme.value || !contrast.value) return null;
 
   return (
-    <div className="min-h-screen bg-base text-primary flex flex-col antialiased">
+    <div className="min-h-screen bg-foundation text-primary flex flex-col antialiased">
       <div className="flex-1 flex flex-col gap-4 md:gap-6 lg:gap-8 px-4 md:px-6 lg:px-8 py-4 md:py-6 lg:py-8 max-w-6xl mx-auto w-full">
         <div className="flex flex-col gap-8">
-          <div className="relative flex flex-col gap-4 bg-base">
+          <div className="relative flex flex-col gap-4 bg-foundation">
             <h1 className="flex flex-row gap-2 items-center justify-between text-3xl font-bold text-primary">
               <span>カラーパレット</span>
               <span className="text-brand opacity-80">
@@ -163,8 +163,8 @@ export default function ColorPalette() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4 items-center bg-base">
-            <div className="min-w-47 flex items-center justify-between gap-4 px-4 py-3 rounded-lg border border-outline bg-base">
+          <div className="flex flex-wrap gap-4 items-center bg-foundation">
+            <div className="min-w-47 flex items-center justify-between gap-4 px-4 py-3 rounded-lg border border-outline bg-foundation">
               <span className="text-sm font-medium flex items-center gap-2 text-primary">
                 テーマ
               </span>
@@ -197,7 +197,7 @@ export default function ColorPalette() {
                 </span>
               </button>
             </div>
-            <div className="min-w-47 flex items-center justify-between gap-4 px-4 py-3 rounded-lg border border-outline bg-base">
+            <div className="min-w-47 flex items-center justify-between gap-4 px-4 py-3 rounded-lg border border-outline bg-foundation">
               <span className="text-sm font-medium flex items-center gap-2 text-primary">
                 コントラスト
               </span>
@@ -249,15 +249,15 @@ export default function ColorPalette() {
                   <div
                     className={`h-32 ${color.className} relative group-hover/card:h-36 transition-all duration-300 flex items-end justify-end border-b border-outline`}
                   >
-                    <div className="absolute top-3 left-3 bg-base border border-outline text-primary text-xs font-medium px-2 py-1 rounded shadow-sm">
+                    <div className="absolute top-3 left-3 bg-foundation border border-outline text-primary text-xs font-medium px-2 py-1 rounded shadow-sm">
                       {color.category}
                     </div>
-                    <div className="bg-base border border-outline text-primary text-xs font-mono px-2 py-1 m-3 rounded shadow-sm">
+                    <div className="bg-foundation border border-outline text-primary text-xs font-mono px-2 py-1 m-3 rounded shadow-sm">
                       {varsToHex(color.cssVar)}
                     </div>
                   </div>
 
-                  <div className="min-h-45 flex flex-col justify-between gap-4 p-5 flex-1 bg-base">
+                  <div className="min-h-45 flex flex-col justify-between gap-4 p-5 flex-1 bg-foundation">
                     <div className="flex flex-col gap-1.5">
                       <h3 className="font-bold text-lg flex items-center gap-2 text-primary">
                         <span
@@ -271,7 +271,7 @@ export default function ColorPalette() {
                     </div>
 
                     <div className="flex justify-start">
-                      <code className="bg-base border border-outline px-3 py-1.5 rounded text-xs font-mono text-primary">
+                      <code className="bg-foundation border border-outline px-3 py-1.5 rounded text-xs font-mono text-primary">
                         {color.cssVar}
                       </code>
                     </div>
@@ -314,9 +314,9 @@ export default function ColorPalette() {
                       </span>
                     </div>
 
-                    <div className="flex flex-col gap-5 p-5 bg-base">
+                    <div className="flex flex-col gap-5 p-5 bg-foundation">
                       <div className="flex flex-col gap-4">
-                        <div className="flex items-center justify-between p-3 rounded-lg border border-outline bg-base">
+                        <div className="flex items-center justify-between p-3 rounded-lg border border-outline bg-foundation">
                           <div className="flex flex-col gap-1">
                             <span className="text-xs font-medium text-secondary">
                               視認性スコア
