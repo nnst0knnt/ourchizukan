@@ -8,6 +8,8 @@ export const ListPicturesQueryParameter = z.object({
     .refine((id) => !id || id.split(/[^a-zA-Z0-9-]/).some(isUUID), {
       message: "IDの形式が正しくありません",
     }),
+  offset: z.coerce.number().min(0).default(0),
+  limit: z.coerce.number().min(0).max(50).default(8),
 });
 
 export type ListPicturesQueryParameter = z.infer<

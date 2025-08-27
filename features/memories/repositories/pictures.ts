@@ -1,3 +1,4 @@
+import { serialize } from "object-to-formdata";
 import { ObjectKey } from "@/models";
 import type { ListPicturesQueryParameter } from "@/routes/endpoints/pictures/list/schema";
 import type { UploadPicturesBody } from "@/routes/endpoints/pictures/upload/schema";
@@ -5,9 +6,17 @@ import { date } from "@/services/date";
 import { env } from "@/services/env";
 import { http } from "@/services/http";
 
-export const list = async (queries: ListPicturesQueryParameter) => {
+export const list = async ({
+  offset,
+  limit,
+  ...queries
+}: ListPicturesQueryParameter) => {
   const response = await http.pictures.$get({
-    query: queries,
+    query: {
+      ...queries,
+      offset: offset.toString(),
+      limit: limit.toString(),
+    },
   });
 
   if (!response.ok) {
@@ -27,7 +36,10 @@ export const list = async (queries: ListPicturesQueryParameter) => {
 
 export const upload = async (body: UploadPicturesBody) => {
   const response = await http.pictures.$post({
-    form: body,
+    form: serialize(body, {
+      indices: true,
+      dotsForObjectNotation: true,
+    }),
   });
 
   if (!response.ok) {

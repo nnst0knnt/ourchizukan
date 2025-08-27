@@ -40,7 +40,7 @@ type PullToRefreshProps = {
   deadzone?: number;
   holdTime?: number;
   selector?: string;
-  onRefresh?: () => Promise<void>;
+  onRefresh?: () => Promise<void> | void;
 } & HTMLAttributes<HTMLDivElement>;
 
 export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(

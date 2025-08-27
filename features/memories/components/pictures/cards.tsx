@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageOff, LoaderCircle, Upload as UploadIcon } from "lucide-react";
+import { ImageOff, Upload as UploadIcon } from "lucide-react";
 import { memo, useCallback, useMemo, useState } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered, Footer } from "@/components/structures";
@@ -13,14 +13,15 @@ import { Viewer } from "./viewer";
 
 type CardsProps = {
   albumId: string;
-  data: PictureCard[] | undefined;
+  data: PictureCard[];
   open: boolean;
+  loading: boolean;
   toggle: () => void;
   onRefresh?: () => void;
 };
 
 export const Cards = memo<CardsProps>(
-  ({ albumId, data, open, toggle, onRefresh }) => {
+  ({ albumId, data, open, loading, toggle, onRefresh }) => {
     useScrollToTop();
 
     const [selected, setSelected] = useState<number | null>(null);
@@ -74,30 +75,26 @@ export const Cards = memo<CardsProps>(
               写真をアップロード
             </Button>
           </div>
-          {data === undefined ? (
-            <LoaderCircle className="size-10 animate-spin self-center" />
-          ) : (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-              {data && data.length > 0 ? (
-                data.map((datum, index) => (
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {data.length > 0
+              ? data.map((datum, index) => (
                   <Card
                     key={datum.id}
                     datum={datum}
                     onClick={() => select(index)}
                   />
                 ))
-              ) : (
-                <div
-                  className={cn(
-                    "col-span-full flex flex-col items-center justify-center gap-2 py-8 text-center text-secondary",
-                  )}
-                >
-                  <ImageOff className="h-12 w-12" />
-                  <p>写真がありません</p>
-                </div>
-              )}
-            </div>
-          )}
+              : !loading && (
+                  <div
+                    className={cn(
+                      "col-span-full flex flex-col items-center justify-center gap-2 py-8 text-center text-secondary",
+                    )}
+                  >
+                    <ImageOff className="h-12 w-12" />
+                    <p>写真がありません</p>
+                  </div>
+                )}
+          </div>
 
           {viewed && (
             <Viewer

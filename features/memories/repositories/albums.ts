@@ -2,12 +2,23 @@ import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "@/errors";
 import type { CreateAlbumBody } from "@/routes/endpoints/albums/create/schema";
 import type { GetAlbumPathParameter } from "@/routes/endpoints/albums/get/schema";
+import type { ListAlbumsQueryParameter } from "@/routes/endpoints/albums/list/schema";
 import { date } from "@/services/date";
 import { env } from "@/services/env";
 import { http } from "@/services/http";
 
-export const list = async () => {
-  const response = await http.albums.$get();
+export const list = async ({
+  offset,
+  limit,
+  ...queries
+}: ListAlbumsQueryParameter) => {
+  const response = await http.albums.$get({
+    query: {
+      ...queries,
+      offset: offset.toString(),
+      limit: limit.toString(),
+    },
+  });
 
   if (!response.ok) {
     throw new Error(

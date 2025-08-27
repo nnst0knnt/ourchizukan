@@ -9,7 +9,7 @@ export const list = factory.createHandlers(
   validator.query(ListPicturesQueryParameter),
   async (context) => {
     try {
-      const { albumId } = context.req.valid("query");
+      const { albumId, offset, limit } = context.req.valid("query");
 
       const where: SQL[] = [];
       if (albumId) {
@@ -21,7 +21,9 @@ export const list = factory.createHandlers(
           .select()
           .from(pictures)
           .where(and(...where))
-          .orderBy(desc(pictures.takenAt)),
+          .orderBy(desc(pictures.takenAt))
+          .limit(limit)
+          .offset(offset),
         StatusCodes.OK,
       );
     } catch (e) {
