@@ -10,7 +10,7 @@ import { AsyncButton, Mark } from "@/components/elements/trigger";
 import { Description, Title } from "@/components/elements/typography";
 import { Footer } from "@/components/structures";
 import { useNoPullToRefresh } from "@/hooks";
-import { UploadPicture } from "@/routes/endpoints/pictures/upload/schema";
+import { UploadPicturesBody } from "@/routes/endpoints/pictures/upload/schema";
 import { cn } from "@/styles/functions";
 import repositories from "../../repositories";
 
@@ -30,12 +30,12 @@ export const Upload = memo<UploadProps>(
       formState: { isSubmitting },
       setError,
       watch,
-    } = useForm<UploadPicture>({
+    } = useForm<UploadPicturesBody>({
       defaultValues: {
         albumId,
         files: [],
       },
-      resolver: zodResolver(UploadPicture),
+      resolver: zodResolver(UploadPicturesBody),
     });
 
     const files = watch("files");

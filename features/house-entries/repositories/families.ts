@@ -1,7 +1,7 @@
-import type { EnterFamily } from "@/routes/endpoints/families/enter/schema";
+import type { EnterFamilyBody } from "@/routes/endpoints/families/enter/schema";
 import { http } from "@/services/http";
 
-export const enter = async (body: EnterFamily) => {
+export const enter = async (body: EnterFamilyBody) => {
   const response = await http.families.enter.$post({
     json: body,
   });

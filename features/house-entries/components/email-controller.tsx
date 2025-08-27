@@ -6,7 +6,7 @@ import { memo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/elements/text-field";
 import { AsyncButton } from "@/components/elements/trigger";
-import { EnterFamily } from "@/routes/endpoints/families/enter/schema";
+import { EnterFamilyBody } from "@/routes/endpoints/families/enter/schema";
 import repositories from "../repositories";
 
 export const EmailController = memo(() => {
@@ -16,11 +16,11 @@ export const EmailController = memo(() => {
     formState: { errors },
     setError,
     handleSubmit,
-  } = useForm<EnterFamily>({
+  } = useForm<EnterFamilyBody>({
     defaultValues: {
       email: "",
     },
-    resolver: zodResolver(EnterFamily),
+    resolver: zodResolver(EnterFamilyBody),
   });
 
   const submit = handleSubmit(async (data) => {

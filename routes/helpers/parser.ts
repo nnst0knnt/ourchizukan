@@ -4,7 +4,7 @@ import type { z } from "zod";
 export const toBody = async <Schema extends z.ZodType>(
   context: Context,
   schema: Schema,
-): Promise<z.infer<Schema> | null> => {
+) => {
   const body: Record<string, any> = {};
 
   for (const [key, value] of Object.entries(

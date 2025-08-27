@@ -5,12 +5,12 @@ import { ObjectKey } from "@/models";
 import { validator } from "@/routes/middlewares";
 import { uuid } from "@/services/uuid";
 import { factory, toBody } from "../../../helpers";
-import { UploadPicture } from "./schema";
+import { UploadPicturesBody } from "./schema";
 
 export const upload = factory.createHandlers(
-  validator.form(UploadPicture),
+  validator.form(UploadPicturesBody),
   async (context) => {
-    const body = (await toBody(context, UploadPicture))!;
+    const body = (await toBody(context, UploadPicturesBody))!;
 
     if (!body) {
       return context.json(

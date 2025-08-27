@@ -2,10 +2,10 @@ import { StatusCodes } from "http-status-codes";
 import { AccessMethod, AttemptKind } from "@/models";
 import { validator } from "@/routes/middlewares";
 import { factory } from "../../../helpers";
-import { EnterFamily } from "./schema";
+import { EnterFamilyBody } from "./schema";
 
 export const enter = factory.createHandlers(
-  validator.json(EnterFamily),
+  validator.json(EnterFamilyBody),
   async (context) => {
     const body = context.req.valid("json");
 

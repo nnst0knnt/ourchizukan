@@ -1,13 +1,10 @@
 import type { ListPicturesQueryParameter } from "@/routes/endpoints/pictures/list/schema";
-import type { UploadPicture } from "@/routes/endpoints/pictures/upload/schema";
+import type { UploadPicturesBody } from "@/routes/endpoints/pictures/upload/schema";
 import { date } from "@/services/date";
 import { env } from "@/services/env";
 import { http } from "@/services/http";
-import type { PictureCard } from "../models/picture";
 
-export const list = async (
-  queries: ListPicturesQueryParameter,
-): Promise<PictureCard[]> => {
+export const list = async (queries: ListPicturesQueryParameter) => {
   const response = await http.pictures.$get({
     query: queries,
   });
@@ -20,7 +17,7 @@ export const list = async (
   }));
 };
 
-export const upload = async (body: UploadPicture) => {
+export const upload = async (body: UploadPicturesBody) => {
   const response = await http.pictures.$post({
     form: body,
   });

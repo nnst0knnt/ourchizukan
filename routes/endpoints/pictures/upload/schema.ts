@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const UploadPicture = z.object({
+export const UploadPicturesBody = z.object({
   albumId: z.string().nullable(),
   files: z
     .array(z.instanceof(File))
@@ -11,4 +11,4 @@ export const UploadPicture = z.object({
     ),
 });
 
-export type UploadPicture = z.infer<typeof UploadPicture>;
+export type UploadPicturesBody = z.infer<typeof UploadPicturesBody>;

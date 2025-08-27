@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const EnterFamily = z.object({
+export const EnterFamilyBody = z.object({
   email: z.email("メールアドレスの形式が正しくないようです"),
 });
 
-export type EnterFamily = z.infer<typeof EnterFamily>;
+export type EnterFamilyBody = z.infer<typeof EnterFamilyBody>;

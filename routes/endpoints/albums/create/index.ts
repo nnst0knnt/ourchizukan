@@ -3,10 +3,10 @@ import { albums } from "@/database/schema";
 import { validator } from "@/routes/middlewares";
 import { uuid } from "@/services/uuid";
 import { factory } from "../../../helpers";
-import { CreateAlbum } from "./schema";
+import { CreateAlbumBody } from "./schema";
 
 export const create = factory.createHandlers(
-  validator.json(CreateAlbum),
+  validator.json(CreateAlbumBody),
   async (context) => {
     const body = context.req.valid("json");
     const id = uuid();

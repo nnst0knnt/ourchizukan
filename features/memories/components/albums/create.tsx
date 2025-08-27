@@ -8,7 +8,7 @@ import { AsyncButton } from "@/components/elements/trigger";
 import { Description, Title } from "@/components/elements/typography";
 import { Footer } from "@/components/structures";
 import { useNoPullToRefresh } from "@/hooks";
-import { CreateAlbum } from "@/routes/endpoints/albums/create/schema";
+import { CreateAlbumBody } from "@/routes/endpoints/albums/create/schema";
 import repositories from "../../repositories";
 
 type CreateProps = {
@@ -24,11 +24,11 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
     formState: { errors },
     setError,
     handleSubmit,
-  } = useForm<CreateAlbum>({
+  } = useForm<CreateAlbumBody>({
     defaultValues: {
       title: "",
     },
-    resolver: zodResolver(CreateAlbum),
+    resolver: zodResolver(CreateAlbumBody),
   });
 
   const submit = handleSubmit(async (data) => {

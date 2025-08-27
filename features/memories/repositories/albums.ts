@@ -1,11 +1,10 @@
-import type { CreateAlbum } from "@/routes/endpoints/albums/create/schema";
+import type { CreateAlbumBody } from "@/routes/endpoints/albums/create/schema";
 import type { GetAlbumPathParameter } from "@/routes/endpoints/albums/get/schema";
 import { date } from "@/services/date";
 import { env } from "@/services/env";
 import { http } from "@/services/http";
-import type { AlbumCard, AlbumDescription } from "../models/album";
 
-export const list = async (): Promise<AlbumCard[]> => {
+export const list = async () => {
   const response = await http.albums.$get();
 
   return (await response.json()).map((album) => ({
@@ -19,9 +18,7 @@ export const list = async (): Promise<AlbumCard[]> => {
   }));
 };
 
-export const get = async (
-  path: GetAlbumPathParameter,
-): Promise<AlbumDescription> => {
+export const get = async (path: GetAlbumPathParameter) => {
   const response = await http.albums[":id"].$get({
     param: { id: path.id },
   });
@@ -41,7 +38,7 @@ export const get = async (
   };
 };
 
-export const create = async (body: CreateAlbum): Promise<AlbumDescription> => {
+export const create = async (body: CreateAlbumBody) => {
   const response = await http.albums.$post({
     json: body,
   });

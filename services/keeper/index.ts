@@ -19,7 +19,7 @@ const session = (kv: KeyValueStorage) => {
 
   const generateKey = (ip: string) => `${prefix}:${ip}`;
 
-  const get = async (ip: string): Promise<Session | null> => {
+  const get = async (ip: string) => {
     try {
       const found = await kv.get(generateKey(ip));
 
@@ -31,10 +31,7 @@ const session = (kv: KeyValueStorage) => {
     }
   };
 
-  const create = async (
-    ip: string,
-    method: AccessMethod,
-  ): Promise<Session | null> => {
+  const create = async (ip: string, method: AccessMethod) => {
     const now = date().unix();
     const created: Session = {
       id: uuid(),
@@ -59,7 +56,7 @@ const session = (kv: KeyValueStorage) => {
     }
   };
 
-  const remove = async (ip: string): Promise<boolean> => {
+  const remove = async (ip: string) => {
     try {
       return await kv.delete(generateKey(ip));
     } catch (e) {
@@ -69,8 +66,7 @@ const session = (kv: KeyValueStorage) => {
     }
   };
 
-  const expired = (session: Session): boolean =>
-    session.expiredAt < date().unix();
+  const expired = (session: Session) => session.expiredAt < date().unix();
 
   return {
     get,
@@ -88,7 +84,7 @@ const whitelist = (kv: KeyValueStorage) => {
 
   const generateKey = (kind: "ips" | "emails") => `${prefix}:${kind}`;
 
-  const ip = async (ip: string): Promise<boolean> => {
+  const ip = async (ip: string) => {
     try {
       const found = await kv.get(generateKey("ips"));
 
@@ -104,7 +100,7 @@ const whitelist = (kv: KeyValueStorage) => {
     }
   };
 
-  const email = async (email: string): Promise<boolean> => {
+  const email = async (email: string) => {
     try {
       const found = await kv.get(generateKey("emails"));
 
@@ -134,7 +130,7 @@ const attempts = (kv: KeyValueStorage) => {
 
   const generateKey = (ip: string) => `${prefix}:${ip}`;
 
-  const add = async (ip: string, kind: AttemptKind): Promise<void> => {
+  const add = async (ip: string, kind: AttemptKind) => {
     try {
       const key = generateKey(ip);
       const now = date().unix();
@@ -156,7 +152,7 @@ const attempts = (kv: KeyValueStorage) => {
     }
   };
 
-  const verify = async (ip: string): Promise<boolean> => {
+  const verify = async (ip: string) => {
     try {
       const key = generateKey(ip);
       const found = await kv.get(key);
