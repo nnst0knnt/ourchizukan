@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
-import { Footer, Header, Outlet } from "@/components/structures";
+import { Footer, Header, Outlet, Unsupported } from "@/components/structures";
 import { MemberProvider, TransitionProgress } from "@/components/tools";
 
 export const metadata: Metadata = {
@@ -51,6 +51,7 @@ export default function Layout({
         <script src="/scripts/sync-status-bar.js" />
       </head>
       <body className="flex h-full flex-col bg-foundation text-primary antialiased">
+        <Unsupported />
         <MemberProvider>
           {(member) => (
             <>
