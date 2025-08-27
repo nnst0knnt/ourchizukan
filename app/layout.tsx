@@ -20,6 +20,12 @@ export const metadata: Metadata = {
     email: true,
     address: true,
   },
+  robots: {
+    index: false,
+    googleBot: {
+      index: false,
+    },
+  },
 };
 
 export const viewport: Viewport = {
