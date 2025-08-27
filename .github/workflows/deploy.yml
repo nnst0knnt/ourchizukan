@@ -34,7 +34,18 @@ jobs:
 
       - run: npm run ci
 
-      - run: npm run deploy:dry-run
+      - run: |
+          set -e
+          npm run deploy:dry-run > bundled.log 2>&1
+          size=$(grep -oP 'gzip: \K[0-9.]+' bundled.log || echo "0")
+          rm bundled.log
+
+          echo "📦 ${size}KiB"
+
+          if (( $(awk "BEGIN {print ($size > 3000)}") )); then
+            echo "🚨 ${size}KiB > 3000KiB"
+            exit 1
+          fi
 
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
