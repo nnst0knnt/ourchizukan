@@ -61,15 +61,17 @@ export const Album = ({ id }: Props) => {
             onRefresh={refresh}
           />
           {loading && (
-            <LoaderCircle className="h-12 w-12 animate-spin self-center" />
+            <div className="flex items-center justify-center">
+              <LoaderCircle className="h-12 w-12 animate-spin" />
+            </div>
           )}
           <div ref={trigger} className="h-4" />
         </div>
       </Container>
     </PullToRefresh>
   ) : (
-    <Container>
-      <LoaderCircle className="h-12 w-12 animate-spin self-center" />
-    </Container>
+    <div className="flex items-center justify-center">
+      <LoaderCircle className="h-12 w-12 animate-spin" />
+    </div>
   );
 };

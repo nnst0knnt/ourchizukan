@@ -42,7 +42,9 @@ export const Albums = () => {
           onRefresh={refresh}
         />
         {loading && (
-          <LoaderCircle className="h-12 w-12 animate-spin self-center" />
+          <div className="flex items-center justify-center">
+            <LoaderCircle className="h-12 w-12 animate-spin" />
+          </div>
         )}
         <div ref={trigger} className="h-4" />
       </Container>
