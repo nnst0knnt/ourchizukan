@@ -1,11 +1,11 @@
 type KeysOfUnion<T> = T extends unknown ? keyof T : never;
 
-export function has<T, K extends KeysOfUnion<NonNullable<T>>>(
+export const has = <T, K extends KeysOfUnion<NonNullable<T>>>(
   object: T,
   property: K,
 ): object is NonNullable<T> & {
   [P in K]-?: NonNullable<NonNullable<T>[P & keyof NonNullable<T>]>;
-} {
+} => {
   if (object === undefined || object === null) {
     return false;
   }
@@ -17,4 +17,4 @@ export function has<T, K extends KeysOfUnion<NonNullable<T>>>(
     nonNullableObject[property as keyof NonNullable<T>] !== undefined &&
     nonNullableObject[property as keyof NonNullable<T>] !== null
   );
-}
+};
