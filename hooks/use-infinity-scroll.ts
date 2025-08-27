@@ -28,7 +28,7 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
     try {
       const fetched = await fetch(offset.current, limit);
 
-      if (fetched.length < limit) {
+      if (fetched.length === 0) {
         setMore(false);
       }
 
@@ -58,6 +58,7 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
     setData([]);
     setMore(true);
     offset.current = 0;
+    setLoading(true);
 
     setTimeout(() => {
       setRefreshing(false);
@@ -67,15 +68,18 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
 
   useEffect(() => {
     const element = trigger.current;
-    if (!element) return;
+    if (!element || !more) return;
 
     observer.current = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && more && !loading && !refreshing) {
+        if (entries[0].isIntersecting && !loading && !refreshing) {
           load();
         }
       },
-      { threshold: 0.1 },
+      {
+        threshold: 0,
+        rootMargin: "200px",
+      },
     );
 
     observer.current.observe(element);

@@ -46,7 +46,7 @@ export const Albums = () => {
             <LoaderCircle className="h-12 w-12 animate-spin" />
           </div>
         )}
-        <div ref={trigger} className="h-4" />
+        <div ref={trigger} className="h-px" />
       </Container>
     </PullToRefresh>
   );

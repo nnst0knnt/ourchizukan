@@ -1,7 +1,7 @@
 "use client";
 
 import { ImageOff, Upload as UploadIcon } from "lucide-react";
-import { memo, useCallback, useMemo, useState } from "react";
+import { Fragment, memo, useCallback, useMemo, useState } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered, Footer } from "@/components/structures";
 import { usePullToRefresh, useScrollToTop } from "@/hooks";
@@ -34,11 +34,6 @@ export const Cards = memo<CardsProps>(
 
     const hasPrevious = useMemo(
       () => data && selected !== null && selected > 0,
-      [data, selected],
-    );
-
-    const viewed = useMemo(
-      () => (data && selected !== null ? data[selected] : null),
       [data, selected],
     );
 
@@ -78,11 +73,16 @@ export const Cards = memo<CardsProps>(
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {data.length > 0
               ? data.map((datum, index) => (
-                  <Card
-                    key={datum.id}
-                    datum={datum}
-                    onClick={() => select(index)}
-                  />
+                  <Fragment key={datum.id}>
+                    <Card datum={datum} onClick={() => select(index)} />
+                    <Viewer
+                      invisible={selected !== index}
+                      datum={datum}
+                      onClose={reset}
+                      onNext={hasNext ? next : undefined}
+                      onPrevious={hasPrevious ? previous : undefined}
+                    />
+                  </Fragment>
                 ))
               : !loading && (
                   <div
@@ -95,16 +95,6 @@ export const Cards = memo<CardsProps>(
                   </div>
                 )}
           </div>
-
-          {viewed && (
-            <Viewer
-              invisible={false}
-              datum={viewed}
-              onClose={reset}
-              onNext={hasNext ? next : undefined}
-              onPrevious={hasPrevious ? previous : undefined}
-            />
-          )}
           <Footer to="/albums" fixed />
         </div>
 
