@@ -88,7 +88,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
     },
     ref,
   ) => {
-    const [selectedValue, setSelectedValue] = useState<string>(value);
+    const [selected, setSelected] = useState<string>(value);
 
     const defaultId = useId();
 
@@ -136,7 +136,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
           onChange(radio.value);
         }
 
-        setSelectedValue(radio.value);
+        setSelected(radio.value);
       },
       [onChange],
     );
@@ -172,7 +172,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 
         <RadioGroupState.Provider
           value={{
-            value: selectedValue,
+            value: selected,
             size,
           }}
         >

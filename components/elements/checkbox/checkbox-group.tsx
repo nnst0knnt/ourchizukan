@@ -91,7 +91,7 @@ export const CheckboxGroup = forwardRef<
     },
     ref,
   ) => {
-    const [checkedValues, setCheckedValues] = useState<string[]>(
+    const [selected, setSelected] = useState<string[]>(
       Array.isArray(value) ? value : [value],
     );
 
@@ -133,7 +133,7 @@ export const CheckboxGroup = forwardRef<
 
     const change = useCallback(
       (e: ChangeEvent<HTMLFieldSetElement>) => {
-        const checkedValues = Array.from(
+        const checked = Array.from(
           e.currentTarget.querySelectorAll("input:checked"),
         )
           .map((input) =>
@@ -142,10 +142,10 @@ export const CheckboxGroup = forwardRef<
           .filter((value) => value !== null);
 
         if (onChange) {
-          onChange(checkedValues);
+          onChange(checked);
         }
 
-        setCheckedValues(checkedValues);
+        setSelected(checked);
       },
       [onChange],
     );
@@ -178,7 +178,7 @@ export const CheckboxGroup = forwardRef<
 
         <CheckboxGroupState.Provider
           value={{
-            value: checkedValues,
+            value: selected,
             size,
           }}
         >
