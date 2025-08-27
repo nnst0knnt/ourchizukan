@@ -66,10 +66,10 @@ export const Footer = memo(() => {
                 kind="default"
                 underline={false}
                 className={cn(
-                  "flex min-h-14 min-w-14 select-none flex-col items-center justify-center p-3",
+                  "my-2 flex min-h-14 min-w-14 select-none flex-col items-center justify-center",
                   "md:flex-row md:gap-2 md:p-3",
                   isActive
-                    ? "text-brand hover:text-brand"
+                    ? "bg-brand text-foreground hover:text-foreground"
                     : "text-secondary hover:text-primary",
                 )}
                 mark={link.mark}

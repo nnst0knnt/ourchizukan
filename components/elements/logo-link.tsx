@@ -39,10 +39,7 @@ export const LogoLink = forwardRef<HTMLAnchorElement, LogoLinkProps>(
           kind="default"
           mark={Logo}
           size={size}
-          className={cn(
-            "flex flex-row items-center gap-2 text-brand hover:text-brand",
-            className,
-          )}
+          className={cn("flex flex-row items-center gap-2", className)}
           underline={false}
           aria-label="おうちずかんのトップページへ戻る"
           {...props}
