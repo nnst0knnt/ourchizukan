@@ -44,6 +44,7 @@ export const LogoLink = forwardRef<HTMLAnchorElement, LogoLinkProps>(
           className={cn("flex flex-row items-center gap-2", className)}
           underline={false}
           aria-label="おうちずかんのトップページへ戻る"
+          /** プリフェッチによって未認証時に / へ遷移できる状態を回避する */
           prefetch={false}
           {...props}
         >

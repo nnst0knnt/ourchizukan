@@ -11,7 +11,12 @@ export const config: Config = {
         "/((?!api|_next/static|_next/image|favicon*|icon.svg|manifest*|scripts).*)",
       missing: [
         { type: "header", key: "next-router-prefetch" },
-        { type: "header", key: "purpose", value: "prefetch" },
+        /**
+         * { type: "header", key: "purpose", value: "prefetch" },
+         *
+         * @see https://developer.chrome.com/docs/web-platform/prerender-pages?hl=ja
+         * @see https://lionralfs.dev/blog/exploring-the-usage-of-prefetch-headers
+         */
       ],
     },
   ],
@@ -34,11 +39,11 @@ export const middleware = bind(
               redirect: redirect.authenticated,
             },
           },
-        }),
-      ),
+        })
+      )
     )
     .all("*", () => NextResponse.next())
     .onError((_, context) =>
-      NextResponse.rewrite(url(context, redirect.unexpected)),
-    ),
+      NextResponse.rewrite(url(context, redirect.unexpected))
+    )
 );
