@@ -63,7 +63,7 @@ export const Viewer = memo<ViewerProps>(
 
               <div
                 className={cn(
-                  "-translate-y-1/2 absolute mx-auto flex w-full max-w-7xl items-center justify-between px-4 md:px-6 lg:px-8",
+                  "-translate-y-1/2 absolute mx-auto flex w-full items-center justify-between px-4 md:px-6 lg:px-8",
                   "top-auto bottom-[-0.5rem]",
                   "md:top-1/2 md:bottom-auto",
                 )}
