@@ -30,12 +30,12 @@ const links: NavigationLink[] = [
   },
   {
     name: "写真",
-    href: "/photos",
+    href: "/pictures",
     icon: Image,
   },
   {
     name: "動画",
-    href: "/videos",
+    href: "/movies",
     icon: Film,
   },
 ];
