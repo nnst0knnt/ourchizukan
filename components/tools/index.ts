@@ -1,3 +1,3 @@
 export * from "./accessibility";
-export * from "./progress";
+export * from "./feedback";
 export * from "./provider";
