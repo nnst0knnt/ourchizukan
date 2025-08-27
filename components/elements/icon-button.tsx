@@ -34,7 +34,7 @@ export type IconButtonProps = {
  * IconButton
  *
  * アイコンのみを表示するコンパクトなボタンです。
- * 高齢者にも認識しやすいサイズとツールチップによる説明をサポートしています。
+ * 認識しやすいサイズとツールチップによる説明をサポートしています。
  * トグル機能も備えており、選択状態を視覚的に表示できます。
  */
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -99,6 +99,14 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       large: "px-3.5 py-2 text-md",
     };
 
+    const classNames = cn(
+      baseStyles,
+      kindStyles[kind],
+      sizeStyles[size],
+      disabled ? "opacity-60 cursor-not-allowed" : "",
+      className,
+    );
+
     return (
       <div className="relative inline-block">
         <button
@@ -107,13 +115,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           disabled={disabled}
           aria-label={ariaLabel}
           aria-pressed={filled}
-          className={cn(
-            baseStyles,
-            kindStyles[kind],
-            sizeStyles[size],
-            disabled ? "opacity-60 cursor-not-allowed" : "",
-            className,
-          )}
+          className={classNames}
           onMouseEnter={() => tooltip && setEnabledTooltip(true)}
           onMouseLeave={() => tooltip && setEnabledTooltip(false)}
           onFocus={() => tooltip && setEnabledTooltip(true)}

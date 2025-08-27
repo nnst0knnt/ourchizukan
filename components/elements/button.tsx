@@ -50,7 +50,8 @@ export type ButtonProps = {
 /**
  * Button
  *
- * 高齢者にも使いやすいよう、十分なタッチ領域とコントラストを確保しています。
+ * アイコン付きサポートのシンプルなボタンです。
+ * 状態によってアイコンが切り替わり、視覚的に進捗を表示します。
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -89,6 +90,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       large: "py-3 px-6 text-lg min-h-14",
     };
 
+    const iconSizes = {
+      default: 20,
+      large: 24,
+    };
+
     const statusStyles = {
       idle: "",
       loading: "cursor-wait",
@@ -97,30 +103,34 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       error: "bg-error text-foreground hover:bg-error/90 active:bg-error/80",
     };
 
-    const iconSize = size === "large" ? 24 : 20;
-
     const statusIcons = {
       loading: (
-        <Loader2 className="animate-spin" size={iconSize} strokeWidth={3.5} />
+        <Loader2
+          className="animate-spin"
+          size={iconSizes[size]}
+          strokeWidth={3.5}
+        />
       ),
-      success: <CheckCircle2 size={iconSize} strokeWidth={3.5} />,
-      error: <XCircle size={iconSize} strokeWidth={3.5} />,
+      success: <CheckCircle2 size={iconSizes[size]} strokeWidth={3.5} />,
+      error: <XCircle size={iconSizes[size]} strokeWidth={3.5} />,
     };
+
+    const classNames = cn(
+      baseStyles,
+      kindStyles[kind],
+      sizeStyles[size],
+      statusStyles[status],
+      fullWidth ? "w-full" : "",
+      isDisabled ? "opacity-60 cursor-not-allowed" : "",
+      className,
+    );
 
     return (
       <button
         ref={ref}
         type={type}
         disabled={isDisabled}
-        className={cn(
-          baseStyles,
-          kindStyles[kind],
-          sizeStyles[size],
-          statusStyles[status],
-          fullWidth ? "w-full" : "",
-          isDisabled ? "opacity-60 cursor-not-allowed" : "",
-          className,
-        )}
+        className={classNames}
         {...props}
       >
         <div
@@ -130,13 +140,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           )}
         >
           {Icon && iconPosition === "left" && (
-            <Icon size={iconSize} aria-hidden="true" />
+            <Icon size={iconSizes[size]} aria-hidden="true" />
           )}
 
           <span>{children}</span>
 
           {Icon && iconPosition === "right" && (
-            <Icon size={iconSize} aria-hidden="true" />
+            <Icon size={iconSizes[size]} aria-hidden="true" />
           )}
         </div>
 
