@@ -1,7 +1,7 @@
 export type AlbumCard = {
   id: string;
   name: string;
-  thumbnail: string;
+  thumbnailUrl: string;
   count: number;
   updatedAt: string;
 };

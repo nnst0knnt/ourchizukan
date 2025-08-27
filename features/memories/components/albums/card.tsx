@@ -50,7 +50,7 @@ export const Card = memo<CardProps>(({ datum = null }) => {
         <div className="relative z-content">
           <div className="relative aspect-square">
             <Image
-              src={datum.thumbnail}
+              src={datum.thumbnailUrl}
               alt={datum.name || "アルバム"}
               fill
               sizes="(max-width: 768px) 50vw, 33vw"

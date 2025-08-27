@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "@/errors";
+import { ObjectKey } from "@/models";
 import type { CreateAlbumBody } from "@/routes/endpoints/albums/create/schema";
 import type { GetAlbumPathParameter } from "@/routes/endpoints/albums/get/schema";
 import type { ListAlbumsQueryParameter } from "@/routes/endpoints/albums/list/schema";
@@ -29,9 +30,7 @@ export const list = async ({
   return (await response.json()).map((album) => ({
     id: album.id,
     name: album.title,
-    thumbnail: album.thumbnailKey
-      ? `${env.APP_URL}/api/pictures/${album.thumbnailKey.split("/").pop()}`
-      : "",
+    thumbnailUrl: `${env.APP_URL}/api/pictures/${album.thumbnailKey}?kind=${ObjectKey.Picture.thumbnail}`,
     count: album.count,
     updatedAt: date(album.updatedAt).format("YYYY-MM-DD"),
   }));
