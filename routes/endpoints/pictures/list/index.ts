@@ -3,10 +3,10 @@ import { StatusCodes } from "http-status-codes";
 import { pictures } from "@/database/schema";
 import { validator } from "@/routes/middlewares";
 import { factory } from "../../../helpers";
-import { ListPictureQueryParameter } from "./schema";
+import { ListPicturesQueryParameter } from "./schema";
 
 export const list = factory.createHandlers(
-  validator.query(ListPictureQueryParameter),
+  validator.query(ListPicturesQueryParameter),
   async (context) => {
     const { albumId } = context.req.valid("query");
 

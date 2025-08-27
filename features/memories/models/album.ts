@@ -6,10 +6,8 @@ export type AlbumCard = {
   updatedAt: string;
 };
 
-export type PictureCard = {
+export type AlbumDescription = {
   id: string;
-  albumId: string;
-  url: string;
-  name: string;
-  takenAt: string;
+  title: string;
+  createdAt: string;
 };

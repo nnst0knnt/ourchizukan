@@ -1,7 +1,7 @@
 import { validate as isUUID } from "uuid";
 import { z } from "zod";
 
-export const ListPictureQueryParameter = z.object({
+export const ListPicturesQueryParameter = z.object({
   albumId: z
     .string()
     .optional()
@@ -10,6 +10,6 @@ export const ListPictureQueryParameter = z.object({
     }),
 });
 
-export type ListPictureQueryParameter = z.infer<
-  typeof ListPictureQueryParameter
+export type ListPicturesQueryParameter = z.infer<
+  typeof ListPicturesQueryParameter
 >;
