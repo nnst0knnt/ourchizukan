@@ -21,7 +21,7 @@ export const Footer = memo<FooterProps>(async ({ member }) => (
   <footer className="w-full border-outline border-t bg-foundation shadow-sm">
     <div className="mx-auto flex w-full max-w-7xl flex-row items-center justify-center px-4 md:px-6 lg:px-8">
       <Links
-        disabled={!member}
+        prefetch={!!member}
         className="flex w-full justify-around pt-1 md:max-w-md md:justify-between"
       />
     </div>

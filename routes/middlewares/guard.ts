@@ -57,15 +57,6 @@ export const guard = (_options: GuardOptions) =>
     }
 
     /**
-     * 未認証用のルートにアクセスした場合
-     */
-    if (!session && options.guests.includes(context.req.path)) {
-      await next();
-
-      return;
-    }
-
-    /**
      * 有効期限内のセッションが存在する場合
      */
     if (session) {
@@ -80,6 +71,15 @@ export const guard = (_options: GuardOptions) =>
       await context.var.keeper.session.create(context.var.ip, AccessMethod.Ip);
 
       return authenticated(context, options, next);
+    }
+
+    /**
+     * 未認証用のルートにアクセスした場合
+     */
+    if (!session && options.guests.includes(context.req.path)) {
+      await next();
+
+      return;
     }
 
     /**

@@ -2,16 +2,8 @@ import { memo } from "react";
 
 import { cn } from "@/styles/functions";
 
-import type { Member } from "@/models";
 import { LogoLink } from "../../elements/anchor";
 import { AccessibilityControls } from "../../tools";
-
-/**
- * HeaderProps
- */
-type HeaderProps = {
-  member: Member;
-};
 
 /**
  * Header
@@ -19,7 +11,7 @@ type HeaderProps = {
  * アプリケーション全体のヘッダーです。
  * アプリケーションの最上部に常時表示され、ロゴとアクセシビリティ設定を提供します。
  */
-export const Header = memo<HeaderProps>(({ member }) => (
+export const Header = memo(() => (
   <header className="w-full border-outline border-b bg-foundation shadow-sm">
     <div
       className={cn(
@@ -27,7 +19,7 @@ export const Header = memo<HeaderProps>(({ member }) => (
         "px-4 md:px-6 lg:px-8",
       )}
     >
-      <LogoLink size="large" className="py-2" disabled={!member} />
+      <LogoLink size="large" className="py-2" />
       <AccessibilityControls className="py-2" />
     </div>
   </header>

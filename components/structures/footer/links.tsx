@@ -30,8 +30,8 @@ const links: {
  * LinksProps
  */
 type LinksProps = {
-  /** 無効状態かどうか */
-  disabled?: boolean;
+  /** プリフェッチするかどうか */
+  prefetch?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 /**
@@ -39,7 +39,7 @@ type LinksProps = {
  *
  * ナビゲーションリンクを提供します。
  */
-export const Links = memo<LinksProps>(({ disabled = false, ...props }) => {
+export const Links = memo<LinksProps>(({ prefetch = false, ...props }) => {
   const pathname = usePathname();
 
   return (
@@ -60,12 +60,11 @@ export const Links = memo<LinksProps>(({ disabled = false, ...props }) => {
               isActive
                 ? "bg-brand text-foreground hover:text-foreground"
                 : "text-secondary hover:text-primary",
-              disabled && "disabled pointer-events-none",
             )}
             mark={link.mark}
             markPosition="left"
             aria-current={isActive ? "page" : undefined}
-            prefetch={!disabled}
+            prefetch={prefetch}
           >
             <span className="flex flex-col font-medium text-sm md:text-base">
               {link.name}

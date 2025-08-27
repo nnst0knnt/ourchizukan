@@ -60,7 +60,7 @@ export default function Layout({
           {(member) => (
             <>
               <TransitionProgress />
-              <Header member={member} />
+              <Header />
               <Content>{children}</Content>
               <Footer member={member} />
             </>
