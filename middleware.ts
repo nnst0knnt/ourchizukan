@@ -39,11 +39,11 @@ export const middleware = bind(
               redirect: redirect.authenticated,
             },
           },
-        })
-      )
+        }),
+      ),
     )
     .all("*", () => NextResponse.next())
     .onError((_, context) =>
-      NextResponse.rewrite(url(context, redirect.unexpected))
-    )
+      NextResponse.rewrite(url(context, redirect.unexpected)),
+    ),
 );

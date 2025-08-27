@@ -35,14 +35,14 @@ const session = (kv: KeyValueStorage) => {
       method,
       ip,
       createdAt: now,
-      expiredAt: now + SessionOptions.Lifetime,
+      expiredAt: now + SessionOptions.LifetimeMilliseconds,
     };
 
     try {
       await kv.set(
         generateKey(ip),
         JSON.stringify(created),
-        SessionOptions.Lifetime,
+        SessionOptions.LifetimeMilliseconds,
       );
 
       return created;
@@ -129,14 +129,14 @@ const attempts = (kv: KeyValueStorage) => {
 
       let attempts: Attempt[] = found ? JSON.parse(found) : [];
       attempts = attempts.filter(
-        ({ at }) => now - at < RateLimitOptions.CountingPeriod,
+        ({ at }) => now - at < RateLimitOptions.CountingPeriodMilliseconds,
       );
       attempts.push({ ip, kind, at: now });
 
       await kv.set(
         key,
         JSON.stringify(attempts),
-        RateLimitOptions.LockoutDuration,
+        RateLimitOptions.LockoutDurationSeconds,
       );
     } catch (e) {
       console.error("🔥 試行回数の追加に失敗しました", e);
@@ -151,7 +151,8 @@ const attempts = (kv: KeyValueStorage) => {
       if (!found) return true;
 
       const attempts = (JSON.parse(found) as Attempt[]).filter(
-        ({ at }) => date().valueOf() - at < RateLimitOptions.CountingPeriod,
+        ({ at }) =>
+          date().valueOf() - at < RateLimitOptions.CountingPeriodMilliseconds,
       );
 
       return attempts.length < RateLimitOptions.MaxAttempts;

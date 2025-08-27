@@ -29,16 +29,14 @@ const Resistances = {
 
 enum Status {
   Idle = "idle",
-
   Refreshing = "refreshing",
-
   Refreshed = "refreshed",
 }
 
 type PullToRefreshProps = {
   threshold?: number;
   deadzone?: number;
-  holdTime?: number;
+  holdTimeMilliseconds?: number;
   selector?: string;
   onRefresh?: () => Promise<void> | void;
 } & HTMLAttributes<HTMLDivElement>;
@@ -48,7 +46,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
     {
       threshold = 50,
       deadzone = 5,
-      holdTime = 500,
+      holdTimeMilliseconds = 500,
       onRefresh,
       selector = "main",
       className,
@@ -68,7 +66,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
 
     const startY = useRef(0);
     const moveY = useRef(0);
-    const startMs = useRef(0);
+    const startMilliseconds = useRef(0);
 
     const refresh = useCallback(async () => {
       if (status !== Status.Idle) return;
@@ -99,7 +97,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
       setStatus(Status.Idle);
       startY.current = 0;
       moveY.current = 0;
-      startMs.current = 0;
+      startMilliseconds.current = 0;
     }, []);
 
     const start = useCallback(
@@ -112,7 +110,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
 
         if (element.scrollTop <= 0 && status === Status.Idle) {
           startY.current = e.touches[0].clientY;
-          startMs.current = date().valueOf();
+          startMilliseconds.current = date().valueOf();
         }
       },
       [status],
@@ -130,7 +128,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
           startY.current === 0 ||
           status !== Status.Idle ||
           element.scrollTop > 0 ||
-          date().valueOf() - startMs.current < holdTime
+          date().valueOf() - startMilliseconds.current < holdTimeMilliseconds
         )
           return;
 
@@ -157,13 +155,13 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
           e.preventDefault();
         }
       },
-      [status, holdTime, deadzone, threshold],
+      [status, holdTimeMilliseconds, deadzone, threshold],
     );
 
     const end = useCallback(() => {
       if (status !== Status.Idle) return;
 
-      if (date().valueOf() - startMs.current < holdTime) {
+      if (date().valueOf() - startMilliseconds.current < holdTimeMilliseconds) {
         reset();
         return;
       }
@@ -173,7 +171,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
       } else {
         reset();
       }
-    }, [distance, holdTime, refresh, reset, status, threshold]);
+    }, [distance, holdTimeMilliseconds, refresh, reset, status, threshold]);
 
     useEffect(() => {
       if (!enabled) return;

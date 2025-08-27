@@ -10,8 +10,8 @@ type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
   onSuccess?: () => void;
   onError?: (error: unknown) => void;
   autoReset?: boolean;
-  resetDelayMs?: number;
-  waitMs?: number;
+  resetDelayMilliseconds?: number;
+  waitMilliseconds?: number;
 };
 
 export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
@@ -21,8 +21,8 @@ export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
       onSuccess,
       onError,
       autoReset = true,
-      resetDelayMs = 3000,
-      waitMs = 1500,
+      resetDelayMilliseconds = 3000,
+      waitMilliseconds = 1500,
       children,
       ...props
     },
@@ -47,19 +47,19 @@ export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
 
         setStatus(ButtonStatus.Success);
 
-        timeout = await sleep(waitMs);
+        timeout = await sleep(waitMilliseconds);
 
         onSuccess?.();
       } catch (e) {
         setStatus(ButtonStatus.Error);
 
-        timeout = await sleep(waitMs);
+        timeout = await sleep(waitMilliseconds);
 
         onError?.(e);
       }
 
       if (autoReset) {
-        timeout = await sleep(resetDelayMs);
+        timeout = await sleep(resetDelayMilliseconds);
 
         setStatus(ButtonStatus.Idle);
 
