@@ -17,6 +17,11 @@ type IconButtonKind = "primary" | "secondary" | "ghost";
 type IconButtonSize = "small" | "default" | "large";
 
 /**
+ * ツールチップの表示位置
+ */
+type TooltipPosition = "top" | "right" | "bottom" | "left";
+
+/**
  * IconButtonのプロパティ
  */
 export type IconButtonProps = {
@@ -30,6 +35,8 @@ export type IconButtonProps = {
   filled?: boolean;
   /** ツールチップのテキスト */
   tooltip?: string;
+  /** ツールチップの表示位置 */
+  tooltipPosition?: TooltipPosition;
   /** アクセシビリティのためのラベル */
   "aria-label": string;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label">;
@@ -40,6 +47,7 @@ export type IconButtonProps = {
  * アイコンのみを表示するコンパクトなボタンです。
  * 認識しやすいサイズとツールチップによる説明をサポートしています。
  * トグル機能も備えており、選択状態を視覚的に表示できます。
+ * ツールチップの表示位置を上下左右に変更できます。
  */
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
@@ -49,6 +57,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       kind = "primary",
       filled = false,
       tooltip,
+      tooltipPosition = "top",
       className,
       disabled,
       "aria-label": ariaLabel,
@@ -103,6 +112,34 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       large: "px-3.5 py-2 text-md",
     };
 
+    const tooltipPositionStyles = {
+      top: "absolute bottom-full left-1/2 -translate-x-1/2 -translate-y-2",
+      right: "absolute top-1/2 left-full translate-x-2 -translate-y-1/2",
+      bottom: "absolute top-full left-1/2 -translate-x-1/2 translate-y-2",
+      left: "absolute top-1/2 right-full -translate-x-2 -translate-y-1/2",
+    };
+
+    const tooltipArrowPositionStyles = {
+      top: "absolute top-full left-1/2 -translate-x-1/2 -translate-y-px",
+      right: "absolute right-full top-1/2 translate-x-px -translate-y-1/2",
+      bottom: "absolute bottom-full left-1/2 -translate-x-1/2 translate-y-px",
+      left: "absolute left-full top-1/2 -translate-x-px -translate-y-1/2",
+    };
+
+    const tooltipArrowDirectionStyles = {
+      top: tooltipArrowStyles[kind],
+      right: tooltipArrowStyles[kind].replace("border-t-", "border-r-"),
+      bottom: tooltipArrowStyles[kind].replace("border-t-", "border-b-"),
+      left: tooltipArrowStyles[kind].replace("border-t-", "border-l-"),
+    };
+
+    const tooltipArrowBorderStyles = {
+      top: "border-8 border-transparent",
+      right: "border-8 border-transparent",
+      bottom: "border-8 border-transparent",
+      left: "border-8 border-transparent",
+    };
+
     const classNames = cn(
       baseStyles,
       kindStyles[kind],
@@ -131,9 +168,10 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           {tooltip && (
             <div
               className={cn(
-                "-translate-x-1/2 -translate-y-2 absolute bottom-full left-1/2 z-50 flex transform items-center whitespace-nowrap rounded shadow-md transition-opacity duration-200",
+                "z-50 flex transform items-center whitespace-nowrap rounded shadow-md transition-opacity duration-200",
                 tooltipStyles[kind],
                 tooltipSizeStyles[size],
+                tooltipPositionStyles[tooltipPosition],
                 enabledTooltip
                   ? "opacity-100"
                   : "pointer-events-none opacity-0",
@@ -141,11 +179,16 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
               aria-hidden={!enabledTooltip}
             >
               <span>{tooltip}</span>
-              <div className="-translate-x-1/2 -translate-y-px absolute top-full left-1/2 transform">
+              <div
+                className={cn(
+                  tooltipArrowPositionStyles[tooltipPosition],
+                  "transform",
+                )}
+              >
                 <div
                   className={cn(
-                    "border-8 border-transparent",
-                    tooltipArrowStyles[kind],
+                    tooltipArrowBorderStyles[tooltipPosition],
+                    tooltipArrowDirectionStyles[tooltipPosition],
                   )}
                 />
               </div>

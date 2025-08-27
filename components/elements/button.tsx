@@ -17,7 +17,7 @@ type ButtonKind = "primary" | "secondary";
 type ButtonSize = "default" | "large";
 
 /**
- * ボタンのアイコンの位置
+ * ボタンのアイコンの表示位置
  */
 type ButtonIconPosition = "left" | "right";
 
@@ -42,7 +42,7 @@ export type ButtonProps = {
   size?: ButtonSize;
   /** 表示するアイコン */
   icon?: LucideIcon;
-  /** アイコンの位置 */
+  /** アイコンの表示位置 */
   iconPosition?: ButtonIconPosition;
   /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;

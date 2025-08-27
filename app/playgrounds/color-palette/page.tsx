@@ -140,8 +140,6 @@ export default function ColorPalette() {
   const theme = useTheme();
   const contrast = useContrast();
 
-  if (!theme.value || !contrast.value) return null;
-
   return (
     <div className="flex flex-col gap-6 md:gap-8">
       <div className="flex flex-col gap-6 md:gap-8">

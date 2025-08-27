@@ -1,12 +1,15 @@
-import { type AnchorHTMLAttributes, forwardRef } from "react";
+import {
+  type AnchorHTMLAttributes,
+  type ForwardRefExoticComponent,
+  type RefAttributes,
+  forwardRef,
+} from "react";
 
 import NextLink from "next/link";
 
 import { ExternalLink } from "lucide-react";
 
 import { cn } from "@/styles/functions";
-
-import type { LucideIcon } from "lucide-react";
 
 /**
  * リンクの種類
@@ -19,7 +22,7 @@ type LinkKind = "default" | "button" | "ghost";
 type LinkSize = "small" | "default" | "large";
 
 /**
- * アイコンの位置
+ * アイコンの表示位置
  */
 type IconPosition = "left" | "right";
 
@@ -50,8 +53,10 @@ export type LinkProps = {
   /** リンクのサイズ */
   size?: LinkSize;
   /** 表示するアイコン */
-  icon?: LucideIcon;
-  /** アイコンの位置 */
+  icon?: ForwardRefExoticComponent<
+    { size: number } & RefAttributes<SVGSVGElement>
+  >;
+  /** アイコンの表示位置 */
   iconPosition?: IconPosition;
   /** 下線を表示するかどうか */
   underline?: boolean;
