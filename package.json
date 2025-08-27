@@ -12,7 +12,7 @@
     "package:deps": "ncu",
     "package:update": "ncu -i",
     "package:update:force": "ncu -u",
-    "cloudflare:env": "wrangler types --env-interface CloudflareEnv env.d.ts",
+    "cloudflare:env": "wrangler types",
     "dev": "next dev --turbopack",
     "build": "run-s build:scripts build:sources",
     "start": "next start",
@@ -44,7 +44,6 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@cloudflare/next-on-pages": "^1.13.12",
-    "@cloudflare/workers-types": "^4.20250413.0",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^22",

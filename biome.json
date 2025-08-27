@@ -12,8 +12,8 @@
       ".next/**/*",
       ".vercel/**/*",
       ".wrangler/**/*",
-      "env.d.ts",
-      "public/**/*"
+      "public/**/*",
+      "**/*.d.ts"
     ]
   },
   "organizeImports": {

@@ -1,40 +1,40 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid } from "uuid";
 
-import { type AccessMethod, type Session, SessionOptions } from "@/models";
+import {
+  type AccessMethod,
+  type Attempt,
+  type AttemptKind,
+  RateLimitOptions,
+  type Session,
+  SessionOptions,
+} from "@/models";
 
-/**
- * 認証クライアント
- */
-export const Gatekeeper = {
-  /**
-   * セッション管理
-   */
+import { date } from "./date";
+import { storage } from "./key-value-storage";
+
+export const gatekeeper = {
   session: {
-    /**
-     * セッションを取得する
-     */
+    prefix: "sessions",
+    generateKey: (id: string) => `${gatekeeper.session.prefix}:${id}`,
     get: async (id: string): Promise<Session | null> => {
       try {
-        // TODO: 実際のKVストアからセッションを取得する実装
-        console.log(`セッション取得: ${id}`);
-        return null;
+        const data = await storage.get(gatekeeper.session.generateKey(id));
+
+        return data ? (JSON.parse(data) as Session) : null;
       } catch (e) {
         console.error(e);
 
         return null;
       }
     },
-    /**
-     * 新しいセッションを作成する
-     */
     create: async (
       ip: string,
       method: AccessMethod,
     ): Promise<Session | null> => {
-      const now = Date.now();
+      const now = date().unix();
 
       const session: Session = {
-        id: uuidv4(),
+        id: uuid(),
         method,
         ip,
         createdAt: now,
@@ -43,8 +43,11 @@ export const Gatekeeper = {
       };
 
       try {
-        // TODO: 実際のKVストアにセッションを保存する実装
-        console.log("セッション作成:", session);
+        await storage.set(
+          gatekeeper.session.generateKey(session.id),
+          JSON.stringify(session),
+          SessionOptions.Lifetime,
+        );
 
         return session;
       } catch (e) {
@@ -53,11 +56,8 @@ export const Gatekeeper = {
         return null;
       }
     },
-    /**
-     * セッションを更新する
-     */
     update: async (id: string): Promise<Session | null> => {
-      const session = await Gatekeeper.session.get(id);
+      const session = await gatekeeper.session.get(id);
 
       if (!session) {
         return null;
@@ -65,12 +65,16 @@ export const Gatekeeper = {
 
       const updated: Session = {
         ...session,
-        lastAccessedAt: Date.now(),
+        lastAccessedAt: date().unix(),
       };
 
       try {
-        // TODO: 実際のKVストアにセッションを更新する実装
-        console.log("セッション更新:", updated);
+        await storage.set(
+          gatekeeper.session.generateKey(id),
+          JSON.stringify(updated),
+          SessionOptions.Lifetime,
+        );
+
         return updated;
       } catch (e) {
         console.error(e);
@@ -78,14 +82,9 @@ export const Gatekeeper = {
         return null;
       }
     },
-    /**
-     * セッションを削除する
-     */
     delete: async (id: string): Promise<boolean> => {
       try {
-        // TODO: 実際のKVストアからセッションを削除する実装
-        console.log(`セッション削除: ${id}`);
-        return true;
+        return await storage.delete(gatekeeper.session.generateKey(id));
       } catch (e) {
         console.error(e);
 
@@ -93,36 +92,85 @@ export const Gatekeeper = {
       }
     },
   },
-  /**
-   * 許可リスト
-   */
   whitelist: {
-    /**
-     * IPアドレスを検証する
-     */
+    prefix: "whitelist",
+    generateKey: (kind: "ips" | "emails") =>
+      `${gatekeeper.whitelist.prefix}:${kind}`,
     ip: async (ip: string): Promise<boolean> => {
       try {
-        // TODO: 実際のKVストアからIP許可リストを取得して検証する実装
-        console.log(`IP検証: ${ip}`);
-        return false;
+        const data = await storage.get(gatekeeper.whitelist.generateKey("ips"));
+
+        if (!data) {
+          return false;
+        }
+
+        return (JSON.parse(data) as string[]).includes(ip);
       } catch (e) {
         console.error(e);
 
         return false;
       }
     },
-    /**
-     * メールアドレスを検証する
-     */
     email: async (email: string): Promise<boolean> => {
       try {
-        // TODO: 実際のKVストアからメール許可リストを取得して検証する実装
-        console.log(`メール検証: ${email}`);
-        return false;
+        const data = await storage.get(
+          gatekeeper.whitelist.generateKey("emails"),
+        );
+
+        if (!data) {
+          return false;
+        }
+
+        return (JSON.parse(data) as string[]).includes(email);
       } catch (e) {
         console.error(e);
 
         return false;
+      }
+    },
+  },
+  attempts: {
+    prefix: "attempts",
+    generateKey: (ip: string) => `${gatekeeper.attempts.prefix}:${ip}`,
+    add: async (ip: string, kind: AttemptKind): Promise<void> => {
+      try {
+        const key = gatekeeper.attempts.generateKey(ip);
+        const now = date().unix();
+        const data = await storage.get(key);
+
+        let attempts: Attempt[] = data ? JSON.parse(data) : [];
+
+        attempts = attempts.filter(
+          ({ at }) => now - at < RateLimitOptions.CountingPeriod,
+        );
+
+        attempts.push({ ip, kind, at: now });
+
+        await storage.set(
+          key,
+          JSON.stringify(attempts),
+          RateLimitOptions.LockoutDuration,
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    verify: async (ip: string): Promise<boolean> => {
+      try {
+        const key = gatekeeper.attempts.generateKey(ip);
+        const data = await storage.get(key);
+
+        if (!data) return true;
+
+        const attempts = (JSON.parse(data) as Attempt[]).filter(
+          ({ at }) => date().unix() - at < RateLimitOptions.CountingPeriod,
+        );
+
+        return attempts.length < RateLimitOptions.MaxAttempts;
+      } catch (e) {
+        console.error(e);
+
+        return true;
       }
     },
   },

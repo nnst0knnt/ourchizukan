@@ -15,7 +15,7 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  globalIgnores([".next", ".vercel", ".wrangler", "env.d.ts", "public"]),
+  globalIgnores([".next", ".vercel", ".wrangler", "public", "**/*.d.ts"]),
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     files: ["**/*.ts", "**/*.tsx"],
