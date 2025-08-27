@@ -5,6 +5,8 @@ import { createInMemory } from "./in-memory";
 import type { KeyValueStorageFactory } from "@/models";
 
 const createFactory = (): KeyValueStorageFactory => {
+  console.log("Creating key-value storage factory", env);
+
   if (!env.DEBUG) return createCloudflareKV;
 
   return createInMemory;

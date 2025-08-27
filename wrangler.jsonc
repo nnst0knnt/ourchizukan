@@ -3,11 +3,15 @@
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {
+  "main": ".open-next/worker.js",
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ourchizukan",
-  "compatibility_date": "2025-03-21",
+  "compatibility_date": "2025-06-06",
   "compatibility_flags": ["nodejs_compat"],
-  "pages_build_output_dir": ".vercel/output/static",
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
   "observability": {
     "enabled": true
   },

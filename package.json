@@ -4,13 +4,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build:sources": "next build",
-    "build:scripts": "esbuild styles/scripts/*.ts --outdir=public/scripts --bundle --minify",
-    "production:build": "dotenv -e .env.production -- npm run cloudflare:env && npx @cloudflare/next-on-pages",
-    "production:preview": "npm run production:build && wrangler pages dev",
-    "production:deploy": "npm run production:build && wrangler pages deploy",
     "dev": "next dev --turbopack",
-    "build": "run-s build:scripts build:sources",
+    "build:scripts": "esbuild styles/scripts/*.ts --outdir=public/scripts --bundle --minify",
+    "build": "npm run cloudflare:env && npm run build:scripts && opennextjs-cloudflare build",
+    "preview": "npm run build:scripts && opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "npm run build:scripts && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "npm run build:scripts && opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "start": "next start",
     "cloudflare:env": "wrangler types",
     "package:deps": "ncu",
@@ -28,6 +27,7 @@
   "dependencies": {
     "@hono/zod-validator": "^0.5.0",
     "@hookform/resolvers": "^5.0.1",
+    "@opennextjs/cloudflare": "^1.2.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "hono": "^4.7.9",
@@ -49,7 +49,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^22",
@@ -68,6 +67,6 @@
     "shiki": "^3.4.0",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "wrangler": "^4.14.4"
+    "wrangler": "^4.19.1"
   }
 }

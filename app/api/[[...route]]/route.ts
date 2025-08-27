@@ -1,8 +1,6 @@
 import { app } from "@/routes";
 import { bind } from "@/routes/helpers";
 
-export const runtime = "edge";
-
 export const GET = bind(app);
 export const POST = bind(app);
 export const PATCH = bind(app);

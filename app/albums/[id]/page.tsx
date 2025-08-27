@@ -2,8 +2,6 @@ import { Album } from "@/features/memories";
 import type { PathParameters } from "@/services/http";
 import type { Metadata } from "next";
 
-export const runtime = "edge";
-
 export const metadata: Metadata = {
   title: "アルバム",
 };
