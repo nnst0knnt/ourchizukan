@@ -1,3 +1,5 @@
+import { StatusCodes } from "http-status-codes";
+import { NotFoundError } from "@/errors";
 import type { CreateAlbumBody } from "@/routes/endpoints/albums/create/schema";
 import type { GetAlbumPathParameter } from "@/routes/endpoints/albums/get/schema";
 import { date } from "@/services/date";
@@ -30,6 +32,10 @@ export const get = async (path: GetAlbumPathParameter) => {
   });
 
   if (!response.ok) {
+    if (response.status === StatusCodes.NOT_FOUND) {
+      throw new NotFoundError();
+    }
+
     throw new Error(
       (await response.json()).message || "アルバムの取得に失敗しました",
     );

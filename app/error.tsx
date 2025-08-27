@@ -4,12 +4,14 @@ import { Description, Title } from "@/components/elements/typography";
 import {
   type ApplicationError,
   NetworkError,
+  NotFoundError,
   ServerError,
   UnknownError,
 } from "@/errors";
 
 const Constructors = {
   NetworkError,
+  NotFoundError,
   ServerError,
   UnknownError,
 } as Record<string, new () => ApplicationError>;
