@@ -127,17 +127,17 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           {tooltip && (
             <div
               className={cn(
-                "flex items-center absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 rounded shadow-md whitespace-nowrap z-50 transition-opacity duration-200",
+                "-translate-x-1/2 -translate-y-2 absolute bottom-full left-1/2 z-50 flex transform items-center whitespace-nowrap rounded shadow-md transition-opacity duration-200",
                 tooltipStyles[kind],
                 tooltipSizeStyles[size],
                 enabledTooltip
                   ? "opacity-100"
-                  : "opacity-0 pointer-events-none",
+                  : "pointer-events-none opacity-0",
               )}
               aria-hidden={!enabledTooltip}
             >
               <span>{tooltip}</span>
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 -translate-y-px">
+              <div className="-translate-x-1/2 -translate-y-px absolute top-full left-1/2 transform">
                 <div
                   className={cn(
                     "border-8 border-transparent",
