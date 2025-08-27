@@ -1,5 +1,5 @@
 import type { KeyValueStorageFactory } from "@/models";
-import { env } from "../../env";
+import { env } from "@/services/env/server";
 import { createCloudflareKV } from "./cloudflare-kv";
 import { createInMemory } from "./in-memory";
 

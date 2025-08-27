@@ -1,5 +1,5 @@
 import type { DatabaseStorageFactory } from "@/models";
-import { env } from "../../env";
+import { env } from "@/services/env/server";
 import { createCloudflareD1 } from "./cloudflare-d1";
 
 const createFactory = (): DatabaseStorageFactory => {

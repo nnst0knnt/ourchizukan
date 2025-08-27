@@ -2,7 +2,7 @@ import { ObjectKey } from "@/models";
 import type { ListPicturesQueryParameter } from "@/routes/endpoints/pictures/list/schema";
 import type { UploadPicturesBody } from "@/routes/endpoints/pictures/upload/schema";
 import { toYYYYMMDD } from "@/services/date";
-import { env } from "@/services/env";
+import { env } from "@/services/env/client";
 import { http } from "@/services/http";
 
 export const list = async ({

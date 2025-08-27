@@ -5,7 +5,7 @@ import type { CreateAlbumBody } from "@/routes/endpoints/albums/create/schema";
 import type { GetAlbumPathParameter } from "@/routes/endpoints/albums/get/schema";
 import type { ListAlbumsQueryParameter } from "@/routes/endpoints/albums/list/schema";
 import { toYYYYMMDD } from "@/services/date";
-import { env } from "@/services/env";
+import { env } from "@/services/env/client";
 import { http } from "@/services/http";
 
 export const list = async ({

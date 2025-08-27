@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import type { NextConfig } from "next";
-import { env } from "./services/env";
+import { env } from "./services/env/client";
 
 const config: NextConfig = {
   env: env as unknown as NextConfig["env"],

@@ -1,17 +1,14 @@
-import { z } from "zod";
+import z from "zod";
+import { EnvironmentForClient } from "./client";
 
-const Env = z.object({
-  APP_ENV: z.enum(["preview", "production"]).default("preview"),
-  APP_URL: z.url(),
-  APP_DEBUG: z.preprocess((value) => JSON.parse(`${value}`), z.boolean()),
-  APP_ANALYZE: z.preprocess((value) => JSON.parse(`${value}`), z.boolean()),
+const EnvironmentForServer = EnvironmentForClient.extend({
   CLOUDFLARE_ACCOUNT_ID: z.string(),
   CLOUDFLARE_DATABASE_ID: z.string(),
   CLOUDFLARE_D1_TOKEN: z.string(),
   SQLITE_DATABASE_URL: z.string().optional(),
 });
 
-export const env = Env.parse({
+export const env = EnvironmentForServer.parse({
   APP_ENV: process.env.APP_ENV,
   APP_URL: process.env.APP_URL,
   APP_DEBUG: process.env.APP_DEBUG,

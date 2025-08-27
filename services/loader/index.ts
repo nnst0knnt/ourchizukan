@@ -1,5 +1,5 @@
 import type { ImageLoaderProps } from "next/image";
-import { env } from "../env";
+import { env } from "../env/client";
 
 /**
  * @see https://developers.cloudflare.com/images/transform-images/integrate-with-frameworks

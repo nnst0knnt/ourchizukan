@@ -1,7 +1,7 @@
 import { except } from "hono/combine";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { toYYYYMMDDHHmmss } from "@/services/date";
-import { env } from "@/services/env";
+import { env } from "@/services/env/server";
 import { albums } from "./endpoints/albums";
 import { families } from "./endpoints/families";
 import { pictures } from "./endpoints/pictures";
