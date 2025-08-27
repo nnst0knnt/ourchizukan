@@ -43,7 +43,7 @@ export const Viewer = memo<ViewerProps>(
           </p>
         </Header>
 
-        <div className="relative flex flex-1 items-center justify-center p-4">
+        <div className="relative flex flex-1 items-center justify-center">
           {datum ? (
             <>
               <div
