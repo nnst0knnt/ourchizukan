@@ -73,6 +73,6 @@
     "shiki": "^3.9.2",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "wrangler": "^4.29.0"
+    "wrangler": "^4.29.1"
   }
 }
