@@ -40,6 +40,8 @@ export const CheckboxGroupState = createContext<{
 export type CheckboxGroupProps = {
   /** グループのラベル */
   label?: string;
+  /** 現在の選択値 */
+  value?: string | string[];
   /** チェックボックスのサイズ */
   size?: CheckboxSize;
   /** グループのヘルプテキスト */
@@ -50,8 +52,6 @@ export type CheckboxGroupProps = {
   success?: string;
   /** グループを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** 現在の選択値 */
-  value?: string | string[];
   /** 必須項目かどうか */
   required?: boolean;
   /** 横幅いっぱいに広げるかどうか */
@@ -95,6 +95,25 @@ export const CheckboxGroup = forwardRef<
       Array.isArray(value) ? value : [value],
     );
 
+    const change = useCallback(
+      (e: ChangeEvent<HTMLFieldSetElement>) => {
+        const checked = Array.from(
+          e.currentTarget.querySelectorAll("input:checked"),
+        )
+          .map((input) =>
+            input instanceof HTMLInputElement ? input.value : null,
+          )
+          .filter((value) => value !== null);
+
+        if (onChange) {
+          onChange(checked);
+        }
+
+        setSelected(checked);
+      },
+      [onChange],
+    );
+
     const defaultId = useId();
 
     const groupId = `checkbox-group-${defaultId}`;
@@ -131,25 +150,6 @@ export const CheckboxGroup = forwardRef<
       large: "h-6 w-6 stroke-2 mr-2",
     };
 
-    const change = useCallback(
-      (e: ChangeEvent<HTMLFieldSetElement>) => {
-        const checked = Array.from(
-          e.currentTarget.querySelectorAll("input:checked"),
-        )
-          .map((input) =>
-            input instanceof HTMLInputElement ? input.value : null,
-          )
-          .filter((value) => value !== null);
-
-        if (onChange) {
-          onChange(checked);
-        }
-
-        setSelected(checked);
-      },
-      [onChange],
-    );
-
     return (
       <fieldset
         ref={ref}
@@ -166,7 +166,7 @@ export const CheckboxGroup = forwardRef<
           <legend
             id={legendId}
             className={cn(
-              "mb-2 flex items-center font-medium text-primary",
+              "mb-1 flex items-center font-medium text-primary",
               sizeStyles[size],
             )}
           >
@@ -182,7 +182,7 @@ export const CheckboxGroup = forwardRef<
             size,
           }}
         >
-          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pb-2 pl-2">
+          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pl-2">
             {children}
           </div>
         </CheckboxGroupState.Provider>

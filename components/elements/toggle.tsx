@@ -72,6 +72,18 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
   ) => {
     const [isChecked, setIsChecked] = useState<boolean>(checked);
 
+    const change = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.checked;
+        setIsChecked(newValue);
+
+        if (onChange) {
+          onChange(newValue);
+        }
+      },
+      [onChange],
+    );
+
     const defaultId = useId();
 
     const inputId = id || defaultId;
@@ -123,18 +135,6 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
     };
 
     const classNames = cn("peer sr-only", className);
-
-    const change = useCallback(
-      (e: ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.target.checked;
-        setIsChecked(newValue);
-
-        if (onChange) {
-          onChange(newValue);
-        }
-      },
-      [onChange],
-    );
 
     return (
       <div className="flex flex-col gap-1">

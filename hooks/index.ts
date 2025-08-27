@@ -4,6 +4,13 @@ export {
   ContrastLocalStorageKey,
   ContrastDomAttributeName,
 } from "./use-contrast";
+export { useResize } from "./use-resize";
+export {
+  useResponsive,
+  DeviceSizes,
+  UIDimensions,
+} from "./use-responsive";
+export { useScroll } from "./use-scroll";
 export {
   useSize,
   SizeKind,

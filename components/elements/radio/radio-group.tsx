@@ -40,6 +40,8 @@ export const RadioGroupState = createContext<{
 export type RadioGroupProps = {
   /** グループのラベル */
   label?: string;
+  /** 現在の選択値 */
+  value?: string;
   /** ラジオボタンのサイズ */
   size?: RadioSize;
   /** グループのヘルプテキスト */
@@ -50,8 +52,6 @@ export type RadioGroupProps = {
   success?: string;
   /** グループを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** 現在の選択値 */
-  value?: string;
   /** 必須項目かどうか */
   required?: boolean;
   /** 横幅いっぱいに広げるかどうか */
@@ -90,6 +90,21 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
   ) => {
     const [selected, setSelected] = useState<string>(value);
 
+    const change = useCallback(
+      (e: ChangeEvent<HTMLFieldSetElement>) => {
+        const radio = e.target as unknown as HTMLInputElement;
+
+        if (!radio) return;
+
+        if (onChange) {
+          onChange(radio.value);
+        }
+
+        setSelected(radio.value);
+      },
+      [onChange],
+    );
+
     const defaultId = useId();
 
     const groupId = `radio-group-${defaultId}`;
@@ -126,21 +141,6 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
       large: "h-6 w-6 stroke-2 mr-2",
     };
 
-    const change = useCallback(
-      (e: ChangeEvent<HTMLFieldSetElement>) => {
-        const radio = e.target as unknown as HTMLInputElement;
-
-        if (!radio) return;
-
-        if (onChange) {
-          onChange(radio.value);
-        }
-
-        setSelected(radio.value);
-      },
-      [onChange],
-    );
-
     return (
       <fieldset
         ref={ref}
@@ -160,7 +160,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
           <legend
             id={legendId}
             className={cn(
-              "mb-2 flex items-center font-medium text-primary",
+              "mb-1 flex items-center font-medium text-primary",
               sizeStyles[size],
             )}
           >
@@ -176,7 +176,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
             size,
           }}
         >
-          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pb-2 pl-2">
+          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pl-2">
             {children}
           </div>
         </RadioGroupState.Provider>

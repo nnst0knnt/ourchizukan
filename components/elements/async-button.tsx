@@ -41,6 +41,7 @@ export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
     ref,
   ) => {
     let timeout: NodeJS.Timeout | null = null;
+
     const [status, setStatus] = useState<ButtonStatus>(ButtonStatus.Idle);
 
     const click = async (event: MouseEvent<HTMLButtonElement>) => {

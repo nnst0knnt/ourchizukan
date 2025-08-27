@@ -10,6 +10,7 @@ import {
 
 import { Check } from "lucide-react";
 
+import { useResponsive } from "@/hooks";
 import { cn } from "@/styles/functions";
 
 import { SelectGroupState } from "./select-group";
@@ -18,10 +19,10 @@ import { SelectGroupState } from "./select-group";
  * SelectOptionProps
  */
 export type SelectOptionProps = {
-  /** オプションの値 */
-  value: string;
   /** オプションのラベル */
   label: string;
+  /** オプションの値 */
+  value: string;
   /** 無効状態かどうか */
   disabled?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
@@ -39,6 +40,8 @@ export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
   ) => {
     const state = useContext(SelectGroupState);
 
+    const { isMobile } = useResponsive();
+
     const isSelected = state.value === value;
 
     const defaultId = useId();
@@ -54,6 +57,7 @@ export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
       "flex cursor-pointer select-none items-center justify-between",
       "hover:bg-primary/10 active:bg-primary/10 transition-all duration-200",
       sizeStyles[state.size],
+      isMobile && "py-4",
       isSelected ? "bg-brand/10 text-primary" : "text-primary",
       disabled && "disabled",
       className,

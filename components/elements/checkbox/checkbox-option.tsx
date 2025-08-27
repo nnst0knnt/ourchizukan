@@ -78,6 +78,27 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
       !!checked || (!!value && state.value.includes(value.toString())),
     );
 
+    const change = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => {
+        if (onChange) {
+          onChange(e.target.checked);
+        }
+
+        setIsChecked(e.target.checked);
+      },
+      [onChange],
+    );
+
+    const click = useCallback(() => {
+      const value = !isChecked;
+
+      if (onChange) {
+        onChange(value);
+      }
+
+      setIsChecked(value);
+    }, [onChange, isChecked]);
+
     const defaultId = useId();
 
     const inputId = id || defaultId;
@@ -124,27 +145,6 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
     };
 
     const classNames = cn("peer sr-only", className);
-
-    const change = useCallback(
-      (e: ChangeEvent<HTMLInputElement>) => {
-        if (onChange) {
-          onChange(e.target.checked);
-        }
-
-        setIsChecked(e.target.checked);
-      },
-      [onChange],
-    );
-
-    const click = useCallback(() => {
-      const value = !isChecked;
-
-      if (onChange) {
-        onChange(value);
-      }
-
-      setIsChecked(value);
-    }, [onChange, isChecked]);
 
     return (
       <div className="flex flex-col">
@@ -207,7 +207,7 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
         {message && (
           <p
             id={messageId}
-            className={cn("select-none text-xs", statusTextStyles[status])}
+            className={cn("select-none pb-2 text-xs", statusTextStyles[status])}
           >
             {message}
           </p>

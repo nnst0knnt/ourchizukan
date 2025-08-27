@@ -85,65 +85,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref,
   ) => {
-    const defaultId = useId();
-
-    const inputId = id || defaultId;
-
-    const messageId = `${inputId}-message`;
-
     const counterRef = useRef<HTMLDivElement>(null);
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-    const hasError = !!error;
-
-    const hasSuccess = !hasError && !!success;
-
-    const message = error || success || helperText;
-
-    const status: TextareaStatus = hasError
-      ? "error"
-      : hasSuccess
-        ? "success"
-        : "default";
-
-    const sizeStyles = {
-      default: "py-3 px-4 min-h-20 text-base",
-      large: "py-4 px-5 min-h-24 text-lg",
-    };
-
-    const markStyles = {
-      default: "h-5 w-5 stroke-2 top-1/2 left-3",
-      large: "h-6 w-6 stroke-2 top-1/2 left-4",
-    };
-
-    const paddingStyles = {
-      default: "pl-10",
-      large: "pl-12.5",
-    };
-
-    const statusStyles = {
-      default: "border-outline",
-      success: "border-success",
-      error: "border-error",
-    };
-
-    const statusTextStyles = {
-      default: "text-secondary",
-      success: "text-success",
-      error: "text-error",
-    };
-
-    const classNames = cn(
-      "block w-full rounded-md border bg-foundation text-primary placeholder:text-secondary/70!",
-      "resize-none",
-      /** @see https://docs.keeper.io/en/user-guides/troubleshooting/website-developers */
-      "keeper-ignore",
-      sizeStyles[size],
-      statusStyles[status],
-      Mark && paddingStyles[size],
-      className,
-    );
 
     const resize = useCallback(() => {
       if (!autoResize || !textareaRef.current) return;
@@ -205,6 +149,62 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         input();
       }
     }, [input]);
+
+    const defaultId = useId();
+
+    const inputId = id || defaultId;
+
+    const messageId = `${inputId}-message`;
+
+    const hasError = !!error;
+
+    const hasSuccess = !hasError && !!success;
+
+    const message = error || success || helperText;
+
+    const status: TextareaStatus = hasError
+      ? "error"
+      : hasSuccess
+        ? "success"
+        : "default";
+
+    const sizeStyles = {
+      default: "py-3 px-4 min-h-20 text-base",
+      large: "py-4 px-5 min-h-24 text-lg",
+    };
+
+    const markStyles = {
+      default: "h-5 w-5 stroke-2 top-1/2 left-3",
+      large: "h-6 w-6 stroke-2 top-1/2 left-4",
+    };
+
+    const paddingStyles = {
+      default: "pl-10",
+      large: "pl-12.5",
+    };
+
+    const statusStyles = {
+      default: "border-outline",
+      success: "border-success",
+      error: "border-error",
+    };
+
+    const statusTextStyles = {
+      default: "text-secondary",
+      success: "text-success",
+      error: "text-error",
+    };
+
+    const classNames = cn(
+      "block w-full rounded-md border bg-foundation text-primary placeholder:text-secondary/70!",
+      "resize-none",
+      /** @see https://docs.keeper.io/en/user-guides/troubleshooting/website-developers */
+      "keeper-ignore",
+      sizeStyles[size],
+      statusStyles[status],
+      Mark && paddingStyles[size],
+      className,
+    );
 
     return (
       <div

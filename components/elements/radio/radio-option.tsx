@@ -79,6 +79,29 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
     const isChecked =
       !!checked || (!!value && state.value === value.toString());
 
+    const change = useCallback(
+      (e: ChangeEvent<HTMLInputElement>) => {
+        if (onChange) {
+          onChange(e.target.checked);
+        }
+      },
+      [onChange],
+    );
+
+    const click = useCallback(() => {
+      if (isChecked) return;
+
+      if (typeof ref !== "function" && ref && ref.current) {
+        ref.current.click();
+
+        return;
+      }
+
+      if (defaultRef.current) {
+        defaultRef.current.click();
+      }
+    }, [isChecked, ref]);
+
     const defaultId = useId();
 
     const inputId = id || defaultId;
@@ -125,29 +148,6 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
     };
 
     const classNames = cn("peer sr-only", className);
-
-    const change = useCallback(
-      (e: ChangeEvent<HTMLInputElement>) => {
-        if (onChange) {
-          onChange(e.target.checked);
-        }
-      },
-      [onChange],
-    );
-
-    const click = useCallback(() => {
-      if (isChecked) return;
-
-      if (typeof ref !== "function" && ref && ref.current) {
-        ref.current.click();
-
-        return;
-      }
-
-      if (defaultRef.current) {
-        defaultRef.current.click();
-      }
-    }, [isChecked, ref]);
 
     return (
       <div className="flex flex-col">
@@ -210,7 +210,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
         {message && (
           <p
             id={messageId}
-            className={cn("select-none text-xs", statusTextStyles[status])}
+            className={cn("select-none pb-2 text-xs", statusTextStyles[status])}
           >
             {message}
           </p>

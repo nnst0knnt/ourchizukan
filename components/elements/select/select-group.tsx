@@ -1,8 +1,10 @@
 "use client";
 
 import {
+  type ForwardRefExoticComponent,
   type HTMLAttributes,
   type ReactNode,
+  type RefAttributes,
   createContext,
   forwardRef,
   useCallback,
@@ -12,9 +14,13 @@ import {
 } from "react";
 import { useClickAway } from "react-use";
 
-import { ChevronDown, ChevronUp, type LucideIcon } from "lucide-react";
-
+import { useResponsive } from "@/hooks";
 import { cn } from "@/styles/functions";
+
+import { DesktopSelectGroup } from "./desktop-select-group";
+import { MobileSelectGroup } from "./mobile-select-group";
+
+import type { LucideIcon } from "lucide-react";
 
 /**
  * セレクトのサイズ
@@ -49,6 +55,8 @@ export const SelectGroupState = createContext<{
 export type SelectGroupProps = {
   /** グループのラベル */
   label?: string;
+  /** 選択された値 */
+  value?: string;
   /** セレクトのサイズ */
   size?: SelectSize;
   /** グループのヘルプテキスト */
@@ -57,10 +65,8 @@ export type SelectGroupProps = {
   error?: string;
   /** 成功メッセージ */
   success?: string;
-  /** セレクトを表す印 */
-  mark?: LucideIcon;
-  /** 選択された値 */
-  value?: string;
+  /** グループを表す印 */
+  mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
   /** プレースホルダー */
   placeholder?: string;
   /** 必須項目かどうか */
@@ -76,14 +82,17 @@ export type SelectGroupProps = {
 /**
  * SelectGroup
  *
- * 複数の選択肢から一つを選択するセレクトボックスです。
+ * 複数の選択肢をグループ化します。
  * ドロップダウンで選択肢を表示し、選択することができます。
  * セレクトボックスの状態を管理するために、SelectOptionと組み合わせて使用します。
+ *
+ * デスクトップでは通常のドロップダウン表示、モバイルではボトムシートとして表示されます。
+ * 画面下部での使用時には自動的に上方向に表示される機能を備えています。
  */
 export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
   (
     {
-      label,
+      label = "",
       size = "default",
       helperText,
       error,
@@ -91,16 +100,18 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
       mark: Mark,
       value = "",
       placeholder = "選択してください",
-      required,
+      required = false,
       fullWidth = false,
       children,
-      className,
-      "aria-describedby": ariaDescribedBy,
+      className = "",
+      "aria-describedby": ariaDescribedBy = "",
       onChange,
       ...props
     },
     ref,
   ) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+
     const [open, setOpen] = useState(false);
 
     const [selected, setSelected] = useState<{ label: string; value: string }>({
@@ -108,17 +119,15 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
       value,
     });
 
-    const containerRef = useRef<HTMLDivElement>(null);
-
     useClickAway(containerRef, () => open && setOpen(false));
+
+    const { isMobile } = useResponsive();
 
     const defaultId = useId();
 
     const groupId = `select-group-${defaultId}`;
 
     const messageId = `${groupId}-message`;
-
-    const listboxId = `${groupId}-listbox`;
 
     const hasError = !!error;
 
@@ -132,41 +141,11 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
         ? "success"
         : "default";
 
-    const statusStyles = {
-      default: "border-outline",
-      success: "border-success",
-      error: "border-error",
-    };
-
     const statusTextStyles = {
       default: "text-secondary",
       success: "text-success",
       error: "text-error",
     };
-
-    const sizeStyles = {
-      default: "py-3 px-4 min-h-11 text-base",
-      large: "py-4 px-5 min-h-14 text-lg",
-    };
-
-    const markStyles = {
-      default: "h-5 w-5 stroke-2 top-1/2 left-3",
-      large: "h-6 w-6 stroke-2 top-1/2 left-4",
-    };
-
-    const paddingsStyles = {
-      default: "pl-10",
-      large: "pl-12.5",
-    };
-
-    const classNames = cn(
-      "flex items-center justify-between w-full rounded-md border bg-foundation text-primary",
-      sizeStyles[size],
-      statusStyles[status],
-      Mark && paddingsStyles[size],
-      open && "focused",
-      className,
-    );
 
     const change = useCallback(
       (value: string, label: string) => {
@@ -189,101 +168,72 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
         ref={ref}
         {...props}
       >
-        <div className="size-full" ref={containerRef}>
-          {label && (
-            <div className="mb-2 flex items-center">
-              <label
-                htmlFor={groupId}
-                className={cn(
-                  "flex size-full items-center font-medium text-primary",
-                  size === "large" ? "text-lg" : "text-base",
-                )}
-                onClick={toggle}
-                onKeyDown={toggle}
-              >
-                {label}
-                {required && <span className="mt-1 ml-1 text-error">*</span>}
-              </label>
-            </div>
-          )}
-
-          <div className="relative">
-            {Mark && (
-              <div
-                className={cn("-translate-y-1/2 absolute", markStyles[size])}
-              >
-                <Mark
-                  className={cn("text-secondary", markStyles[size])}
-                  aria-hidden="true"
-                />
-              </div>
-            )}
-
-            <input
-              id={groupId}
-              type="text"
-              className="sr-only"
-              readOnly
-              aria-required={required}
-              aria-invalid={hasError}
-              aria-describedby={message ? messageId : ariaDescribedBy}
-              value={selected.value}
-            />
-
-            <button
-              type="button"
-              className={classNames}
-              aria-haspopup="listbox"
-              aria-expanded={open}
-              aria-controls={listboxId}
-              onClick={toggle}
-            >
-              <span
-                className={cn(
-                  "truncate",
-                  !selected.value && "text-secondary/70",
-                )}
-              >
-                {selected.label || placeholder}
-              </span>
-              {open ? (
-                <ChevronUp
-                  className="h-5 w-5 text-secondary"
-                  aria-hidden="true"
-                />
-              ) : (
-                <ChevronDown
-                  className="h-5 w-5 text-secondary"
-                  aria-hidden="true"
-                />
+        {label && (
+          <div className="flex items-center">
+            <label
+              htmlFor={groupId}
+              className={cn(
+                "flex size-full items-center font-medium text-primary",
+                size === "large" ? "text-lg" : "text-base",
               )}
-            </button>
-
-            <SelectGroupState.Provider
-              value={{
-                value: selected.value,
-                open,
-                size,
-                change,
-                toggle,
-              }}
+              onClick={toggle}
+              onKeyDown={toggle}
             >
-              <div
-                className={cn(
-                  "absolute z-10 mt-2 w-full rounded-md border border-outline bg-foundation shadow-lg",
-                  open ? "block" : "hidden",
-                )}
-                id={listboxId}
-                role="listbox"
-                tabIndex={-1}
-                aria-labelledby={label ? groupId : undefined}
-              >
-                <div className="overflow-hidden overflow-y-auto rounded-md">
-                  {children}
-                </div>
-              </div>
-            </SelectGroupState.Provider>
+              {label}
+              {required && <span className="mt-1 ml-1 text-error">*</span>}
+            </label>
           </div>
+        )}
+
+        <div className="size-full" ref={containerRef}>
+          <SelectGroupState.Provider
+            value={{
+              value: selected.value,
+              open,
+              size,
+              change,
+              toggle,
+            }}
+          >
+            {isMobile ? (
+              <MobileSelectGroup
+                open={open}
+                id={groupId}
+                name={label}
+                label={selected.label}
+                value={selected.value}
+                size={size}
+                status={status}
+                mark={Mark}
+                placeholder={placeholder}
+                required={required}
+                className={className}
+                ariaInvalid={hasError}
+                ariaDescribedBy={messageId || ariaDescribedBy}
+                toggle={toggle}
+              >
+                {children}
+              </MobileSelectGroup>
+            ) : (
+              <DesktopSelectGroup
+                open={open}
+                id={groupId}
+                label={selected.label}
+                value={selected.value}
+                size={size}
+                status={status}
+                mark={Mark}
+                placeholder={placeholder}
+                required={required}
+                className={className}
+                ariaInvalid={hasError}
+                ariaDescribedBy={messageId || ariaDescribedBy}
+                toggle={toggle}
+              >
+                {children}
+              </DesktopSelectGroup>
+            )}
+          </SelectGroupState.Provider>
         </div>
 
         {message && (
