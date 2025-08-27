@@ -13,7 +13,7 @@ export const EmailController = memo(() => {
   const router = useRouter();
   const {
     control,
-    formState: { errors },
+    formState: { isSubmitting, errors },
     setError,
     handleSubmit,
   } = useForm<EnterFamilyBody>({
@@ -21,7 +21,6 @@ export const EmailController = memo(() => {
       email: "",
     },
     resolver: zodResolver(EnterFamilyBody),
-    mode: "onChange",
   });
 
   const submit = handleSubmit(async (data) => {
@@ -31,6 +30,8 @@ export const EmailController = memo(() => {
       router.replace("/");
     } catch (e: any) {
       setError("email", { message: e.message || "おうちに入れませんでした" });
+
+      throw e;
     }
   });
 
@@ -38,6 +39,7 @@ export const EmailController = memo(() => {
     <Controller
       control={control}
       name="email"
+      disabled={isSubmitting}
       render={({ field: { onChange }, formState: { isValid } }) => {
         return (
           <div className="flex flex-col gap-4 md:gap-6">

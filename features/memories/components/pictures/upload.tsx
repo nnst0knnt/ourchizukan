@@ -27,7 +27,7 @@ export const Upload = memo<UploadProps>(
     const {
       setValue,
       handleSubmit,
-      formState: { errors, isSubmitting },
+      formState: { isSubmitting, errors },
       setError,
       watch,
     } = useForm<UploadPicturesBody>({
@@ -92,11 +92,18 @@ export const Upload = memo<UploadProps>(
         setError("files", {
           message: e.message || "写真のアップロードに失敗しました",
         });
+
+        throw e;
       }
     });
 
     return (
-      <div className="flex flex-col gap-4 pb-[86px] md:gap-6 md:pb-4 lg:gap-8">
+      <div
+        className={cn(
+          "flex flex-col gap-4 pb-[86px] md:gap-6 md:pb-4 lg:gap-8",
+          isSubmitting && "pointer-events-none",
+        )}
+      >
         <div className="flex flex-col gap-4">
           <Title as="h1">写真をアップロード</Title>
 

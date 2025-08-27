@@ -9,6 +9,7 @@ import { Description, Title } from "@/components/elements/typography";
 import { Footer } from "@/components/structures";
 import { useNoPullToRefresh } from "@/hooks";
 import { CreateAlbumBody } from "@/routes/endpoints/albums/create/schema";
+import { cn } from "@/styles/functions";
 import repositories from "../../repositories";
 
 type CreateProps = {
@@ -21,7 +22,7 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
 
   const {
     control,
-    formState: { errors },
+    formState: { isSubmitting, errors },
     setError,
     handleSubmit,
   } = useForm<CreateAlbumBody>({
@@ -41,11 +42,18 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
       setError("title", {
         message: e.message || "アルバムの作成に失敗しました",
       });
+
+      throw e;
     }
   });
 
   return (
-    <div className="flex flex-col gap-4 pb-4 md:gap-6 lg:gap-8">
+    <div
+      className={cn(
+        "flex flex-col gap-4 pb-4 md:gap-6 lg:gap-8",
+        isSubmitting && "pointer-events-none",
+      )}
+    >
       <div className="flex flex-col gap-4">
         <Title as="h1">新しいアルバム</Title>
 
@@ -59,7 +67,7 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
         name="title"
         render={({
           field: { onChange },
-          formState: { isValid, isSubmitting },
+          formState: { isSubmitting, isValid },
         }) => (
           <div className="flex flex-col gap-4 md:gap-6">
             <Input
