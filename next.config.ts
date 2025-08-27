@@ -10,6 +10,9 @@ setupDevPlatform().catch(console.error);
 
 const config: NextConfig = {
   env: env,
+  images: {
+    domains: ["images.unsplash.com", "picsum.photos"],
+  },
 };
 
 export default config;

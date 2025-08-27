@@ -1,5 +1,9 @@
-"use client";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "アルバム一覧",
+};
 
 export default function Page() {
-  return <div>{/* 一旦要素の確認に使用するページ */}</div>;
+  return <></>;
 }

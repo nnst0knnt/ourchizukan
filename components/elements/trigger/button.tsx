@@ -15,7 +15,7 @@ import type { LucideIcon } from "lucide-react";
 /**
  * ボタンの種類
  */
-type ButtonKind = "primary" | "secondary";
+type ButtonKind = "primary" | "secondary" | "ghost";
 
 /**
  * ボタンのサイズ
@@ -99,6 +99,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       primary: "bg-brand text-foreground hover:bg-brand/90 active:bg-brand/80",
       secondary:
         "bg-accent text-foreground hover:bg-accent/90 active:bg-accent/80",
+      ghost:
+        "bg-primary/10 text-primary hover:bg-primary/20 active:bg-primary/20",
     };
 
     const sizeStyles = {

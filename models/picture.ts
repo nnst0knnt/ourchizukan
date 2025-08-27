@@ -6,9 +6,9 @@ export type Picture = {
   id: string;
   /** アルバムID */
   albumId: string;
-  /** オリジナル画像のキー */
+  /** オリジナル写真のキー */
   originalKey: string;
-  /** サムネイル画像のキー */
+  /** サムネイル写真のキー */
   thumbnailKey: string;
   /** 撮影日時 */
   takenAt: number;

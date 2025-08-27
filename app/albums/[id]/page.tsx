@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "写真",
+  title: "アルバム",
 };
 
 export default function Page() {
