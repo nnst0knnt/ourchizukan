@@ -3,36 +3,29 @@ import { memo } from "react";
 import type { PictureCard } from "../../models/card";
 
 type CardProps = {
-  model?: PictureCard;
-  loading?: boolean;
+  picture?: PictureCard;
   onClick?: () => void;
 };
 
 export const Card = memo<CardProps>(
-  ({ model = null, loading = false, onClick }) => {
-    if (loading || !model) {
-      return (
-        <div className="aspect-square w-full animate-pulse rounded-lg bg-outline/30" />
-      );
-    }
-
-    return (
+  ({ picture = null, onClick }) =>
+    !!picture && (
       <button
         type="button"
         onClick={onClick}
         className="relative aspect-square w-full overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-focus"
-        aria-label={model.name || "写真を表示"}
+        aria-label={picture.name || "写真を表示"}
       >
+        <div className="absolute inset-0 z-0 animate-pulse rounded-lg bg-primary/20" />
         <Image
-          src={model.url}
-          alt={model.name || "写真"}
+          src={picture.url}
+          alt={picture.name || "写真"}
           fill
           sizes="(max-width: 768px) 50vw, 33vw"
-          className="object-cover"
+          className="relative z-10 object-cover"
         />
       </button>
-    );
-  },
+    ),
 );
 
 Card.displayName = "Card";

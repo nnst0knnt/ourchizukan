@@ -22,6 +22,8 @@ const config: Config = {
         track: "var(--color-track)",
       },
       zIndex: {
+        skeleton: "1",
+        content: "5",
         cover: "10",
         fullscreen: "50",
         popup: "100",

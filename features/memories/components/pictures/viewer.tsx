@@ -3,29 +3,21 @@ import { Footer, Header } from "@/components/structures";
 import { useKeyboard } from "@/hooks";
 import { date } from "@/services/date";
 import { cn } from "@/styles/functions";
-import { AlertTriangle, Camera } from "lucide-react";
+import { AlertTriangle, Camera, LoaderCircle } from "lucide-react";
 import Image from "next/image";
 import { memo } from "react";
 import type { PictureCard } from "../../models/card";
 
 type ViewerProps = {
   invisible: boolean;
-  model?: PictureCard;
-  loading?: boolean;
+  picture: PictureCard;
   onClose: () => void;
   onNext?: () => void;
   onPrevious?: () => void;
 };
 
 export const Viewer = memo<ViewerProps>(
-  ({
-    invisible = false,
-    model = null,
-    loading = false,
-    onClose,
-    onNext,
-    onPrevious,
-  }) => {
+  ({ invisible = false, picture, onClose, onNext, onPrevious }) => {
     const { keydown } = useKeyboard(
       {
         Escape: onClose,
@@ -44,22 +36,14 @@ export const Viewer = memo<ViewerProps>(
         onKeyDown={keydown}
       >
         <Header className="relative">
-          {!loading && model ? (
-            <p className="flex items-center gap-2 text-sm">
-              <Camera className="inline-block h-4 w-4" />
-              <span>{date(model.takenAt).format("YYYY年M月D日")}</span>
-            </p>
-          ) : (
-            <p className="text-base text-secondary">&nbsp;</p>
-          )}
+          <p className="flex items-center gap-2 text-sm">
+            <Camera className="inline-block h-4 w-4" />
+            <span>{date(picture.takenAt).format("YYYY年M月D日")}</span>
+          </p>
         </Header>
 
-        <div className="relative flex flex-1 items-center justify-center border-outline border-t p-4">
-          {loading || !model ? (
-            <div className="flex h-full w-full items-center justify-center">
-              <div className="aspect-square w-3/4 max-w-3xl animate-pulse rounded-lg bg-primary/20" />
-            </div>
-          ) : model.url ? (
+        <div className="relative flex flex-1 items-center justify-center p-4">
+          {picture ? (
             <>
               <div
                 className={cn(
@@ -67,9 +51,10 @@ export const Viewer = memo<ViewerProps>(
                   invisible ? "opacity-0" : "opacity-100",
                 )}
               >
+                <LoaderCircle className="h-10 w-10 animate-spin text-primary/20" />
                 <Image
-                  src={model.url}
-                  alt={model.name || "写真"}
+                  src={picture.url}
+                  alt={picture.name || "写真"}
                   className="max-h-full max-w-full object-contain"
                   fill
                   priority={true}
