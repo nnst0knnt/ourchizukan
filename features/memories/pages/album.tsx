@@ -21,7 +21,7 @@ export const Album = ({ id }: Props) => {
   const [open, toggle] = useToggle(false);
   const [datum, setDatum] = useState<AlbumDescription>();
 
-  const fetch = useCallback(
+  const fetcher = useCallback(
     async (offset: number, limit: number) =>
       await repositories.pictures.list({
         albumId: id,
@@ -33,7 +33,7 @@ export const Album = ({ id }: Props) => {
 
   const { data, meta, loading, trigger, load, refresh } =
     useInfinityScroll<PictureCard>({
-      fetch,
+      fetcher,
     });
 
   useEffect(() => {

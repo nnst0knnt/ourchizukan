@@ -13,7 +13,7 @@ type Meta = {
 };
 
 type InfinityScrollOptions<Datum> = {
-  fetch: (
+  fetcher: (
     offset: number,
     limit: number,
   ) => Promise<{ data: Datum[]; meta: Meta }>;
@@ -21,31 +21,33 @@ type InfinityScrollOptions<Datum> = {
 };
 
 export const useInfinityScroll = <Datum extends { id: string | number }>({
-  fetch,
+  fetcher,
   limit = 4,
 }: InfinityScrollOptions<Datum>) => {
   const [data, setData] = useState<Datum[]>([]);
-  const [starting, setStarting] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+
+  const fetching = useRef(true);
+  const refreshing = useRef(false);
   const meta = useRef<Meta | null>(null);
-  const observer = useRef<IntersectionObserver | null>(null);
   const trigger = useRef<HTMLDivElement | null>(null);
 
-  const load = useCallback(
+  const fetch = useCallback(
     async (force = false) => {
       if (
-        (starting && !force) ||
-        refreshing ||
+        (fetching.current && !force) ||
+        refreshing.current ||
         (meta.current && !meta.current.next.more) ||
         (meta.current && meta.current.next.offset === null)
       )
         return;
 
       try {
+        fetching.current = true;
+
         setLoading(true);
 
-        const response = await fetch(
+        const response = await fetcher(
           meta.current && meta.current.next.offset
             ? meta.current.next.offset
             : 0,
@@ -60,24 +62,26 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
       } catch (e) {
         console.error("🔥 データの読み込みに失敗しました", e);
       } finally {
+        fetching.current = false;
+
         setLoading(false);
       }
     },
-    [fetch, limit, meta, refreshing, starting],
+    [fetcher, limit],
   );
 
-  const detected = useCallback(
-    () =>
+  const load = useCallback(
+    (milliseconds = 500) =>
       debounce(() => {
-        load();
-      }, 150)(),
-    [load],
+        fetch();
+      }, milliseconds)(),
+    [fetch],
   );
 
   const refresh = useCallback(async () => {
-    if (starting || refreshing) return;
+    if (fetching.current || refreshing.current) return;
 
-    setRefreshing(true);
+    refreshing.current = true;
 
     setData([]);
     meta.current = {
@@ -88,25 +92,26 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
       },
     };
 
-    await load();
+    await fetch();
 
-    setRefreshing(false);
-  }, [starting, refreshing, load]);
+    refreshing.current = false;
+  }, [fetch]);
 
-  const start = useCallback(async () => {
-    await load(true);
-
-    setStarting(false);
-  }, [load]);
+  const start = useCallback(async () => await fetch(true), [fetch]);
 
   useEffect(() => {
     if (!trigger.current) return;
 
-    observer.current = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          detected();
-        }
+        if (
+          !entries[0].isIntersecting ||
+          fetching.current ||
+          refreshing.current
+        )
+          return;
+
+        load();
       },
       {
         threshold: 0,
@@ -114,14 +119,22 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
       },
     );
 
-    observer.current.observe(trigger.current);
+    observer.observe(trigger.current);
 
-    return () => {
-      if (observer.current) {
-        observer.current.disconnect();
+    return () => observer.disconnect();
+  }, [load]);
+
+  useEffect(() => {
+    const timeout = setInterval(() => {
+      if (!trigger.current || fetching.current || refreshing.current) return;
+
+      if (trigger.current.getBoundingClientRect().top <= window.innerHeight) {
+        load();
       }
-    };
-  }, [detected]);
+    }, 500);
+
+    return () => timeout && clearInterval(timeout);
+  }, [load]);
 
   useEffect(() => {
     start();
@@ -133,7 +146,7 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
     meta: meta.current,
     loading,
     trigger,
-    load: detected,
+    load,
     refresh,
   };
 };

@@ -15,14 +15,14 @@ import repositories from "../repositories";
 export const Albums = () => {
   const [open, toggle] = useToggle(false);
 
-  const fetch = useCallback(
+  const fetcher = useCallback(
     async (offset: number, limit: number) =>
       await repositories.albums.list({ offset, limit }),
     [],
   );
 
   const { data, loading, trigger, refresh } = useInfinityScroll<AlbumCard>({
-    fetch,
+    fetcher,
   });
 
   return (
