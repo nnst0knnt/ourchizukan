@@ -47,7 +47,7 @@ export type CheckboxProps = {
 /**
  * Checkbox
  *
- * アクセシビリティに配慮したチェックボックスコンポーネントです。
+ * 複数の選択肢やオプションを選択するためのチェックボックスです。
  * 単独で使用することも、CheckboxGroupと組み合わせて使用することもできます。
  */
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
@@ -119,11 +119,13 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     );
 
     const click = useCallback(() => {
+      const value = !isChecked;
+
       if (onChange) {
-        onChange(!isChecked);
+        onChange(value);
       }
 
-      setIsChecked(!isChecked);
+      setIsChecked(value);
     }, [onChange, isChecked]);
 
     return (
@@ -148,12 +150,12 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               <div
                 className={cn(
                   "flex h-6 w-6 cursor-pointer items-center justify-center rounded border bg-foundation",
-                  "transition-colors duration-200",
                   statusStyles[status],
                   isChecked && "border-brand bg-brand",
+                  disabled && "disabled",
                 )}
-                onClick={click}
-                onKeyDown={click}
+                onClick={disabled ? undefined : click}
+                onKeyDown={disabled ? undefined : click}
               >
                 <Check
                   className={cn(
@@ -172,6 +174,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               className={cn(
                 "ml-2 block cursor-pointer rounded font-medium text-base text-primary",
                 "flex min-h-11 items-center",
+                disabled && "disabled",
               )}
             >
               {label}
@@ -183,7 +186,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         {message && (
           <p
             id={messageId}
-            className={cn("select-none text-sm", statusTextStyles[status])}
+            className={cn("mb-2 select-none text-xs", statusTextStyles[status])}
           >
             {message}
           </p>

@@ -9,6 +9,12 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  .disabled {
+    cursor: not-allowed !important;
+    opacity: 0.4 !important;
+    box-shadow: none !important;
+  }
 }
 
 /* nextjs-toploaderの背景 */

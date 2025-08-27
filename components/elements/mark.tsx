@@ -77,7 +77,7 @@ export const Mark = forwardRef<HTMLButtonElement, MarkProps>(
     const [enabledTooltip, setEnabledTooltip] = useState(false);
 
     const baseStyles =
-      "rounded-full flex items-center justify-center shadow-sm transition-colors duration-200 relative";
+      "rounded-full flex items-center justify-center shadow-sm relative";
 
     const kindStyles = {
       primary: filled

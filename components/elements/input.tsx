@@ -114,7 +114,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const classNames = cn(
       "block w-full rounded-md border bg-foundation text-primary placeholder:text-secondary/70!",
-      "transition-colors duration-200",
       /** @see https://docs.keeper.io/en/user-guides/troubleshooting/website-developers */
       "keeper-ignore",
       sizeStyles[size],

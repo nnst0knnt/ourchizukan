@@ -93,7 +93,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     const baseStyles =
-      "rounded-md font-medium transition-colors duration-200 shadow-sm flex items-center justify-center gap-2 relative";
+      "rounded-md font-medium shadow-sm flex items-center justify-center gap-2 relative";
 
     const kindStyles = {
       primary: "bg-brand text-foreground hover:bg-brand/90 active:bg-brand/80",

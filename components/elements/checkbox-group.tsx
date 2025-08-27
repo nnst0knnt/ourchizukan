@@ -34,7 +34,7 @@ export type CheckboxGroupProps = {
   success?: string;
   /** 必須項目かどうか */
   required?: boolean;
-  /** 子要素（Checkboxコンポーネント） */
+  /** 子要素 */
   children: ReactNode;
   /** 値が変更されたときのハンドラー */
   onChange?: (value: string[]) => void;
@@ -44,7 +44,7 @@ export type CheckboxGroupProps = {
  * CheckboxGroup
  *
  * 複数のチェックボックスをグループ化します。
- * WAI-ARIA準拠のアクセシビリティ対応を提供します。
+ * チェックボックスの選択状態を管理するために、Checkboxと組み合わせて使用します。
  */
 export const CheckboxGroup = forwardRef<
   HTMLFieldSetElement,
@@ -114,7 +114,7 @@ export const CheckboxGroup = forwardRef<
     return (
       <fieldset
         ref={ref}
-        className={cn("flex flex-col", className)}
+        className={cn("flex flex-col gap-1", className)}
         aria-required={required}
         aria-describedby={message ? messageId : undefined}
         aria-invalid={hasError}
@@ -132,7 +132,9 @@ export const CheckboxGroup = forwardRef<
         )}
 
         <CheckedValues.Provider value={checkedValues}>
-          <div className="flex flex-col gap-2">{children}</div>
+          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pl-2">
+            {children}
+          </div>
         </CheckedValues.Provider>
 
         {message && (
