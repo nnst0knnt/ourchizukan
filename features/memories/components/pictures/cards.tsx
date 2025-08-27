@@ -103,15 +103,6 @@ export const Cards = memo<CardsProps>(
               ? data.map((datum, index) => (
                   <Fragment key={datum.id}>
                     <Card datum={datum} onClick={() => select(index)} />
-                    <Viewer
-                      invisible={selected !== index}
-                      datum={datum}
-                      onClose={reset}
-                      onNext={hasNext && selected === index ? next : undefined}
-                      onPrevious={
-                        hasPrevious && selected === index ? previous : undefined
-                      }
-                    />
                   </Fragment>
                 ))
               : !loading && (
@@ -125,6 +116,14 @@ export const Cards = memo<CardsProps>(
                   </div>
                 )}
           </div>
+          {selected !== null && (
+            <Viewer
+              datum={data[selected]}
+              onClose={reset}
+              onNext={hasNext ? next : undefined}
+              onPrevious={hasPrevious ? previous : undefined}
+            />
+          )}
           <Footer to="/albums" fixed />
         </div>
 

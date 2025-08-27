@@ -9,7 +9,6 @@ import type { PictureCard } from "../../models/picture";
 import { Picture } from "./picture";
 
 type ViewerProps = {
-  invisible: boolean;
   datum: PictureCard;
   onClose: () => void;
   onNext?: () => void;
@@ -17,7 +16,7 @@ type ViewerProps = {
 };
 
 export const Viewer = memo<ViewerProps>(
-  ({ invisible = false, datum, onClose, onNext, onPrevious }) => {
+  ({ datum, onClose, onNext, onPrevious }) => {
     const { keydown } = useKeyboard(
       {
         Escape: onClose,
@@ -31,7 +30,6 @@ export const Viewer = memo<ViewerProps>(
       <div
         className={cn(
           "fullscreen fixed inset-0 z-fullscreen flex flex-col bg-foundation",
-          invisible ? "invisible" : "visible",
         )}
         role="dialog"
         onKeyDown={keydown}
@@ -49,7 +47,6 @@ export const Viewer = memo<ViewerProps>(
               <div
                 className={cn(
                   "relative flex h-full w-full items-center justify-center transition-opacity duration-300 ease-in-out",
-                  invisible ? "opacity-0" : "opacity-100",
                 )}
               >
                 <Picture url={datum.originalUrl} takenAt={datum.takenAt} />
