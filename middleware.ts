@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
-import { factory } from "./routes/helpers";
+import { bind, factory } from "./routes/helpers";
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon*|manifest*|scripts).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon*|icon.svg|manifest*|scripts).*)",
+  ],
 };
 
-export const middleware = factory
-  .createApp()
-  .all("*", () => NextResponse.next()).fetch;
+export const middleware = bind(
+  factory.createApp().all("*", () => NextResponse.next()),
+);

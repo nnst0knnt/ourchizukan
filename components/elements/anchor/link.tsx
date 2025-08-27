@@ -6,7 +6,7 @@ import {
   forwardRef,
 } from "react";
 
-import NextLink from "next/link";
+import NextLink, { type LinkProps as NextLinkProps } from "next/link";
 
 import { ExternalLink, type LucideIcon } from "lucide-react";
 
@@ -65,7 +65,8 @@ export type LinkProps = {
   external?: boolean;
   /** リンクとしての機能をオフにする */
   fake?: boolean;
-} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target" | "rel">;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target" | "rel"> &
+  NextLinkProps;
 
 /**
  * Link

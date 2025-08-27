@@ -1,16 +1,10 @@
 import { app } from "@/routes";
-import { getRequestContext } from "@cloudflare/next-on-pages";
+import { bind } from "@/routes/helpers";
 
 export const runtime = "edge";
 
-const handle = (_app: typeof app) => (request: Request) => {
-  const context = getRequestContext();
-
-  return _app.fetch(request, context.env, context.ctx);
-};
-
-export const GET = handle(app);
-export const POST = handle(app);
-export const PATCH = handle(app);
-export const PUT = handle(app);
-export const DELETE = handle(app);
+export const GET = bind(app);
+export const POST = bind(app);
+export const PATCH = bind(app);
+export const PUT = bind(app);
+export const DELETE = bind(app);
