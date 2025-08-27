@@ -1,0 +1,154 @@
+import { cn } from "@/styles/functions";
+import type { LucideIcon } from "lucide-react";
+import { forwardRef, useState } from "react";
+
+/**
+ * アイコンボタンの種類
+ */
+type IconButtonKind = "primary" | "secondary" | "ghost";
+
+/**
+ * アイコンボタンのサイズ
+ */
+type IconButtonSize = "small" | "default" | "large";
+
+/**
+ * IconButtonのプロパティ
+ */
+export type IconButtonProps = {
+  /** アイコン */
+  icon: LucideIcon;
+  /** ボタンのサイズ */
+  size?: IconButtonSize;
+  /** ボタンの種類 */
+  kind?: IconButtonKind;
+  /** 背景色を適用するかどうか */
+  filled?: boolean;
+  /** ツールチップのテキスト */
+  tooltip?: string;
+  /** アクセシビリティのためのラベル */
+  "aria-label": string;
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "aria-label">;
+
+/**
+ * IconButton
+ *
+ * アイコンのみを表示するコンパクトなボタンです。
+ * 高齢者にも認識しやすいサイズとツールチップによる説明をサポートしています。
+ * トグル機能も備えており、選択状態を視覚的に表示できます。
+ */
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+  (
+    {
+      icon: Icon,
+      size = "default",
+      kind = "primary",
+      filled = false,
+      tooltip,
+      className,
+      disabled,
+      "aria-label": ariaLabel,
+      ...props
+    },
+    ref,
+  ) => {
+    const [enabledTooltip, setEnabledTooltip] = useState(false);
+
+    const baseStyles =
+      "rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-1 shadow-sm transition-colors duration-200 relative";
+
+    const kindStyles = {
+      primary: filled
+        ? "bg-brand text-foreground"
+        : "bg-transparent text-brand border-2 border-brand/30 hover:bg-brand/30 active:bg-brand/40",
+      secondary: filled
+        ? "bg-accent text-foreground"
+        : "bg-transparent text-accent border-2 border-accent/30 hover:bg-accent/30 active:bg-accent/40",
+      ghost: filled
+        ? "bg-primary/10 text-primary"
+        : "bg-transparent text-primary border-2 border-primary/20 hover:bg-primary/10 active:bg-primary/20",
+    };
+
+    const sizeStyles = {
+      small: "p-1.5 min-h-9 min-w-9",
+      default: "p-2 min-h-11 min-w-11",
+      large: "p-2.5 min-h-14 min-w-14",
+    };
+
+    const iconSizes = {
+      small: 16,
+      default: 20,
+      large: 24,
+    };
+
+    const tooltipStyles = {
+      primary: "bg-brand text-foreground",
+      secondary: "bg-accent text-foreground",
+      ghost: "bg-primary text-foundation",
+    };
+
+    const tooltipArrowStyles = {
+      primary: "border-t-brand",
+      secondary: "border-t-accent",
+      ghost: "border-t-primary",
+    };
+
+    const tooltipSizeStyles = {
+      small: "px-2.5 py-2 text-xs",
+      default: "px-3 py-2.5 text-sm",
+      large: "px-3.5 py-2 text-md",
+    };
+
+    return (
+      <div className="relative inline-block">
+        <button
+          ref={ref}
+          type="button"
+          disabled={disabled}
+          aria-label={ariaLabel}
+          aria-pressed={filled}
+          className={cn(
+            baseStyles,
+            kindStyles[kind],
+            sizeStyles[size],
+            disabled ? "opacity-60 cursor-not-allowed" : "",
+            className,
+          )}
+          onMouseEnter={() => tooltip && setEnabledTooltip(true)}
+          onMouseLeave={() => tooltip && setEnabledTooltip(false)}
+          onFocus={() => tooltip && setEnabledTooltip(true)}
+          onBlur={() => tooltip && setEnabledTooltip(false)}
+          {...props}
+        >
+          <Icon size={iconSizes[size]} aria-hidden="true" />
+
+          {tooltip && (
+            <div
+              className={cn(
+                "flex items-center absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 rounded shadow-md whitespace-nowrap z-50 transition-opacity duration-200",
+                tooltipStyles[kind],
+                tooltipSizeStyles[size],
+                enabledTooltip
+                  ? "opacity-100"
+                  : "opacity-0 pointer-events-none",
+              )}
+              aria-hidden={!enabledTooltip}
+            >
+              <span>{tooltip}</span>
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 -translate-y-px">
+                <div
+                  className={cn(
+                    "border-8 border-transparent",
+                    tooltipArrowStyles[kind],
+                  )}
+                />
+              </div>
+            </div>
+          )}
+        </button>
+      </div>
+    );
+  },
+);
+
+IconButton.displayName = "IconButton";

@@ -30,16 +30,16 @@ export const ButtonStatus = {
 export type ButtonStatus = (typeof ButtonStatus)[keyof typeof ButtonStatus];
 
 /**
- * ボタンコンポーネントのプロパティ
+ * Buttonのプロパティ
  */
 export type ButtonProps = {
-  /** ボタンの種類（primary/secondary） */
+  /** ボタンの種類 */
   kind?: ButtonKind;
-  /** ボタンのサイズ（default/large） */
+  /** ボタンのサイズ */
   size?: ButtonSize;
-  /** 表示するアイコン（lucide-reactのアイコン） */
+  /** 表示するアイコン */
   icon?: LucideIcon;
-  /** アイコンの位置（デフォルトは左） */
+  /** アイコンの位置 */
   iconPosition?: ButtonIconPosition;
   /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
@@ -48,10 +48,9 @@ export type ButtonProps = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
- * ボタンコンポーネント
+ * Button
  *
- * 高齢者にも使いやすいよう、十分なタッチ領域とコントラストを確保し、
- * 文字サイズに応じて自動的にスケーリングするデザインになっています。
+ * 高齢者にも使いやすいよう、十分なタッチ領域とコントラストを確保しています。
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (

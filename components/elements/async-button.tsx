@@ -2,7 +2,7 @@ import { forwardRef, useState } from "react";
 import { Button, type ButtonProps, ButtonStatus } from "./button";
 
 /**
- * 非同期ボタンコンポーネントのプロパティ
+ * AsyncButtonのプロパティ
  */
 export type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
   /** クリック時の非同期処理 */
@@ -13,12 +13,12 @@ export type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
   onError?: (error: unknown) => void;
   /** 成功・エラー時に自動でリセットするかどうか */
   autoReset?: boolean;
-  /** ステータスを自動リセットするまでの時間（ミリ秒） */
-  resetDelay?: number;
+  /** ステータスを自動リセットするまでの時間 */
+  resetDelayMs?: number;
 };
 
 /**
- * 非同期ボタンコンポーネント
+ * AsyncButton
  *
  * 内部で状態管理を行い、非同期処理の状態に応じてボタンの表示を切り替えます。
  * 高齢者にも使いやすいよう、処理中や結果を視覚的に分かりやすく表示します。
@@ -30,7 +30,7 @@ export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
       onSuccess,
       onError,
       autoReset = true,
-      resetDelay = 3000,
+      resetDelayMs = 3000,
       children,
       ...props
     },
@@ -61,7 +61,7 @@ export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
         timeout = setTimeout(() => {
           setStatus(ButtonStatus.Idle);
           timeout = null;
-        }, resetDelay);
+        }, resetDelayMs);
       }
     };
 
