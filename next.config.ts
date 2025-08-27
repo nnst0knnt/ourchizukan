@@ -7,7 +7,18 @@ import { env } from "./services/env/client";
 const config: NextConfig = {
   env: env,
   images: {
-    domains: ["images.unsplash.com", "picsum.photos"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+        pathname: "/**",
+      },
+    ],
   },
 };
 
