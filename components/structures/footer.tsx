@@ -4,7 +4,7 @@ import { memo, useMemo } from "react";
 
 import { usePathname } from "next/navigation";
 
-import { Film, Home, Image, type LucideIcon } from "lucide-react";
+import { Film, Image, type LucideIcon } from "lucide-react";
 
 import { date } from "@/clients/date";
 import { Link } from "@/components/elements";
@@ -23,11 +23,6 @@ type NavigationLink = {
  * ナビゲーションリンク一覧
  */
 const links: NavigationLink[] = [
-  {
-    name: "ホーム",
-    href: "/",
-    icon: Home,
-  },
   {
     name: "写真",
     href: "/pictures",
