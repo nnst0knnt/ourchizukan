@@ -54,6 +54,18 @@ export const Upload = memo<UploadProps>(
       [originals],
     );
 
+    const message = useMemo(
+      () =>
+        errors.root
+          ? errors.root.message
+          : errors.originals
+            ? errors.originals.message
+            : errors.thumbnails
+              ? errors.thumbnails.message
+              : "",
+      [errors.originals, errors.root, errors.thumbnails],
+    );
+
     const drop = useCallback(
       async (acceptedFiles: File[]) => {
         const _originals: File[] = [];
@@ -162,9 +174,7 @@ export const Upload = memo<UploadProps>(
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 text-sm">
                   <p>選択された写真（{previews.length}枚）</p>
-                  {errors.root && (
-                    <p className="text-error">{errors.root.message}</p>
-                  )}
+                  {message && <p className="text-error">{message}</p>}
                 </div>
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
                   {previews.map((file, index) => (
