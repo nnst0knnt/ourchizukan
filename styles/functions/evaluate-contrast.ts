@@ -16,6 +16,7 @@ const ContrastLevels = {
   Bad: "bad",
   VeryBad: "very-bad",
 } as const;
+
 type ContrastLevel = (typeof ContrastLevels)[keyof typeof ContrastLevels];
 
 const ContrastBadges = {
@@ -26,6 +27,7 @@ const ContrastBadges = {
   "bad": "低い",
   "very-bad": "非常に低い",
 } as const satisfies Record<ContrastLevel, string>;
+
 type ContrastBadge = (typeof ContrastBadges)[keyof typeof ContrastBadges];
 
 const ContrastDescriptions = {
@@ -36,6 +38,7 @@ const ContrastDescriptions = {
   "bad": "大きなテキストのみ基準を満たす",
   "very-bad": "WCAG基準を満たしていない",
 } as const satisfies Record<ContrastLevel, string>;
+
 type ContrastDescription =
   (typeof ContrastDescriptions)[keyof typeof ContrastDescriptions];
 
@@ -47,6 +50,7 @@ const ContrastColors = {
   "bad": "#F57C00",
   "very-bad": "#D32F2F",
 } as const satisfies Record<ContrastLevel, string>;
+
 type ContrastColor = (typeof ContrastColors)[keyof typeof ContrastColors];
 
 export const evaluateContrast = (

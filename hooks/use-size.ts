@@ -13,6 +13,7 @@ export const SizeKind = {
   Normal: "normal",
   Large: "large",
 } as const;
+
 type SizeKind = (typeof SizeKind)[keyof typeof SizeKind];
 
 const useStore = create<{

@@ -12,6 +12,7 @@ export const ContrastKind = {
   Normal: "normal",
   High: "high",
 } as const;
+
 type ContrastKind = (typeof ContrastKind)[keyof typeof ContrastKind];
 
 const useStore = create<{
