@@ -21,10 +21,10 @@ export type Session = {
  */
 export const SessionOptions = {
   /**
-   * セッションの有効期間（ミリ秒）
+   * セッションの有効期間（秒）
    *
    * この期間が過ぎると再認証が必要になります。
    * デフォルトは30日間です。
    */
-  Lifetime: 30 * 24 * 60 * 60 * 1000,
+  Lifetime: 30 * 24 * 60 * 60,
 } as const;

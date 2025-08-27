@@ -6,11 +6,11 @@ export const createCloudflareKV: CreateKeyValueStorage = (
   get: async (key: string) => {
     return namespace.get(key);
   },
-  set: async (key: string, value: string, ttl?: number) => {
+  set: async (key: string, value: string, expirySeconds?: number) => {
     await namespace.put(
       key,
       value,
-      ttl ? { expirationTtl: ttl / 1000 } : undefined,
+      expirySeconds ? { expirationTtl: expirySeconds } : undefined,
     );
   },
   delete: async (key: string) => {

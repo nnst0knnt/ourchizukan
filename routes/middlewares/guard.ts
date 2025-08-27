@@ -51,7 +51,7 @@ export const guard = (_options: GuardOptions) =>
      * セッションの有効期限が過ぎている場合
      */
     if (session && context.var.keeper.session.expired(session)) {
-      await context.var.keeper.session.remove(session.id);
+      await context.var.keeper.session.remove(context.var.ip);
 
       session = null;
     }
