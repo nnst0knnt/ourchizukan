@@ -24,7 +24,7 @@ export type LogoLinkProps = {
  * 押下時にルートへ遷移します。
  */
 export const LogoLink = forwardRef<HTMLDivElement, LogoLinkProps>(
-  ({ size = "default", iconOnly = true, className, ...props }, ref) => {
+  ({ size = "default", iconOnly = false, className, ...props }, ref) => {
     const textSizes = {
       small: "text-base",
       default: "text-lg",
@@ -45,7 +45,7 @@ export const LogoLink = forwardRef<HTMLDivElement, LogoLinkProps>(
           {!iconOnly && (
             <span
               className={cn(
-                "font-bold tracking-wider",
+                "hidden font-bold tracking-wider md:block",
                 textSizes[size],
                 "text-primary",
               )}
