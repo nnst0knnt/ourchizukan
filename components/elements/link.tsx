@@ -43,7 +43,7 @@ const isExternalUrl = (url: string): boolean => {
 };
 
 /**
- * Linkのプロパティ
+ * LinkProps
  */
 export type LinkProps = {
   /** リンク先URL */

@@ -2,7 +2,7 @@
 
 import { Glasses, Moon, Palette, Sun } from "lucide-react";
 
-import { useContrast, useTheme } from "@/hooks";
+import { useAccessibility } from "@/components/tools";
 import { evaluateContrast, varsToHex } from "@/styles/functions";
 import { cn } from "@/styles/functions";
 
@@ -137,8 +137,7 @@ const evaluations: Evaluation[] = [
 ];
 
 export default function ColorPalette() {
-  const theme = useTheme();
-  const contrast = useContrast();
+  const { theme, contrast } = useAccessibility();
 
   return (
     <div className="flex flex-col gap-6 md:gap-8">

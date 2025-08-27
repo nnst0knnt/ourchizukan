@@ -1,2 +1,2 @@
 export { AccessibilityControls } from "./controls";
-export { AccessibilityProvider } from "./provider";
+export { AccessibilityProvider, useAccessibility } from "./provider";

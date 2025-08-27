@@ -33,7 +33,7 @@ export const ButtonStatus = {
 export type ButtonStatus = (typeof ButtonStatus)[keyof typeof ButtonStatus];
 
 /**
- * Buttonのプロパティ
+ * ButtonProps
  */
 export type ButtonProps = {
   /** ボタンの種類 */

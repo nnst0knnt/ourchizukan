@@ -22,7 +22,7 @@ type IconButtonSize = "small" | "default" | "large";
 type TooltipPosition = "top" | "right" | "bottom" | "left";
 
 /**
- * IconButtonのプロパティ
+ * IconButtonProps
  */
 export type IconButtonProps = {
   /** アイコン */

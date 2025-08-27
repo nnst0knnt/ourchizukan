@@ -1,7 +1,7 @@
 import { type HTMLAttributes, forwardRef } from "react";
 
 /**
- * Logoのプロパティ
+ * LogoProps
  */
 export type LogoProps = {
   /** ロゴのサイズ */

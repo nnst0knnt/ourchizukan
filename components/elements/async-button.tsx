@@ -5,7 +5,7 @@ import { type MouseEvent, forwardRef, useState } from "react";
 import { Button, type ButtonProps, ButtonStatus } from "./button";
 
 /**
- * AsyncButtonのプロパティ
+ * AsyncButtonProps
  */
 export type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
   /** クリック時の非同期処理 */

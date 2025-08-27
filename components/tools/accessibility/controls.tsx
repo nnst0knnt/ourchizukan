@@ -12,11 +12,12 @@ import {
 } from "lucide-react";
 
 import { IconButton } from "@/components/elements";
-import { useContrast, useSize, useTheme } from "@/hooks";
 import { cn } from "@/styles/functions";
 
+import { useAccessibility } from "./provider";
+
 /**
- * AccessibilityControlsのプロパティ
+ * AccessibilityControlsProps
  */
 export type AccessibilityControlsProps = HTMLAttributes<HTMLDivElement>;
 
@@ -30,9 +31,7 @@ export const AccessibilityControls = forwardRef<
   HTMLDivElement,
   AccessibilityControlsProps
 >(({ className, ...props }, ref) => {
-  const theme = useTheme();
-  const contrast = useContrast();
-  const size = useSize();
+  const { theme, contrast, size } = useAccessibility();
 
   return (
     <div

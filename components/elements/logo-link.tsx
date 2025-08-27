@@ -8,7 +8,7 @@ import { Link, type LinkProps } from "./link";
 import { Logo } from "./logo";
 
 /**
- * LogoLinkPropsのプロパティ
+ * LogoLinkProps
  */
 export type LogoLinkProps = {
   /** リンクのサイズ */
