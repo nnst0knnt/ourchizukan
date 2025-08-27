@@ -46,7 +46,6 @@ export const AccessibilityControls = forwardRef<
 
       <Mark
         value={Glasses}
-        valueProps={contrast.isHigh ? { strokeWidth: 3 } : {}}
         size="small"
         kind="ghost"
         onClick={contrast.toggle}

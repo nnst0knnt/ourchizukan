@@ -48,13 +48,13 @@ export const Title = forwardRef<HTMLHeadingElement, TitleProps>(
       h6: "text-sm md:text-base font-medium",
     };
 
-    const markSizes = {
-      h1: 48,
-      h2: 36,
-      h3: 24,
-      h4: 20,
-      h5: 16,
-      h6: 16,
+    const markStyles = {
+      h1: "h-12 w-12 stroke-2",
+      h2: "h-10 w-10 stroke-2",
+      h3: "h-8 w-8 stroke-2",
+      h4: "h-6 w-6 stroke-2",
+      h5: "h-5 w-5 stroke-2",
+      h6: "h-4 w-4 stroke-2",
     };
 
     const classNames = cn(
@@ -67,7 +67,7 @@ export const Title = forwardRef<HTMLHeadingElement, TitleProps>(
     return (
       <div className="flex flex-col">
         <Component ref={ref} className={classNames} {...props}>
-          {Mark && <Mark size={markSizes[Component]} />}
+          {Mark && <Mark className={markStyles[Component]} />}
           {accented ? (
             <span className="relative inline-flex items-center">
               <span className="relative z-10">{children}</span>

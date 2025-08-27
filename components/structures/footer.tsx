@@ -74,10 +74,6 @@ export const Footer = memo(() => {
                 )}
                 mark={link.mark}
                 markPosition="left"
-                markProps={{
-                  size: 24,
-                  className: cn(isActive && "fill-brand/10"),
-                }}
                 aria-current={isActive ? "page" : undefined}
               >
                 <span className="font-medium text-sm md:text-base">

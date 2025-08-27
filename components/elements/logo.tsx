@@ -4,11 +4,11 @@ import { type HTMLAttributes, forwardRef } from "react";
  * LogoProps
  */
 export type LogoProps = {
-  /** ロゴのサイズ */
-  size?: number;
   /** ロゴの色 */
   color?: string;
-} & HTMLAttributes<SVGElement>;
+} & HTMLAttributes<
+  Omit<SVGElement, "size" | "width" | "height" | "strokeWidth">
+>;
 
 /**
  * Logo
@@ -17,17 +17,14 @@ export type LogoProps = {
  * `size`を指定しない場合は`16px`となります。
  */
 export const Logo = forwardRef<SVGSVGElement, LogoProps>(
-  ({ size = 16, color = "currentColor", ...props }, ref) => {
+  ({ color = "currentColor", ...props }, ref) => {
     return (
       <svg
         ref={ref}
-        width={size * 1.5}
-        height={size * 1.5}
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         stroke={color}
-        strokeWidth="2"
         {...props}
       >
         <title>おうちずかん</title>

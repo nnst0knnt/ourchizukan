@@ -10,7 +10,7 @@ import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
-import type { LucideIcon, LucideProps } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 /**
  * ボタンの種類
@@ -48,8 +48,6 @@ export type ButtonProps = {
   size?: ButtonSize;
   /** ボタンを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** ボタンを表す印のプロパティ */
-  markProps?: LucideProps;
   /** ボタンを表す印の表示位置 */
   markPosition?: ButtonMarkPosition;
   /** 横幅いっぱいに広げるかどうか */
@@ -74,7 +72,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       kind = "primary",
       size = "default",
       mark: Mark,
-      markProps,
       markPosition = "left",
       status = ButtonStatus.Idle,
       fullWidth = false,
@@ -109,9 +106,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       large: "py-3 px-6 text-lg min-h-14",
     };
 
-    const markSizes = {
-      default: 20,
-      large: 24,
+    const markStyles = {
+      default: "h-5 w-5 stroke-2",
+      large: "h-6 w-6 stroke-2",
     };
 
     const statusStyles = {
@@ -123,15 +120,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const statusMarks = {
-      loading: (
-        <Loader2
-          className="animate-spin"
-          size={markSizes[size]}
-          strokeWidth={3.5}
-        />
-      ),
-      success: <CheckCircle2 size={markSizes[size]} strokeWidth={3.5} />,
-      error: <XCircle size={markSizes[size]} strokeWidth={3.5} />,
+      loading: <Loader2 className={cn("animate-spin", markStyles[size])} />,
+      success: <CheckCircle2 className={markStyles[size]} />,
+      error: <XCircle className={markStyles[size]} />,
     };
 
     const classNames = cn(
@@ -159,13 +150,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           )}
         >
           {Mark && markPosition === "left" && (
-            <Mark size={markSizes[size]} aria-hidden="true" {...markProps} />
+            <Mark className={markStyles[size]} aria-hidden="true" />
           )}
 
           <span>{children}</span>
 
           {Mark && markPosition === "right" && (
-            <Mark size={markSizes[size]} aria-hidden="true" {...markProps} />
+            <Mark className={markStyles[size]} aria-hidden="true" />
           )}
         </div>
 

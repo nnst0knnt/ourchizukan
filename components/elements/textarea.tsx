@@ -13,7 +13,7 @@ import {
 
 import { cn } from "@/styles/functions";
 
-import type { LucideIcon, LucideProps } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 /**
  * 入力欄のサイズ
@@ -41,8 +41,6 @@ export type TextareaProps = {
   success?: string;
   /** 入力欄を表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** 入力欄を表す印のプロパティ */
-  markProps?: LucideProps;
   /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
   /** 高さを自動調整するかどうか */
@@ -72,7 +70,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       error,
       success,
       mark: Mark,
-      markProps,
       placeholder,
       disabled,
       required,
@@ -116,16 +113,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     };
 
     const markStyles = {
-      default: "top-6.5 left-3",
-      large: "top-8 left-4",
+      default: "h-5 w-5 stroke-2 top-1/2 left-3",
+      large: "h-6 w-6 stroke-2 top-1/2 left-4",
     };
 
-    const markSizes = {
-      default: 20,
-      large: 24,
-    };
-
-    const markPaddings = {
+    const paddingStyles = {
       default: "pl-10",
       large: "pl-12.5",
     };
@@ -143,14 +135,14 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     };
 
     const classNames = cn(
-      "w-full rounded-md border bg-foundation text-primary placeholder:text-secondary/70!",
+      "block w-full rounded-md border bg-foundation text-primary placeholder:text-secondary/70!",
       "transition-colors duration-200",
       "resize-none",
       /** @see https://docs.keeper.io/en/user-guides/troubleshooting/website-developers */
       "keeper-ignore",
       sizeStyles[size],
       statusStyles[status],
-      Mark && markPaddings[size],
+      Mark && paddingStyles[size],
       className,
     );
 
@@ -236,10 +228,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {Mark && (
             <div className={cn("-translate-y-1/2 absolute", markStyles[size])}>
               <Mark
-                size={markSizes[size]}
-                className="text-secondary"
+                className={cn("text-secondary", markStyles[size])}
                 aria-hidden="true"
-                {...markProps}
               />
             </div>
           )}

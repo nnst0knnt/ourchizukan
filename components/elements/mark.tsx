@@ -10,7 +10,7 @@ import {
 
 import { cn } from "@/styles/functions";
 
-import type { LucideIcon, LucideProps } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 /**
  * 印の種類
@@ -36,8 +36,6 @@ export type MarkProps = {
     | LucideIcon
     | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>
     | null;
-  /** 印のプロパティ */
-  valueProps?: LucideProps;
   /** 印のサイズ */
   size?: MarkSize;
   /** 印の種類 */
@@ -64,7 +62,6 @@ export const Mark = forwardRef<HTMLButtonElement, MarkProps>(
   (
     {
       value: Value,
-      valueProps,
       size = "default",
       kind = "primary",
       filled = false,
@@ -103,10 +100,10 @@ export const Mark = forwardRef<HTMLButtonElement, MarkProps>(
       large: "p-2.5 min-h-14 min-w-14",
     };
 
-    const markSizes = {
-      small: 16,
-      default: 20,
-      large: 24,
+    const valueStyles = {
+      small: "h-4 w-4 stroke-2",
+      default: "h-5 w-5 stroke-2",
+      large: "h-6 w-6 stroke-2",
     };
 
     const tooltipStyles = {
@@ -177,9 +174,7 @@ export const Mark = forwardRef<HTMLButtonElement, MarkProps>(
           onBlur={() => tooltip && setEnabledTooltip(false)}
           {...props}
         >
-          {Value && (
-            <Value size={markSizes[size]} aria-hidden="true" {...valueProps} />
-          )}
+          {Value && <Value className={valueStyles[size]} aria-hidden="true" />}
 
           {tooltip && (
             <div

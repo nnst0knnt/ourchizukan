@@ -124,7 +124,7 @@ export const ColorList = () => {
                 {window.enabled ? (
                   varsToHex(color.cssVar)
                 ) : (
-                  <Ellipsis size={16} />
+                  <Ellipsis className="h-4 w-4" />
                 )}
               </div>
             </div>

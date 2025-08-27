@@ -7,7 +7,7 @@ import {
 
 import NextLink from "next/link";
 
-import { ExternalLink, type LucideIcon, type LucideProps } from "lucide-react";
+import { ExternalLink, type LucideIcon } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
@@ -54,8 +54,6 @@ export type LinkProps = {
   size?: LinkSize;
   /** リンクを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** リンクを表す印のプロパティ */
-  markProps?: LucideProps;
   /** リンクを表す印の表示位置 */
   markPosition?: MarkPosition;
   /** 下線を表示するかどうか */
@@ -79,7 +77,6 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       kind = "default",
       size = "default",
       mark: Mark,
-      markProps,
       markPosition = "left",
       underline = true,
       openInNewTab = false,
@@ -127,10 +124,10 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       large: "text-lg",
     };
 
-    const markSizes = {
-      small: 14,
-      default: 16,
-      large: 20,
+    const markStyles = {
+      small: "h-4 w-4 stroke-2 fill-brand/15",
+      default: "h-5 w-5 stroke-2 fill-brand/15",
+      large: "h-6 w-6 stroke-2 fill-brand/15",
     };
 
     const underlineStyles =
@@ -157,14 +154,14 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         {...props}
       >
         {Mark && markPosition === "left" && (
-          <Mark size={markSizes[size]} aria-hidden="true" {...markProps} />
+          <Mark className={markStyles[size]} aria-hidden="true" />
         )}
         <span>{children}</span>
         {Mark && markPosition === "right" && (
-          <Mark size={markSizes[size]} aria-hidden="true" {...markProps} />
+          <Mark className={markStyles[size]} aria-hidden="true" />
         )}
         {enabledExternalMark && (
-          <ExternalLink size={markSizes[size]} aria-hidden="true" />
+          <ExternalLink className={markStyles[size]} aria-hidden="true" />
         )}
       </NextLink>
     );
