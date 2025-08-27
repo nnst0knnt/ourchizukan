@@ -1,6 +1,10 @@
-import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
+
 import "@/styles/globals.css";
-import { ContrastKind, SizeKind, ThemeKind } from "@/hooks";
+import type { Metadata, Viewport } from "next";
+
+import { Content, Footer, Header, Navigation } from "@/components/structures";
+import { AccessibilityProvider } from "@/components/tools";
 
 export const metadata: Metadata = {
   title: {
@@ -30,19 +34,18 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
-    <html
-      lang="ja"
-      data-theme={ThemeKind.Light}
-      data-contrast={ContrastKind.Normal}
-      data-size={SizeKind.Normal}
-      suppressHydrationWarning
-    >
+    <html lang="ja" className="scroll-smooth" suppressHydrationWarning>
       <head />
-      <body>
-        <main>{children}</main>
+      <body className="flex min-h-screen flex-col bg-foundation text-primary antialiased">
+        <AccessibilityProvider>
+          <Header />
+          <Navigation />
+          <Content>{children}</Content>
+          <Footer />
+        </AccessibilityProvider>
       </body>
     </html>
   );

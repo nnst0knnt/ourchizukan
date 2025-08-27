@@ -1,1 +1,1 @@
-export { AccessibilityPalette } from "./accessibility-palette";
+export * from "./accessibility";
