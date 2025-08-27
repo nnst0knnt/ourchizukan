@@ -25,6 +25,7 @@ export const config: Config = {
 export const middleware = bind(
   factory
     .createApp()
+    .get("/", (context) => NextResponse.redirect(url(context, redirect.home)))
     .use(
       except(
         [redirect.unexpected],

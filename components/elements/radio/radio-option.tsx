@@ -9,7 +9,7 @@ import {
   useId,
 } from "react";
 
-import { useForwardedRef } from "@/hooks";
+import { useForwardedRef, useKeyboard } from "@/hooks";
 import { cn } from "@/styles/functions";
 
 import { RadioGroupState, type RadioSize } from "./radio-group";
@@ -94,6 +94,10 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
       }
     }, [isChecked, radioRef]);
 
+    const { keydown } = useKeyboard({
+      Enter: click,
+    });
+
     const defaultId = useId();
 
     const inputId = id || defaultId;
@@ -163,7 +167,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
                   disabled && "disabled",
                 )}
                 onClick={disabled ? undefined : click}
-                onKeyDown={disabled ? undefined : click}
+                onKeyDown={disabled ? undefined : keydown}
               >
                 <div
                   className={cn(

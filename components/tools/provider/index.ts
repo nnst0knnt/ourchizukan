@@ -1,1 +1,0 @@
-export { MemberProvider } from "./member";

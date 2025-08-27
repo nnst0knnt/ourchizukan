@@ -1,7 +1,8 @@
 "use client";
 
-import { useForwardedRef } from "@/hooks";
+import { useForwardedRef, usePullToRefresh } from "@/hooks";
 import { date } from "@/services/date";
+import { sleep } from "@/services/timer";
 import { cn } from "@/styles/functions";
 import { ArrowDown, RotateCw } from "lucide-react";
 import {
@@ -77,6 +78,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
     },
     ref,
   ) => {
+    const { enabled } = usePullToRefresh();
     const containerRef = useForwardedRef(ref);
     const selectorRef = useRef<HTMLElement | null>(null);
 
@@ -107,9 +109,9 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
         setStatus(Status.Refreshed);
         setDistance(0);
 
-        setTimeout(() => {
-          setStatus(Status.Idle);
-        }, 500);
+        await sleep(500);
+
+        setStatus(Status.Idle);
       }
     }, [onRefresh, status]);
 
@@ -126,8 +128,14 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
       (e: TouchEvent) => {
         e.stopPropagation();
 
-        /** ページが最上部にあり、リフレッシュ中でない場合のみ開始位置を記録 */
-        if (window.scrollY === 0 && status === Status.Idle) {
+        const element = selectorRef.current;
+
+        if (!element) return;
+
+        /**
+         * コンテンツ領域の最上部にいて、かつリフレッシュ中でない場合のみ開始位置を記録
+         */
+        if (element.scrollTop <= 0 && status === Status.Idle) {
           startY.current = e.touches[0].clientY;
           startMs.current = date().valueOf();
         }
@@ -139,10 +147,15 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
       (e: TouchEvent) => {
         e.stopPropagation();
 
-        /** プルダウン中でない場合は無視 */
+        const element = selectorRef.current;
+
+        if (!element) return;
+
+        /** プルダウン中でない場合、または要素が最上部にない場合は無視 */
         if (
           startY.current === 0 ||
           status !== Status.Idle ||
+          element.scrollTop > 0 ||
           date().valueOf() - startMs.current < holdTime
         )
           return;
@@ -198,6 +211,8 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
     }, [distance, holdTime, refresh, reset, status, threshold]);
 
     useEffect(() => {
+      if (!enabled) return;
+
       const element = document.querySelector(selector) as HTMLElement;
 
       if (element) {
@@ -205,9 +220,11 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
 
         setMounted(true);
       }
-    }, [selector]);
+    }, [enabled, selector]);
 
     useEffect(() => {
+      if (!enabled) return;
+
       const element = selectorRef.current;
 
       if (!element) return;
@@ -224,11 +241,12 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
         element.removeEventListener("touchmove", move);
         element.removeEventListener("touchend", end);
       };
-    }, [end, move, start]);
+    }, [enabled, end, move, start]);
 
     return (
       <>
-        {mounted &&
+        {enabled &&
+          mounted &&
           selectorRef.current &&
           createPortal(
             <div

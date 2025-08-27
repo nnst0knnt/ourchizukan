@@ -148,7 +148,6 @@ export const MobileSelectGroup = ({
         )}
         aria-hidden={!open}
         onClick={toggle}
-        onKeyDown={toggle}
       >
         <div
           className={cn(
@@ -157,7 +156,6 @@ export const MobileSelectGroup = ({
             open ? "translate-y-0" : "translate-y-full",
           )}
           onClick={(e) => e.stopPropagation()}
-          onKeyDown={(e) => e.stopPropagation()}
         >
           <div className="flex items-center justify-between border-outline border-b p-4 pb-3">
             <span className="flex-1 truncate font-medium text-lg">{name}</span>

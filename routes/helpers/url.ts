@@ -4,6 +4,8 @@ import type { Context } from "hono";
  * リダイレクト先
  */
 export const redirect = {
+  /** ホーム画面 */
+  home: "/albums",
   /** 未認証時のリダイレクト先 */
   unauthenticated: "/house-entries/enter",
   /** 認証時のリダイレクト先 */

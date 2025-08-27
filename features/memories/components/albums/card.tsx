@@ -1,6 +1,9 @@
+import { useKeyboard } from "@/hooks";
+import { cn } from "@/styles/functions";
 import { Images } from "lucide-react";
 import Image from "next/image";
-import { memo } from "react";
+import { useRouter } from "next/navigation";
+import { memo, useCallback } from "react";
 import type { AlbumCard } from "../../models/card";
 
 type CardProps = {
@@ -9,6 +12,17 @@ type CardProps = {
 };
 
 export const Card = memo<CardProps>(({ model = null, loading = false }) => {
+  const router = useRouter();
+
+  const click = useCallback(
+    () => (model ? router.push(`/albums/${model.id}`) : null),
+    [model, router],
+  );
+
+  const { keydown } = useKeyboard({
+    Enter: click,
+  });
+
   if (loading || !model) {
     return (
       <div className="w-full overflow-hidden rounded-lg border border-outline bg-foundation shadow-sm">
@@ -22,7 +36,17 @@ export const Card = memo<CardProps>(({ model = null, loading = false }) => {
   }
 
   return (
-    <div className="w-full overflow-hidden rounded-lg border border-outline bg-foundation shadow-sm">
+    <div
+      className={cn(
+        "flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-lg",
+        "border border-outline bg-foundation shadow-sm transition-shadow duration-300 hover:shadow-md",
+      )}
+      role="link"
+      onClick={click}
+      onKeyDown={keydown}
+      tabIndex={0}
+      aria-label={`${model.name || "アルバム"}を開く`}
+    >
       <div className="relative aspect-square">
         {model.thumbnail ? (
           <Image

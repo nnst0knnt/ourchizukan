@@ -1,32 +1,42 @@
-import { memo } from "react";
+"use client";
 
-import type { Member } from "@/models";
-import { date } from "@/services/date";
-import { Links } from "./links";
+import { Button } from "@/components/elements/trigger";
+import { cn } from "@/styles/functions";
+import { useRouter } from "next/navigation";
+import { memo, useCallback } from "react";
+
+type Path = string;
+
+type Handler = () => void;
 
 type FooterProps = {
-  /** メンバー情報 */
-  member: Member;
-  /** ナビゲーションを表示するか */
-  links: boolean;
+  to: Path | Handler;
+  fixed?: boolean;
 };
 
-export const Footer = memo<FooterProps>(({ member, links = false }) => (
-  <footer className="w-full border-outline border-t bg-foundation shadow-sm">
-    <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-4 md:px-6 lg:px-8">
-      {links && (
-        <Links
-          prefetch={!!member}
-          className="flex w-full justify-around pt-1 md:max-w-md md:justify-between"
-        />
-      )}
+export const Footer = memo<FooterProps>(({ to, fixed = false }) => {
+  const router = useRouter();
 
-      <div className="flex items-center justify-center gap-1 pt-2 text-center text-secondary text-xs">
-        <span>© {date().format("YYYY")}</span>
-        <span>おうちずかん</span>
+  const click = useCallback(
+    () => (typeof to === "string" ? router.push(to) : to()),
+    [to, router],
+  );
+
+  return (
+    <footer
+      className={cn(
+        "w-full border-outline border-t bg-foundation",
+        fixed && "fixed right-0 bottom-0 left-0 z-10",
+        !fixed && "relative",
+      )}
+    >
+      <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-4 pt-2 md:h-16 md:px-6 lg:px-8">
+        <Button kind="ghost" onClick={click} aria-label="戻る">
+          <span>戻る</span>
+        </Button>
       </div>
-    </div>
-  </footer>
-));
+    </footer>
+  );
+});
 
 Footer.displayName = "Footer";

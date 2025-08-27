@@ -5,13 +5,12 @@ import type { Metadata, Viewport } from "next";
 
 import {
   Body,
-  Footer,
   Header,
   Html,
   Outlet,
   Unsupported,
 } from "@/components/structures";
-import { MemberProvider, TransitionProgress } from "@/components/tools";
+import { TransitionProgress } from "@/components/tools";
 
 export const metadata: Metadata = {
   title: {
@@ -59,16 +58,9 @@ export default function Layout({
       </head>
       <Body>
         <Unsupported />
-        <MemberProvider>
-          {(member) => (
-            <>
-              <TransitionProgress />
-              <Header />
-              <Outlet>{children}</Outlet>
-              <Footer member={member} links={false} />
-            </>
-          )}
-        </MemberProvider>
+        <TransitionProgress />
+        <Header />
+        <Outlet>{children}</Outlet>
       </Body>
     </Html>
   );

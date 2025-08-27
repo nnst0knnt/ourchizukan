@@ -2,6 +2,7 @@
 
 import { memo, useCallback, useState } from "react";
 
+import { sleep } from "@/services/timer";
 import { Check, Clipboard } from "lucide-react";
 
 /**
@@ -24,7 +25,9 @@ export const CopyToClipboard = memo<CopyToClipboardProps>(({ code }) => {
 
     setCopied(true);
 
-    setTimeout(() => setCopied(false), 2000);
+    await sleep(2000);
+
+    setCopied(false);
   }, [code]);
 
   return (

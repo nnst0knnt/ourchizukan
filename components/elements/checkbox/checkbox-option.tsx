@@ -14,6 +14,7 @@ import { Check } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
+import { useKeyboard } from "@/hooks";
 import { CheckboxGroupState, type CheckboxSize } from "./checkbox-group";
 
 /**
@@ -99,6 +100,10 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
       setIsChecked(value);
     }, [onChange, isChecked]);
 
+    const { keydown } = useKeyboard({
+      Enter: click,
+    });
+
     const defaultId = useId();
 
     const inputId = id || defaultId;
@@ -174,7 +179,7 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
                   disabled && "disabled",
                 )}
                 onClick={disabled ? undefined : click}
-                onKeyDown={disabled ? undefined : click}
+                onKeyDown={disabled ? undefined : keydown}
               >
                 <Check
                   className={cn(

@@ -1,9 +1,11 @@
 import { Button } from "@/components/elements/trigger";
+import { Footer } from "@/components/structures";
+import { useKeyboard } from "@/hooks";
 import { date } from "@/services/date";
 import { cn } from "@/styles/functions";
 import { AlertTriangle, Camera } from "lucide-react";
 import Image from "next/image";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import type { PictureCard } from "../../models/card";
 
 type ViewerProps = {
@@ -24,13 +26,13 @@ export const Viewer = memo<ViewerProps>(
     onNext,
     onPrevious,
   }) => {
-    const keydown = useCallback(
-      (e: React.KeyboardEvent) => {
-        if (e.key === "Escape") onClose();
-        if (e.key === "ArrowRight" && onNext) onNext();
-        if (e.key === "ArrowLeft" && onPrevious) onPrevious();
+    const { keydown } = useKeyboard(
+      {
+        Escape: onClose,
+        ArrowRight: onNext,
+        ArrowLeft: onPrevious,
       },
-      [onClose, onNext, onPrevious],
+      { global: true },
     );
 
     return (
@@ -41,13 +43,18 @@ export const Viewer = memo<ViewerProps>(
         )}
         onKeyDown={keydown}
       >
-        <div className="flex w-full items-center bg-foundation p-4">
-          <Button kind="secondary" onClick={onClose} aria-label="戻る">
-            <span>戻る</span>
-          </Button>
+        <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-4 md:h-16 md:px-6 lg:px-8">
+          {!loading && model ? (
+            <p className="flex items-center gap-2 text-sm">
+              <Camera className="inline-block h-4 w-4" />
+              <span>{date(model.takenAt).format("YYYY年M月D日")}</span>
+            </p>
+          ) : (
+            <p className="text-base text-secondary">&nbsp;</p>
+          )}
         </div>
 
-        <div className="relative flex flex-1 items-center justify-center border-outline border-t border-b p-4">
+        <div className="relative flex flex-1 items-center justify-center border-outline border-t p-4">
           {loading || !model ? (
             <div className="flex h-full w-full items-center justify-center">
               <div className="aspect-square w-3/4 max-w-3xl animate-pulse rounded-lg bg-primary/20" />
@@ -71,30 +78,28 @@ export const Viewer = memo<ViewerProps>(
 
               <div
                 className={cn(
-                  "-translate-y-1/2 absolute left-4",
+                  "-translate-y-1/2 absolute mx-auto flex w-full max-w-7xl items-center justify-between px-4 md:px-6 lg:px-8",
                   "top-auto bottom-[-0.5rem]",
                   "md:top-1/2 md:bottom-auto",
-                  !onPrevious && "disabled",
                 )}
               >
                 <Button
+                  className="mr-auto"
                   kind="secondary"
+                  disabled={!onPrevious}
                   onClick={onPrevious}
                   aria-label="前の写真"
                 >
                   <span>前へ</span>
                 </Button>
-              </div>
 
-              <div
-                className={cn(
-                  "-translate-y-1/2 absolute right-4",
-                  "top-auto bottom-[-0.5rem]",
-                  "md:top-1/2 md:bottom-auto",
-                  !onNext && "disabled",
-                )}
-              >
-                <Button kind="secondary" onClick={onNext} aria-label="次の写真">
+                <Button
+                  className="ml-auto"
+                  kind="secondary"
+                  disabled={!onNext}
+                  onClick={onNext}
+                  aria-label="次の写真"
+                >
                   <span>次へ</span>
                 </Button>
               </div>
@@ -107,16 +112,7 @@ export const Viewer = memo<ViewerProps>(
           )}
         </div>
 
-        <div className="w-full bg-foundation p-4">
-          {!loading && model ? (
-            <p className="flex items-center gap-2 text-sm">
-              <Camera className="inline-block h-4 w-4" />
-              <span>{date(model.takenAt).format("YYYY年M月D日")}</span>
-            </p>
-          ) : (
-            <p className="text-base text-secondary">&nbsp;</p>
-          )}
-        </div>
+        <Footer to={onClose} />
       </div>
     );
   },

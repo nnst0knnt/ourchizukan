@@ -1,9 +1,10 @@
+import { Albums } from "@/features/memories";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "思い出一覧 | おうちずかん",
+  title: "アルバム一覧",
 };
 
 export default function Page() {
-  return <></>;
+  return <Albums />;
 }

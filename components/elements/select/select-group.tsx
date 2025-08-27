@@ -12,9 +12,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { useClickAway } from "react-use";
+import { useClickAway, useToggle } from "react-use";
 
-import { useResponsive } from "@/hooks";
+import { useKeyboard, useResponsive } from "@/hooks";
 import { cn } from "@/styles/functions";
 
 import { DesktopSelectGroup } from "./desktop-select-group";
@@ -112,14 +112,18 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
   ) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const [open, setOpen] = useState(false);
-
     const [selected, setSelected] = useState<{ label: string; value: string }>({
       label: "",
       value,
     });
 
-    useClickAway(containerRef, () => open && setOpen(false));
+    const [open, toggle] = useToggle(false);
+
+    const { keydown } = useKeyboard({
+      Enter: toggle,
+    });
+
+    useClickAway(containerRef, () => open && toggle());
 
     const { isMobile } = useResponsive();
 
@@ -155,12 +159,10 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
 
         setSelected({ label, value });
 
-        setOpen(false);
+        toggle();
       },
-      [onChange],
+      [onChange, toggle],
     );
-
-    const toggle = useCallback(() => setOpen((previous) => !previous), []);
 
     return (
       <div
@@ -177,7 +179,7 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
                 size === "large" ? "text-lg" : "text-base",
               )}
               onClick={toggle}
-              onKeyDown={toggle}
+              onKeyDown={keydown}
             >
               {label}
               {required && <span className="mt-1 ml-1 text-error">*</span>}
