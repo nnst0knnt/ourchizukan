@@ -8,7 +8,7 @@ import { cn } from "@/styles/functions";
  * アプリケーション全体のコンテンツ部分です。
  * アプリケーションの中心部分に常時表示されます。
  */
-export const Content = memo(({ children }: PropsWithChildren) => (
+export const Content = memo<PropsWithChildren>(({ children }) => (
   <main
     className={cn(
       "relative mx-auto w-full max-w-7xl flex-1",

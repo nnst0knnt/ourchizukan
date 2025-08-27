@@ -1,5 +1,7 @@
 "use client";
 
+import { memo } from "react";
+
 import { Ellipsis } from "lucide-react";
 
 import { Description, Title } from "@/components/elements/typography";
@@ -94,7 +96,7 @@ const colors: Color[] = [
   },
 ];
 
-export const ColorsInUse = () => {
+export const ColorsInUse = memo(() => {
   const window = useWindow();
 
   /**
@@ -153,4 +155,6 @@ export const ColorsInUse = () => {
       </div>
     </section>
   );
-};
+});
+
+ColorsInUse.displayName = "ColorsInUse";

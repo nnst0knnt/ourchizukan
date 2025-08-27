@@ -1,5 +1,7 @@
 "use client";
 
+import { memo } from "react";
+
 import { Title } from "@/components/elements/typography";
 import { useContrast, useTheme, useWindow } from "@/hooks";
 import { evaluateContrast, varsToHex } from "@/styles/functions";
@@ -53,7 +55,7 @@ const evaluations: Evaluation[] = [
   },
 ];
 
-export const ContrastEvaluation = () => {
+export const ContrastEvaluation = memo(() => {
   const window = useWindow();
 
   /**
@@ -145,4 +147,6 @@ export const ContrastEvaluation = () => {
       )}
     </section>
   );
-};
+});
+
+ContrastEvaluation.displayName = "ContrastEvaluation";
