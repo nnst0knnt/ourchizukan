@@ -4,26 +4,21 @@ import {
   type AccessMethod,
   type Attempt,
   type AttemptKind,
-  CookieOptions,
   type KeyValueStorage,
   RateLimitOptions,
   type Session,
   SessionOptions,
 } from "@/models";
-import type { Context } from "hono";
-import { getCookie } from "hono/cookie";
 import { date } from "../date";
 
 const session = (kv: KeyValueStorage) => {
   const prefix = "sessions";
 
-  const generateKey = (id: string) => `${prefix}:${id}`;
+  const generateKey = (ip: string) => `${prefix}:${ip}`;
 
-  const get = async (context: Context): Promise<Session | null> => {
+  const get = async (ip: string): Promise<Session | null> => {
     try {
-      const found = await kv.get(
-        generateKey(getCookie(context, CookieOptions.Name) || ""),
-      );
+      const found = await kv.get(generateKey(ip));
 
       return found ? (JSON.parse(found) as Session) : null;
     } catch (e) {
@@ -48,7 +43,7 @@ const session = (kv: KeyValueStorage) => {
 
     try {
       await kv.set(
-        generateKey(created.id),
+        generateKey(ip),
         JSON.stringify(created),
         SessionOptions.Lifetime,
       );
@@ -61,9 +56,9 @@ const session = (kv: KeyValueStorage) => {
     }
   };
 
-  const remove = async (id: string): Promise<boolean> => {
+  const remove = async (ip: string): Promise<boolean> => {
     try {
-      return await kv.delete(generateKey(id));
+      return await kv.delete(generateKey(ip));
     } catch (e) {
       console.error(e);
 

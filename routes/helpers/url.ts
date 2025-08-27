@@ -1,14 +1,16 @@
 import type { Context } from "hono";
 
 /**
- * 未認証時のリダイレクト先
+ * リダイレクト先
  */
-export const unauthenticated = "/house-entries/enter";
-
-/**
- * 予期しないエラー発生時のリダイレクト先
- */
-export const unexpected = "/house-trouble";
+export const redirect = {
+  /** 未認証時のリダイレクト先 */
+  unauthenticated: "/house-entries/enter",
+  /** 認証時のリダイレクト先 */
+  authenticated: "/",
+  /** 予期しないエラー発生時のリダイレクト先 */
+  unexpected: "/house-trouble",
+};
 
 /**
  * コンテキストからURLを生成する

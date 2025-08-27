@@ -1,5 +1,6 @@
+import { except } from "hono/combine";
 import { families } from "./endpoints/families";
-import { url, factory, unexpected } from "./helpers";
+import { url, factory, redirect } from "./helpers";
 import { environment, guard } from "./middlewares";
 
 /**
@@ -13,12 +14,19 @@ export const app = factory
   .basePath("/api")
   .use(environment())
   .use(
-    guard({
-      guests: ["/api/families/me"],
-      failure: {
-        message: "おうちに入ることができませんでした",
-      },
-    }),
+    except(
+      ["/api/families/me"],
+      guard({
+        failure: {
+          unauthenticated: {
+            message: "おうちに入ることができませんでした",
+          },
+          authenticated: {
+            message: "既におうちに入っています",
+          },
+        },
+      }),
+    ),
   )
   .route("/families", families)
-  .onError((_, context) => context.redirect(url(context, unexpected)));
+  .onError((_, context) => context.redirect(url(context, redirect.unexpected)));

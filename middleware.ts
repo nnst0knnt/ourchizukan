@@ -1,12 +1,7 @@
+import { except } from "hono/combine";
 import type { MiddlewareConfigInput as Config } from "next/dist/build/segment-config/middleware/middleware-config";
 import { NextResponse } from "next/server";
-import {
-  url,
-  bind,
-  factory,
-  unauthenticated,
-  unexpected,
-} from "./routes/helpers";
+import { url, bind, factory, redirect } from "./routes/helpers";
 import { environment, guard } from "./routes/middlewares";
 
 export const config: Config = {
@@ -27,11 +22,23 @@ export const middleware = bind(
     .createApp()
     .use(environment())
     .use(
-      guard({
-        guests: [unauthenticated, unexpected],
-        failure: { redirect: unauthenticated },
-      }),
+      except(
+        [redirect.unexpected],
+        guard({
+          guests: [redirect.unauthenticated],
+          failure: {
+            unauthenticated: {
+              redirect: redirect.unauthenticated,
+            },
+            authenticated: {
+              redirect: redirect.authenticated,
+            },
+          },
+        }),
+      ),
     )
     .all("*", () => NextResponse.next())
-    .onError((_, context) => NextResponse.rewrite(url(context, unexpected))),
+    .onError((_, context) =>
+      NextResponse.rewrite(url(context, redirect.unexpected)),
+    ),
 );

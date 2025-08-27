@@ -1,64 +1,75 @@
-import { AccessMethod, CookieOptions, toCookieOptions } from "@/models";
+import { AccessMethod } from "@/models";
 import { has } from "@/services/assertion/property";
-import { deleteCookie, setCookie } from "hono/cookie";
+import type { Context, Next } from "hono";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { url, factory } from "../helpers";
+
+/**
+ * FailureOptions
+ */
+type FailureOptions =
+  | {
+      /** リダイレクト先 */
+      redirect: string;
+    }
+  | {
+      /** エラーメッセージ */
+      message: string;
+    };
 
 /**
  * GuardOptions
  */
 type GuardOptions = {
   /**
-   * 保護が不要なルート
+   * 未認証用のルート
    */
-  guests: string[];
+  guests?: string[];
   /**
-   * 認証に失敗した場合の処理
+   * 失敗時のアクション
    */
-  failure:
-    | {
-        /** リダイレクト先 */
-        redirect: string;
-      }
-    | {
-        /** エラーメッセージ */
-        message: string;
-      };
+  failure: {
+    /** 未認証時に認証用のルートにアクセスした場合 */
+    unauthenticated: FailureOptions;
+    /** 認証時に未認証用のルートにアクセスした場合 */
+    authenticated: FailureOptions;
+  };
 };
 
 /**
  * ルートを保護するミドルウェア
  */
-export const guard = (options: GuardOptions) =>
+export const guard = (_options: GuardOptions) =>
   factory.createMiddleware(async (context, next) => {
+    const options = {
+      guests: [],
+      ..._options,
+    } as Required<GuardOptions>;
+    let session = await context.var.keeper.session.get(context.var.ip);
+
     /**
-     * 保護が不要な場合
+     * セッションの有効期限が過ぎている場合
      */
-    if (options.guests.includes(context.req.path)) {
+    if (session && context.var.keeper.session.expired(session)) {
+      await context.var.keeper.session.remove(session.id);
+
+      session = null;
+    }
+
+    /**
+     * 未認証用のルートにアクセスした場合
+     */
+    if (!session && options.guests.includes(context.req.path)) {
       await next();
 
       return;
     }
-
-    const session = await context.var.keeper.session.get(context);
-    const expired = session && context.var.keeper.session.expired(session);
 
     /**
      * 有効期限内のセッションが存在する場合
      */
-    if (session && !expired) {
-      await next();
-
-      return;
-    }
-
-    /**
-     * セッションが有効期限を過ぎている場合
-     */
-    if (session && expired) {
-      await context.var.keeper.session.remove(session.id);
-
-      deleteCookie(context, CookieOptions.Name);
+    if (session) {
+      return authenticated(context, options, next);
     }
 
     /**
@@ -66,29 +77,73 @@ export const guard = (options: GuardOptions) =>
      */
     const isWhitelisted = await context.var.keeper.whitelist.ip(context.var.ip);
     if (isWhitelisted) {
-      const session = await context.var.keeper.session.create(
-        context.var.ip,
-        AccessMethod.Ip,
-      );
+      await context.var.keeper.session.create(context.var.ip, AccessMethod.Ip);
 
-      await next();
-
-      if (session) {
-        setCookie(context, CookieOptions.Name, session.id, toCookieOptions());
-      }
-
-      return;
+      return authenticated(context, options, next);
     }
 
     /**
      * 認証に失敗した場合
      */
-    return has(options.failure, "message")
-      ? context.json(
-          { message: options.failure.message },
-          StatusCodes.UNAUTHORIZED,
-        )
-      : has(options.failure, "redirect")
-        ? context.redirect(url(context, options.failure.redirect))
-        : context.text(ReasonPhrases.UNAUTHORIZED, StatusCodes.UNAUTHORIZED);
+    return unauthenticated(context, options, next);
   });
+
+/**
+ * 未認証時のアクション
+ */
+const unauthenticated = async (
+  context: Context,
+  options: Required<GuardOptions>,
+  next: Next,
+) => {
+  if (options.guests.includes(context.req.path)) {
+    await next();
+
+    return;
+  }
+
+  if (has(options.failure.unauthenticated, "message")) {
+    return context.json(
+      { message: options.failure.unauthenticated.message },
+      StatusCodes.UNAUTHORIZED,
+    );
+  }
+
+  if (has(options.failure.unauthenticated, "redirect")) {
+    return context.redirect(
+      url(context, options.failure.unauthenticated.redirect),
+    );
+  }
+
+  return context.text(ReasonPhrases.UNAUTHORIZED, StatusCodes.UNAUTHORIZED);
+};
+
+/**
+ * 認証時のアクション
+ */
+const authenticated = async (
+  context: Context,
+  options: Required<GuardOptions>,
+  next: Next,
+) => {
+  if (!options.guests.includes(context.req.path)) {
+    await next();
+
+    return;
+  }
+
+  if (has(options.failure.authenticated, "message")) {
+    return context.json(
+      { message: options.failure.authenticated.message },
+      StatusCodes.FORBIDDEN,
+    );
+  }
+
+  if (has(options.failure.authenticated, "redirect")) {
+    return context.redirect(
+      url(context, options.failure.authenticated.redirect),
+    );
+  }
+
+  return context.text(ReasonPhrases.FORBIDDEN, StatusCodes.FORBIDDEN);
+};
