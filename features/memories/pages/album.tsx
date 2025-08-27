@@ -1,7 +1,7 @@
 "use client";
 
 import { LoaderCircle } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useToggle } from "react-use";
 import { Description, Title } from "@/components/elements/typography";
 import { Container } from "@/components/structures";
@@ -13,23 +13,27 @@ import repositories from "../repositories";
 
 type Props = {
   id: string;
-  data: AlbumPictures;
 };
 
-export const Album = ({ id, data }: Props) => {
+export const Album = ({ id }: Props) => {
   const [open, toggle] = useToggle(false);
+  const [data, setData] = useState<AlbumPictures>();
 
-  const refresh = useCallback(async () => {
+  const fetch = useCallback(async () => {
     const [album, pictures] = await Promise.all([
       repositories.albums.get({ id }),
       repositories.pictures.list({ albumId: id }),
     ]);
 
-    return {
+    setData({
       ...album,
       cards: pictures,
-    };
+    });
   }, [id]);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
 
   return data ? (
     <PullToRefresh>
@@ -50,7 +54,7 @@ export const Album = ({ id, data }: Props) => {
             albumId={id}
             open={open}
             toggle={toggle}
-            onRefresh={refresh}
+            onRefresh={fetch}
           />
         </div>
       </Container>
