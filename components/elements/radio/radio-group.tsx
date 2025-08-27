@@ -2,8 +2,10 @@
 
 import {
   type ChangeEvent,
+  type ForwardRefExoticComponent,
   type HTMLAttributes,
   type ReactNode,
+  type RefAttributes,
   createContext,
   forwardRef,
   useCallback,
@@ -14,11 +16,23 @@ import {
 import { cn } from "@/styles/functions";
 
 import type { RadioStatus } from "./radio-option";
+import type { LucideIcon } from "lucide-react";
 
 /**
- * ラジオグループ内の選択状態
+ * ラジオボタンのサイズ
  */
-export const SelectedValue = createContext<string>("");
+export type RadioSize = "default" | "large";
+
+/**
+ * ラジオボタングループの状態
+ */
+export const RadioGroupState = createContext<{
+  value: string;
+  size: RadioSize;
+}>({
+  value: "",
+  size: "default",
+});
 
 /**
  * RadioGroupProps
@@ -26,18 +40,24 @@ export const SelectedValue = createContext<string>("");
 export type RadioGroupProps = {
   /** グループのラベル */
   label?: string;
+  /** ラジオボタンのサイズ */
+  size?: RadioSize;
   /** グループのヘルプテキスト */
   helperText?: string;
   /** エラーメッセージ */
   error?: string;
   /** 成功メッセージ */
   success?: string;
-  /** 必須項目かどうか */
-  required?: boolean;
-  /** 子要素 */
-  children: ReactNode;
+  /** グループを表す印 */
+  mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
   /** 現在の選択値 */
   value?: string;
+  /** 必須項目かどうか */
+  required?: boolean;
+  /** 横幅いっぱいに広げるかどうか */
+  fullWidth?: boolean;
+  /** 子要素 */
+  children: ReactNode;
   /** 値が変更されたときのハンドラー */
   onChange?: (value: string) => void;
 } & Omit<HTMLAttributes<HTMLFieldSetElement>, "onChange" | "defaultValue">;
@@ -52,21 +72,23 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
   (
     {
       label,
+      size = "default",
       helperText,
       error,
       success,
+      mark: Mark,
+      value = "",
       required,
-      className,
+      fullWidth = false,
       children,
-      value,
+      className,
+      "aria-describedby": ariaDescribedBy,
       onChange,
       ...props
     },
     ref,
   ) => {
-    const [selectedValue, setSelectedValue] = useState<string>(
-      value !== undefined ? value : "",
-    );
+    const [selectedValue, setSelectedValue] = useState<string>(value);
 
     const defaultId = useId();
 
@@ -94,6 +116,16 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
       error: "text-error",
     };
 
+    const sizeStyles = {
+      default: "text-base",
+      large: "text-lg",
+    };
+
+    const markStyles = {
+      default: "h-5 w-5 stroke-2 mr-2",
+      large: "h-6 w-6 stroke-2 mr-2",
+    };
+
     const change = useCallback(
       (e: ChangeEvent<HTMLFieldSetElement>) => {
         const radio = e.target as unknown as HTMLInputElement;
@@ -112,9 +144,13 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
     return (
       <fieldset
         ref={ref}
-        className={cn("flex flex-col gap-1", className)}
+        className={cn(
+          "flex flex-col gap-1",
+          fullWidth ? "w-full" : "",
+          className,
+        )}
         aria-required={required}
-        aria-describedby={message ? messageId : undefined}
+        aria-describedby={message ? messageId : ariaDescribedBy}
         aria-invalid={hasError}
         onChange={change}
         role="radiogroup"
@@ -123,18 +159,27 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
         {label && (
           <legend
             id={legendId}
-            className="mb-1 font-medium text-base text-primary"
+            className={cn(
+              "mb-2 flex items-center font-medium text-primary",
+              sizeStyles[size],
+            )}
           >
+            {Mark && <Mark className={markStyles[size]} aria-hidden="true" />}
             {label}
             {required && <span className="mt-1 ml-1 text-error">*</span>}
           </legend>
         )}
 
-        <SelectedValue.Provider value={selectedValue}>
-          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pl-2">
+        <RadioGroupState.Provider
+          value={{
+            value: selectedValue,
+            size,
+          }}
+        >
+          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pb-2 pl-2">
             {children}
           </div>
-        </SelectedValue.Provider>
+        </RadioGroupState.Provider>
 
         {message && (
           <p

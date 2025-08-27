@@ -14,7 +14,7 @@ import { Circle } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
-import { SelectedValue } from "./radio-group";
+import { RadioGroupState, type RadioSize } from "./radio-group";
 
 /**
  * ラジオボタンの状態
@@ -27,21 +27,23 @@ export type RadioStatus = "default" | "error" | "success";
 export type RadioOptionProps = {
   /** ラジオボタンのラベル */
   label?: string;
+  /** ラジオボタンのサイズ */
+  size?: RadioSize;
   /** 選択されているかどうか */
   checked?: boolean;
+  /** ヘルプテキスト */
+  helperText?: string;
   /** エラーメッセージ */
   error?: string;
   /** 成功メッセージ */
   success?: string;
   /** 必須項目かどうか */
   required?: boolean;
-  /** ヘルプテキスト */
-  helperText?: string;
   /** 値が変更されたときのハンドラー */
   onChange?: (checked: boolean) => void;
 } & Omit<
   InputHTMLAttributes<HTMLInputElement>,
-  "type" | "checked" | "onChange"
+  "type" | "checked" | "size" | "onChange"
 >;
 
 /**
@@ -55,14 +57,15 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
     {
       id,
       label,
-      value,
-      className,
+      size,
       checked,
+      helperText,
       error,
       success,
-      helperText,
       required,
       disabled,
+      value,
+      className,
       onChange,
       "aria-describedby": ariaDescribedBy,
       ...props
@@ -71,10 +74,10 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
   ) => {
     const defaultRef = useRef<HTMLInputElement>(null);
 
-    const selectedValue = useContext(SelectedValue);
+    const state = useContext(RadioGroupState);
 
     const isChecked =
-      !!checked || (!!value && selectedValue === value.toString());
+      !!checked || (!!value && state.value === value.toString());
 
     const defaultId = useId();
 
@@ -104,6 +107,21 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
       default: "text-secondary",
       success: "text-success",
       error: "text-error",
+    };
+
+    const containerSizeStyles = {
+      default: "h-6 w-6",
+      large: "h-8 w-8",
+    };
+
+    const circleSizeStyles = {
+      default: "h-4 w-4",
+      large: "h-5 w-5",
+    };
+
+    const labelSizeStyles = {
+      default: "text-base",
+      large: "text-lg mb-1",
     };
 
     const classNames = cn("peer sr-only", className);
@@ -151,7 +169,8 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
               />
               <div
                 className={cn(
-                  "flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border bg-foundation",
+                  "flex cursor-pointer items-center justify-center rounded-full border bg-foundation",
+                  containerSizeStyles[size || state.size],
                   statusStyles[status],
                   isChecked && "border-brand",
                   disabled && "disabled",
@@ -161,7 +180,8 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
               >
                 <Circle
                   className={cn(
-                    "h-4 w-4 text-brand opacity-0 transition-opacity",
+                    "text-brand opacity-0 transition-opacity",
+                    circleSizeStyles[size || state.size],
                     isChecked && "opacity-100",
                   )}
                   aria-hidden="true"
@@ -175,8 +195,9 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
             <label
               htmlFor={inputId}
               className={cn(
-                "ml-2 block cursor-pointer rounded font-medium text-base text-primary",
+                "ml-2 block cursor-pointer rounded font-medium text-primary",
                 "flex min-h-11 items-center",
+                labelSizeStyles[size || state.size],
                 disabled && "disabled",
               )}
             >
@@ -189,7 +210,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
         {message && (
           <p
             id={messageId}
-            className={cn("mb-2 select-none text-xs", statusTextStyles[status])}
+            className={cn("select-none text-xs", statusTextStyles[status])}
           >
             {message}
           </p>

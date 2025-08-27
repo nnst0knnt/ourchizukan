@@ -66,8 +66,8 @@ export const Footer = memo(() => {
                 kind="default"
                 underline={false}
                 className={cn(
-                  "my-2 flex min-h-14 min-w-14 select-none flex-col items-center justify-center",
-                  "md:flex-row md:gap-2 md:p-3",
+                  "mt-1 mb-2 flex min-h-14 min-w-14 select-none flex-col items-center justify-center",
+                  "gap-0.5 pt-3 md:flex-row md:gap-2 md:p-3",
                   isActive
                     ? "bg-brand text-foreground hover:text-foreground"
                     : "text-secondary hover:text-primary",
@@ -76,7 +76,7 @@ export const Footer = memo(() => {
                 markPosition="left"
                 aria-current={isActive ? "page" : undefined}
               >
-                <span className="font-medium text-sm md:text-base">
+                <span className="flex flex-col font-medium text-sm md:text-base">
                   {link.name}
                 </span>
               </Link>

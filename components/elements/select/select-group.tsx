@@ -19,15 +19,15 @@ import { cn } from "@/styles/functions";
 /**
  * セレクトのサイズ
  */
-type SelectSize = "default" | "large";
+export type SelectSize = "default" | "large";
 
 /**
  * セレクトの状態
  */
-type SelectStatus = "default" | "error" | "success";
+export type SelectStatus = "default" | "error" | "success";
 
 /**
- * セレクト内の選択状態
+ * セレクトグループの状態
  */
 export const SelectGroupState = createContext<{
   value: string;
@@ -59,10 +59,10 @@ export type SelectGroupProps = {
   success?: string;
   /** セレクトを表す印 */
   mark?: LucideIcon;
-  /** プレースホルダー */
-  placeholder?: string;
   /** 選択された値 */
   value?: string;
+  /** プレースホルダー */
+  placeholder?: string;
   /** 必須項目かどうか */
   required?: boolean;
   /** 横幅いっぱいに広げるかどうか */
@@ -71,7 +71,7 @@ export type SelectGroupProps = {
   children: ReactNode;
   /** 値が変更されたときのハンドラー */
   onChange?: (value: string) => void;
-} & Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "value">;
+} & Omit<HTMLAttributes<HTMLDivElement>, "onChange">;
 
 /**
  * SelectGroup
@@ -83,19 +83,18 @@ export type SelectGroupProps = {
 export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
   (
     {
-      id,
       label,
-      className,
       size = "default",
       helperText,
       error,
       success,
       mark: Mark,
-      placeholder = "選択してください",
       value = "",
+      placeholder = "選択してください",
       required,
       fullWidth = false,
       children,
+      className,
       "aria-describedby": ariaDescribedBy,
       onChange,
       ...props
@@ -115,11 +114,11 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
 
     const defaultId = useId();
 
-    const selectId = id || defaultId;
+    const groupId = `select-group-${defaultId}`;
 
-    const messageId = `${selectId}-message`;
+    const messageId = `${groupId}-message`;
 
-    const listboxId = `${selectId}-listbox`;
+    const listboxId = `${groupId}-listbox`;
 
     const hasError = !!error;
 
@@ -132,6 +131,18 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
       : hasSuccess
         ? "success"
         : "default";
+
+    const statusStyles = {
+      default: "border-outline",
+      success: "border-success",
+      error: "border-error",
+    };
+
+    const statusTextStyles = {
+      default: "text-secondary",
+      success: "text-success",
+      error: "text-error",
+    };
 
     const sizeStyles = {
       default: "py-3 px-4 min-h-11 text-base",
@@ -146,18 +157,6 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
     const paddingsStyles = {
       default: "pl-10",
       large: "pl-12.5",
-    };
-
-    const statusStyles = {
-      default: "border-outline",
-      success: "border-success",
-      error: "border-error",
-    };
-
-    const statusTextStyles = {
-      default: "text-secondary",
-      success: "text-success",
-      error: "text-error",
     };
 
     const classNames = cn(
@@ -192,9 +191,9 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
       >
         <div className="size-full" ref={containerRef}>
           {label && (
-            <div className="mb-1 flex items-center">
+            <div className="mb-2 flex items-center">
               <label
-                htmlFor={selectId}
+                htmlFor={groupId}
                 className={cn(
                   "flex size-full items-center font-medium text-primary",
                   size === "large" ? "text-lg" : "text-base",
@@ -221,7 +220,7 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
             )}
 
             <input
-              id={selectId}
+              id={groupId}
               type="text"
               className="sr-only"
               readOnly
@@ -277,7 +276,7 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
                 id={listboxId}
                 role="listbox"
                 tabIndex={-1}
-                aria-labelledby={label ? selectId : undefined}
+                aria-labelledby={label ? groupId : undefined}
               >
                 <div className="overflow-hidden overflow-y-auto rounded-md">
                   {children}

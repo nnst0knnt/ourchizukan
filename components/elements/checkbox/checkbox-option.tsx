@@ -14,7 +14,7 @@ import { Check } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
-import { CheckedValues } from "./checkbox-group";
+import { CheckboxGroupState, type CheckboxSize } from "./checkbox-group";
 
 /**
  * チェックボックスの状態
@@ -27,21 +27,23 @@ export type CheckboxStatus = "default" | "error" | "success";
 export type CheckboxOptionProps = {
   /** チェックボックスのラベル */
   label?: string;
+  /** チェックボックスのサイズ */
+  size?: CheckboxSize;
   /** チェックされているかどうか */
   checked?: boolean;
+  /** ヘルプテキスト */
+  helperText?: string;
   /** エラーメッセージ */
   error?: string;
   /** 成功メッセージ */
   success?: string;
   /** 必須項目かどうか */
   required?: boolean;
-  /** ヘルプテキスト */
-  helperText?: string;
   /** 値が変更されたときのハンドラー */
   onChange?: (checked: boolean) => void;
 } & Omit<
   InputHTMLAttributes<HTMLInputElement>,
-  "type" | "checked" | "onChange"
+  "type" | "checked" | "size" | "onChange"
 >;
 
 /**
@@ -55,24 +57,25 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
     {
       id,
       label,
-      value,
-      className,
+      size,
       checked,
+      helperText,
       error,
       success,
-      helperText,
       required,
       disabled,
+      value,
+      className,
       onChange,
       "aria-describedby": ariaDescribedBy,
       ...props
     },
     ref,
   ) => {
-    const checkedValues = useContext(CheckedValues);
+    const state = useContext(CheckboxGroupState);
 
     const [isChecked, setIsChecked] = useState(
-      !!checked || (!!value && checkedValues.includes(value.toString())),
+      !!checked || (!!value && state.value.includes(value.toString())),
     );
 
     const defaultId = useId();
@@ -103,6 +106,21 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
       default: "text-secondary",
       success: "text-success",
       error: "text-error",
+    };
+
+    const containerSizeStyles = {
+      default: "h-6 w-6",
+      large: "h-8 w-8",
+    };
+
+    const checkSizeStyles = {
+      default: "h-4 w-4",
+      large: "h-5 w-5",
+    };
+
+    const labelSizeStyles = {
+      default: "text-base",
+      large: "text-lg mb-1",
     };
 
     const classNames = cn("peer sr-only", className);
@@ -149,7 +167,8 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
               />
               <div
                 className={cn(
-                  "flex h-6 w-6 cursor-pointer items-center justify-center rounded border bg-foundation",
+                  "flex cursor-pointer items-center justify-center rounded border bg-foundation",
+                  containerSizeStyles[size || state.size],
                   statusStyles[status],
                   isChecked && "border-brand bg-brand",
                   disabled && "disabled",
@@ -159,7 +178,8 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
               >
                 <Check
                   className={cn(
-                    "h-4 w-4 text-foreground opacity-0 transition-opacity",
+                    "text-foreground opacity-0 transition-opacity",
+                    checkSizeStyles[size || state.size],
                     isChecked && "opacity-100",
                   )}
                   aria-hidden="true"
@@ -172,8 +192,9 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
             <label
               htmlFor={inputId}
               className={cn(
-                "ml-2 block cursor-pointer rounded font-medium text-base text-primary",
+                "ml-2 block cursor-pointer rounded font-medium text-primary",
                 "flex min-h-11 items-center",
+                labelSizeStyles[size || state.size],
                 disabled && "disabled",
               )}
             >
@@ -186,7 +207,7 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
         {message && (
           <p
             id={messageId}
-            className={cn("mb-2 select-none text-xs", statusTextStyles[status])}
+            className={cn("select-none text-xs", statusTextStyles[status])}
           >
             {message}
           </p>

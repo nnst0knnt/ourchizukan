@@ -5,6 +5,7 @@ import {
   forwardRef,
   useCallback,
   useContext,
+  useId,
 } from "react";
 
 import { Check } from "lucide-react";
@@ -23,7 +24,7 @@ export type SelectOptionProps = {
   label: string;
   /** 無効状態かどうか */
   disabled?: boolean;
-} & Omit<HTMLAttributes<HTMLDivElement>, "value">;
+} & HTMLAttributes<HTMLDivElement>;
 
 /**
  * SelectOption
@@ -32,10 +33,17 @@ export type SelectOptionProps = {
  * SelectGroupと組み合わせて使用することでセレクトボックスを制御することができます。
  */
 export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
-  ({ value, label, disabled = false, className, children, ...props }, ref) => {
+  (
+    { id, value, label, disabled = false, className, children, ...props },
+    ref,
+  ) => {
     const state = useContext(SelectGroupState);
 
     const isSelected = state.value === value;
+
+    const defaultId = useId();
+
+    const inputId = id || defaultId;
 
     const sizeStyles = {
       default: "py-2 px-4 text-base",
@@ -60,6 +68,7 @@ export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
     return (
       <div
         ref={ref}
+        id={inputId}
         className={classNames}
         role="option"
         tabIndex={-1}

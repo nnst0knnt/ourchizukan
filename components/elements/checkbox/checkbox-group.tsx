@@ -2,8 +2,10 @@
 
 import {
   type ChangeEvent,
+  type ForwardRefExoticComponent,
   type HTMLAttributes,
   type ReactNode,
+  type RefAttributes,
   createContext,
   forwardRef,
   useCallback,
@@ -14,11 +16,23 @@ import {
 import { cn } from "@/styles/functions";
 
 import type { CheckboxStatus } from "./checkbox-option";
+import type { LucideIcon } from "lucide-react";
 
 /**
- * チェックボックスグループ内の選択状態
+ * チェックボックスのサイズ
  */
-export const CheckedValues = createContext<string[]>([]);
+export type CheckboxSize = "default" | "large";
+
+/**
+ * チェックボックスグループの状態
+ */
+export const CheckboxGroupState = createContext<{
+  value: string[];
+  size: CheckboxSize;
+}>({
+  value: [],
+  size: "default",
+});
 
 /**
  * CheckboxGroupProps
@@ -26,19 +40,27 @@ export const CheckedValues = createContext<string[]>([]);
 export type CheckboxGroupProps = {
   /** グループのラベル */
   label?: string;
+  /** チェックボックスのサイズ */
+  size?: CheckboxSize;
   /** グループのヘルプテキスト */
   helperText?: string;
   /** エラーメッセージ */
   error?: string;
   /** 成功メッセージ */
   success?: string;
+  /** グループを表す印 */
+  mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
+  /** 現在の選択値 */
+  value?: string | string[];
   /** 必須項目かどうか */
   required?: boolean;
+  /** 横幅いっぱいに広げるかどうか */
+  fullWidth?: boolean;
   /** 子要素 */
   children: ReactNode;
   /** 値が変更されたときのハンドラー */
   onChange?: (value: string[]) => void;
-} & HTMLAttributes<Omit<HTMLFieldSetElement, "onChange">>;
+} & Omit<HTMLAttributes<HTMLFieldSetElement>, "onChange" | "defaultValue">;
 
 /**
  * CheckboxGroup
@@ -53,18 +75,25 @@ export const CheckboxGroup = forwardRef<
   (
     {
       label,
+      size = "default",
       helperText,
       error,
       success,
+      mark: Mark,
+      value = "",
       required,
-      className,
+      fullWidth = false,
       children,
+      className,
+      "aria-describedby": ariaDescribedBy,
       onChange,
       ...props
     },
     ref,
   ) => {
-    const [checkedValues, setCheckedValues] = useState<string[]>([]);
+    const [checkedValues, setCheckedValues] = useState<string[]>(
+      Array.isArray(value) ? value : [value],
+    );
 
     const defaultId = useId();
 
@@ -92,6 +121,16 @@ export const CheckboxGroup = forwardRef<
       error: "text-error",
     };
 
+    const sizeStyles = {
+      default: "text-base",
+      large: "text-lg",
+    };
+
+    const markStyles = {
+      default: "h-5 w-5 stroke-2 mr-2",
+      large: "h-6 w-6 stroke-2 mr-2",
+    };
+
     const change = useCallback(
       (e: ChangeEvent<HTMLFieldSetElement>) => {
         const checkedValues = Array.from(
@@ -114,28 +153,39 @@ export const CheckboxGroup = forwardRef<
     return (
       <fieldset
         ref={ref}
-        className={cn("flex flex-col gap-1", className)}
-        aria-required={required}
-        aria-describedby={message ? messageId : undefined}
-        aria-invalid={hasError}
+        className={cn(
+          "flex flex-col gap-1",
+          fullWidth ? "w-full" : "",
+          className,
+        )}
+        aria-describedby={message ? messageId : ariaDescribedBy}
         onChange={change}
         {...props}
       >
         {label && (
           <legend
             id={legendId}
-            className="mb-1 font-medium text-base text-primary"
+            className={cn(
+              "mb-2 flex items-center font-medium text-primary",
+              sizeStyles[size],
+            )}
           >
+            {Mark && <Mark className={markStyles[size]} aria-hidden="true" />}
             {label}
             {required && <span className="mt-1 ml-1 text-error">*</span>}
           </legend>
         )}
 
-        <CheckedValues.Provider value={checkedValues}>
-          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pl-2">
+        <CheckboxGroupState.Provider
+          value={{
+            value: checkedValues,
+            size,
+          }}
+        >
+          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pb-2 pl-2">
             {children}
           </div>
-        </CheckedValues.Provider>
+        </CheckboxGroupState.Provider>
 
         {message && (
           <p
