@@ -1,3 +1,5 @@
+import type { DrizzleD1Database } from "drizzle-orm/d1";
+
 /**
  * キーバリューストレージ
  */
@@ -41,3 +43,10 @@ export type ObjectStorage = {
 export type ObjectStorageFactory<Bucket = any> = (
   bucket: Bucket,
 ) => ObjectStorage;
+
+/**
+ * データベースストレージのファクトリ
+ */
+export type DatabaseStorageFactory<Database = any> = (
+  database: Database,
+) => DrizzleD1Database;

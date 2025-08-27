@@ -6,6 +6,7 @@ export type { Picture } from "./picture";
 export { RateLimitOptions } from "./rate-limit";
 export { type Session, SessionOptions } from "./session";
 export type {
+  DatabaseStorageFactory,
   KeyValueStorage,
   KeyValueStorageFactory,
   ObjectStorage,
