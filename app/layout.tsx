@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
 import { Content, Footer, Header } from "@/components/structures";
+import { TransitionProgress } from "@/components/tools";
 
 export const metadata: Metadata = {
   title: {
@@ -55,6 +56,7 @@ export default function Layout({
         />
       </head>
       <body className="flex min-h-screen flex-col bg-foundation text-primary antialiased">
+        <TransitionProgress />
         <Header />
         <Content>{children}</Content>
         <Footer />
