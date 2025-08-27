@@ -1,8 +1,7 @@
 "use client";
 
-import { memo } from "react";
-
 import { Ellipsis } from "lucide-react";
+import { memo } from "react";
 
 import { Description, Title } from "@/components/elements/typography";
 import { useContrast, useEnabledWindow, useTheme } from "@/hooks";

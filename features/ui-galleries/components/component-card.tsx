@@ -1,12 +1,9 @@
-import { type HTMLAttributes, type ReactNode, memo } from "react";
-
+import { type HTMLAttributes, memo, type ReactNode } from "react";
+import type { BundledLanguage } from "shiki";
 import { Description, Title } from "@/components/elements/typography";
 import { cn } from "@/styles/functions";
-
 import { CodeSnippet } from "./code-snippet";
 import { CopyToClipboard } from "./copy-to-clipboard";
-
-import type { BundledLanguage } from "shiki";
 
 /**
  * ComponentCardProps

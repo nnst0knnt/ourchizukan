@@ -1,14 +1,13 @@
 "use client";
 
+import { Check } from "lucide-react";
 import {
-  type HTMLAttributes,
   forwardRef,
+  type HTMLAttributes,
   useCallback,
   useContext,
   useId,
 } from "react";
-
-import { Check } from "lucide-react";
 
 import { useResponsive } from "@/hooks";
 import { cn } from "@/styles/functions";

@@ -1,4 +1,4 @@
-import { type Rgb, hexToRgb } from "./hex-to-rgb";
+import { hexToRgb, type Rgb } from "./hex-to-rgb";
 
 /**
  * WCAGアクセシビリティ基準値

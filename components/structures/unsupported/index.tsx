@@ -1,5 +1,5 @@
-import { date } from "@/services/date";
 import { memo } from "react";
+import { date } from "@/services/date";
 
 export const Unsupported = memo(() => (
   <noscript>

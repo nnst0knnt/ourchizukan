@@ -1,9 +1,8 @@
 "use client";
 
-import { memo, useCallback, useState } from "react";
-
-import { sleep } from "@/services/timer";
 import { Check, Clipboard } from "lucide-react";
+import { memo, useCallback, useState } from "react";
+import { sleep } from "@/services/timer";
 
 /**
  * CopyToClipboardProps

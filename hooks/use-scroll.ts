@@ -1,6 +1,6 @@
 "use client";
 
-import { type RefObject, createRef, useEffect } from "react";
+import { createRef, type RefObject, useEffect } from "react";
 import { useScrolling } from "react-use";
 
 export const useScroll = (callback: () => void) => {

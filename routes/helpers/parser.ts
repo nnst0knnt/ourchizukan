@@ -1,7 +1,7 @@
 import type { Context } from "hono";
-import type { ZodSchema, z } from "zod";
+import type { z } from "zod";
 
-export const toBody = async <Schema extends ZodSchema>(
+export const toBody = async <Schema extends z.ZodType>(
   context: Context,
   schema: Schema,
 ): Promise<z.infer<Schema> | null> => {

@@ -1,9 +1,9 @@
-import { useKeyboard } from "@/hooks";
-import { cn } from "@/styles/functions";
 import { Images } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { memo, useCallback, useEffect } from "react";
+import { useKeyboard } from "@/hooks";
+import { cn } from "@/styles/functions";
 import type { AlbumCard } from "../../models/card";
 
 type CardProps = {

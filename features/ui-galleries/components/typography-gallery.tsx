@@ -1,6 +1,5 @@
-import { memo } from "react";
-
 import { Home } from "lucide-react";
+import { memo } from "react";
 
 import { Description, Title } from "@/components/elements/typography";
 

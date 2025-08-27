@@ -1,6 +1,6 @@
 "use client";
 
-import { type MouseEvent, forwardRef, useState } from "react";
+import { forwardRef, type MouseEvent, useState } from "react";
 
 import { sleep } from "@/services/timer";
 import { Button, type ButtonProps, ButtonStatus } from "./button";

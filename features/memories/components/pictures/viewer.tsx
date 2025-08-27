@@ -1,11 +1,11 @@
+import { AlertTriangle, Camera, LoaderCircle } from "lucide-react";
+import Image from "next/image";
+import { memo } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Footer, Header } from "@/components/structures";
 import { useKeyboard } from "@/hooks";
 import { date } from "@/services/date";
 import { cn } from "@/styles/functions";
-import { AlertTriangle, Camera, LoaderCircle } from "lucide-react";
-import Image from "next/image";
-import { memo } from "react";
 import type { PictureCard } from "../../models/card";
 
 type ViewerProps = {
@@ -33,6 +33,7 @@ export const Viewer = memo<ViewerProps>(
           "fullscreen fixed inset-0 z-fullscreen flex flex-col bg-foundation",
           invisible ? "invisible" : "visible",
         )}
+        role="dialog"
         onKeyDown={keydown}
       >
         <Header className="relative">

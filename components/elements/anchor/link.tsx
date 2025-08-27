@@ -1,14 +1,13 @@
+import { ExternalLink, type LucideIcon } from "lucide-react";
+
+import NextLink, { type LinkProps as NextLinkProps } from "next/link";
 import {
   type AnchorHTMLAttributes,
   type ForwardRefExoticComponent,
+  forwardRef,
   type PropsWithChildren,
   type RefAttributes,
-  forwardRef,
 } from "react";
-
-import NextLink, { type LinkProps as NextLinkProps } from "next/link";
-
-import { ExternalLink, type LucideIcon } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 

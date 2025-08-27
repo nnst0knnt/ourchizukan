@@ -1,13 +1,12 @@
 "use client";
 
+import { useToggle } from "react-use";
 import { Description, Title } from "@/components/elements/typography";
 import { Container } from "@/components/structures";
 import { PullToRefresh } from "@/components/tools";
 import { cn } from "@/styles/functions";
-import { useToggle } from "react-use";
 import { Cards } from "../components/pictures/cards";
-import { pictures } from "../mock";
-import { albums } from "../mock";
+import { albums, pictures } from "../mock";
 
 type Props = {
   id: string;

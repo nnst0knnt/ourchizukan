@@ -1,21 +1,19 @@
 "use client";
 
+import type { LucideIcon } from "lucide-react";
 import {
   type ChangeEvent,
+  createContext,
   type ForwardRefExoticComponent,
+  forwardRef,
   type HTMLAttributes,
   type ReactNode,
   type RefAttributes,
-  createContext,
-  forwardRef,
   useCallback,
   useId,
   useState,
 } from "react";
-
 import { cn } from "@/styles/functions";
-
-import type { LucideIcon } from "lucide-react";
 import type { CheckboxStatus } from "./checkbox-option";
 
 /**

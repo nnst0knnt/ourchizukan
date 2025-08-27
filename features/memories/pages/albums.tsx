@@ -1,10 +1,10 @@
 "use client";
 
+import { useToggle } from "react-use";
 import { Description, Title } from "@/components/elements/typography";
 import { Container } from "@/components/structures";
 import { PullToRefresh } from "@/components/tools";
 import { cn } from "@/styles/functions";
-import { useToggle } from "react-use";
 import { Cards } from "../components/albums/cards";
 import { albums } from "../mock";
 

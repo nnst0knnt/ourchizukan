@@ -1,5 +1,5 @@
-import { Albums } from "@/features/memories";
 import type { Metadata } from "next";
+import { Albums } from "@/features/memories";
 
 export const metadata: Metadata = {
   title: "アルバム一覧",

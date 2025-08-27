@@ -1,6 +1,5 @@
-import { memo } from "react";
-
 import { Home } from "lucide-react";
+import { memo } from "react";
 
 import { Link, LogoLink } from "@/components/elements/anchor";
 import { Title } from "@/components/elements/typography";

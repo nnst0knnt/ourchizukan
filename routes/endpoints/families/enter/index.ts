@@ -1,6 +1,6 @@
+import { StatusCodes } from "http-status-codes";
 import { AccessMethod, AttemptKind } from "@/models";
 import { validator } from "@/routes/middlewares";
-import { StatusCodes } from "http-status-codes";
 import { factory } from "../../../helpers";
 import { EnterFamily } from "./schema";
 

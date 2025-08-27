@@ -1,10 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { memo, useCallback, useEffect } from "react";
 import { Button } from "@/components/elements/trigger";
 import { useLandscape } from "@/hooks";
 import { cn } from "@/styles/functions";
-import { useRouter } from "next/navigation";
-import { memo, useCallback, useEffect } from "react";
 
 type Path = string;
 

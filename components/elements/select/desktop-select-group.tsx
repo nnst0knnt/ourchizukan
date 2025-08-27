@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown, ChevronUp, type LucideIcon } from "lucide-react";
 import {
   type ForwardRefExoticComponent,
   type ReactNode,
@@ -8,8 +9,6 @@ import {
   useRef,
   useState,
 } from "react";
-
-import { ChevronDown, ChevronUp, type LucideIcon } from "lucide-react";
 
 import { UIDimensions, useResize, useScroll } from "@/hooks";
 import { cn } from "@/styles/functions";

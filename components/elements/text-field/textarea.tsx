@@ -1,20 +1,18 @@
 "use client";
 
+import type { LucideIcon } from "lucide-react";
 import {
   type ForwardRefExoticComponent,
+  forwardRef,
   type RefAttributes,
   type TextareaHTMLAttributes,
-  forwardRef,
   useCallback,
   useEffect,
   useId,
   useRef,
 } from "react";
-
 import { useForwardedRef, useLockOnFocus } from "@/hooks";
 import { cn } from "@/styles/functions";
-
-import type { LucideIcon } from "lucide-react";
 
 /**
  * テキストエリアのサイズ

@@ -1,21 +1,19 @@
 "use client";
 
+import type { LucideIcon } from "lucide-react";
 import {
   type ChangeEvent,
+  createContext,
   type ForwardRefExoticComponent,
+  forwardRef,
   type HTMLAttributes,
   type ReactNode,
   type RefAttributes,
-  createContext,
-  forwardRef,
   useCallback,
   useId,
   useState,
 } from "react";
-
 import { cn } from "@/styles/functions";
-
-import type { LucideIcon } from "lucide-react";
 import type { RadioStatus } from "./radio-option";
 
 /**
@@ -149,11 +147,9 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
           fullWidth ? "w-full" : "",
           className,
         )}
-        aria-required={required}
         aria-describedby={message ? messageId : ariaDescribedBy}
         aria-invalid={hasError}
         onChange={change}
-        role="radiogroup"
         {...props}
       >
         {label && (

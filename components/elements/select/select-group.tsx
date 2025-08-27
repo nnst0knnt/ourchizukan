@@ -1,26 +1,23 @@
 "use client";
 
+import type { LucideIcon } from "lucide-react";
 import {
+  createContext,
   type ForwardRefExoticComponent,
+  forwardRef,
   type HTMLAttributes,
   type ReactNode,
   type RefAttributes,
-  createContext,
-  forwardRef,
   useCallback,
   useId,
   useRef,
   useState,
 } from "react";
 import { useClickAway, useToggle } from "react-use";
-
 import { useKeyboard, useResponsive } from "@/hooks";
 import { cn } from "@/styles/functions";
-
 import { DesktopSelectGroup } from "./desktop-select-group";
 import { MobileSelectGroup } from "./mobile-select-group";
-
-import type { LucideIcon } from "lucide-react";
 
 /**
  * セレクトのサイズ

@@ -1,13 +1,13 @@
 "use client";
 
-import { Input } from "@/components/elements/text-field";
-import { AsyncButton } from "@/components/elements/trigger";
-import { EnterFamily } from "@/routes/endpoints/families/enter/schema";
-import { http } from "@/services/http";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { memo } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Input } from "@/components/elements/text-field";
+import { AsyncButton } from "@/components/elements/trigger";
+import { EnterFamily } from "@/routes/endpoints/families/enter/schema";
+import { http } from "@/services/http";
 
 export const EmailController = memo(() => {
   const router = useRouter();

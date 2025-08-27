@@ -2,7 +2,7 @@ import { zValidator } from "@hono/zod-validator";
 import type { ValidationTargets } from "hono";
 import { every } from "hono/combine";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { type ZodSchema, z } from "zod";
+import { z } from "zod";
 import { factory, toBody } from "../helpers";
 
 /**
@@ -13,7 +13,9 @@ const hasBody = <Kind extends keyof Pick<ValidationTargets, "json" | "form">>(
 ) =>
   zValidator(
     kind,
-    z.record(z.any()).refine((object) => Object.keys(object).length > 0),
+    z
+      .record(z.any(), z.any())
+      .refine((object) => Object.keys(object).length > 0),
     ({ success }, context) => {
       if (!success) {
         return context.json(
@@ -27,7 +29,7 @@ const hasBody = <Kind extends keyof Pick<ValidationTargets, "json" | "form">>(
 /**
  * JSONボディのバリデーションを行うミドルウェア
  */
-const json = <Schema extends ZodSchema>(schema: Schema) => {
+const json = <Schema extends z.ZodType>(schema: Schema) => {
   const middleware = zValidator("json", schema, ({ success }, context) => {
     if (!success) {
       return context.json(
@@ -43,7 +45,7 @@ const json = <Schema extends ZodSchema>(schema: Schema) => {
 /**
  * フォームボディのバリデーションを行うミドルウェア
  */
-const form = <Schema extends ZodSchema>(schema: Schema) => {
+const form = <Schema extends z.ZodType>(schema: Schema) => {
   const middleware = factory.createMiddleware(async (context, next) => {
     const body = await toBody(context, schema);
 
@@ -63,7 +65,7 @@ const form = <Schema extends ZodSchema>(schema: Schema) => {
 /**
  * パスパラメータのバリデーションを行うミドルウェア
  */
-const path = <Schema extends ZodSchema>(schema: Schema) =>
+const path = <Schema extends z.ZodType>(schema: Schema) =>
   zValidator("param", schema, ({ success }, context) => {
     if (!success) {
       return context.json(
@@ -76,7 +78,7 @@ const path = <Schema extends ZodSchema>(schema: Schema) =>
 /**
  * クエリパラメータのバリデーションを行うミドルウェア
  */
-const query = <Schema extends ZodSchema>(schema: Schema) =>
+const query = <Schema extends z.ZodType>(schema: Schema) =>
   zValidator("query", schema, ({ success }, context) => {
     if (!success) {
       return context.json(

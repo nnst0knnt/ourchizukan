@@ -41,10 +41,7 @@ export function has<T, K extends KeysOfUnion<NonNullable<T>>>(
   const nonNullableObject = object as NonNullable<T>;
 
   return (
-    Object.prototype.hasOwnProperty.call(
-      nonNullableObject,
-      property as string,
-    ) &&
+    Object.hasOwn(nonNullableObject, property as string) &&
     nonNullableObject[property as keyof NonNullable<T>] !== undefined &&
     nonNullableObject[property as keyof NonNullable<T>] !== null
   );

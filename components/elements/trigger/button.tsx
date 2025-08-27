@@ -1,16 +1,14 @@
+import type { LucideIcon } from "lucide-react";
+
+import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import {
   type ButtonHTMLAttributes,
   Children,
   type ForwardRefExoticComponent,
-  type RefAttributes,
   forwardRef,
+  type RefAttributes,
 } from "react";
-
-import { CheckCircle2, Loader2, XCircle } from "lucide-react";
-
 import { cn } from "@/styles/functions";
-
-import type { LucideIcon } from "lucide-react";
 
 /**
  * ボタンの種類

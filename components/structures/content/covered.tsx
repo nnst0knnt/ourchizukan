@@ -1,6 +1,6 @@
+import { memo, type PropsWithChildren } from "react";
 import { useLandscape } from "@/hooks";
 import { cn } from "@/styles/functions";
-import { type PropsWithChildren, memo } from "react";
 import { Centered } from "./centered";
 import { Container } from "./container";
 

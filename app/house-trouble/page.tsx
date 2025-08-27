@@ -1,5 +1,5 @@
-import { Description, Title } from "@/components/elements/typography";
 import type { Metadata } from "next";
+import { Description, Title } from "@/components/elements/typography";
 
 export const metadata: Metadata = {
   title: "トラブル発生",

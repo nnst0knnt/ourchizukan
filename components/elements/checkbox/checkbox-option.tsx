@@ -1,20 +1,17 @@
 "use client";
 
+import { Check } from "lucide-react";
 import {
   type ChangeEvent,
-  type InputHTMLAttributes,
   forwardRef,
+  type InputHTMLAttributes,
   useCallback,
   useContext,
   useId,
   useState,
 } from "react";
-
-import { Check } from "lucide-react";
-
-import { cn } from "@/styles/functions";
-
 import { useKeyboard } from "@/hooks";
+import { cn } from "@/styles/functions";
 import { CheckboxGroupState, type CheckboxSize } from "./checkbox-group";
 
 /**
@@ -178,6 +175,8 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
                   isChecked && "border-brand bg-brand",
                   disabled && "disabled",
                 )}
+                role="button"
+                tabIndex={disabled ? undefined : 0}
                 onClick={disabled ? undefined : click}
                 onKeyDown={disabled ? undefined : keydown}
               >

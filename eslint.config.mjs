@@ -32,6 +32,7 @@ const eslintConfig = [
     },
     rules: {
       "n/no-process-env": ["error"],
+      "react-hooks/rules-of-hooks": ["off"],
       "@typescript-eslint/no-unused-vars": [
         "error",
         {

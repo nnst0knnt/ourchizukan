@@ -1,8 +1,7 @@
 "use client";
 
-import { memo } from "react";
-
 import { List } from "lucide-react";
+import { memo } from "react";
 
 import { CheckboxGroup, CheckboxOption } from "@/components/elements/checkbox";
 import { Title } from "@/components/elements/typography";

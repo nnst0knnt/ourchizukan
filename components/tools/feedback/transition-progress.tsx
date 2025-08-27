@@ -1,10 +1,9 @@
 "use client";
 
-import { forwardRef } from "react";
-
 import TopLoader, {
   type NextTopLoaderProps as TopLoaderProps,
 } from "nextjs-toploader";
+import { forwardRef } from "react";
 
 /**
  * TransitionProgress

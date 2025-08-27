@@ -1,8 +1,7 @@
 "use client";
 
-import { memo } from "react";
-
 import { CircleUser } from "lucide-react";
+import { memo } from "react";
 
 import { RadioGroup, RadioOption } from "@/components/elements/radio";
 import { Title } from "@/components/elements/typography";

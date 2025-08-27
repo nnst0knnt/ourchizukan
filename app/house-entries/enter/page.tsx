@@ -1,5 +1,5 @@
-import { Enter } from "@/features/house-entries";
 import type { Metadata } from "next";
+import { Enter } from "@/features/house-entries";
 
 export const metadata: Metadata = {
   title: "入口",

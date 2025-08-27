@@ -1,8 +1,7 @@
 "use client";
 
-import { memo, useState } from "react";
-
 import { Eye, EyeOff, Heart, Home, Settings } from "lucide-react";
+import { memo, useState } from "react";
 
 import {
   AsyncButton,
@@ -133,7 +132,7 @@ export const TriggerGallery = memo(() => {
           code={`<Mark size="large" value={checked ? Eye : EyeOff} onClick={toggle} aria-label="表示" />`}
         >
           {(() => {
-            /* eslint-disable-next-line react-hooks/rules-of-hooks */
+            /* biome-ignore lint/correctness/useHookAtTopLevel: https://biomejs.dev/ja/linter/rules/use-hook-at-top-level/ */
             const [checked, setChecked] = useState(true);
 
             const toggle = () => setChecked(!checked);

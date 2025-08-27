@@ -2,8 +2,8 @@
 
 import {
   type ChangeEvent,
-  type InputHTMLAttributes,
   forwardRef,
+  type InputHTMLAttributes,
   useCallback,
   useContext,
   useId,
@@ -166,6 +166,8 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
                   isChecked && "border-brand p-1",
                   disabled && "disabled",
                 )}
+                role="button"
+                tabIndex={disabled ? undefined : 0}
                 onClick={disabled ? undefined : click}
                 onKeyDown={disabled ? undefined : keydown}
               >

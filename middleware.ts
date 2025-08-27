@@ -1,7 +1,7 @@
 import { except } from "hono/combine";
 import type { MiddlewareConfigInput as Config } from "next/dist/build/segment-config/middleware/middleware-config";
 import { NextResponse } from "next/server";
-import { url, bind, factory, redirect } from "./routes/helpers";
+import { bind, factory, redirect, url } from "./routes/helpers";
 import { guard } from "./routes/middlewares";
 
 export const config: Config = {

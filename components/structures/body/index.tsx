@@ -1,4 +1,4 @@
-import { type PropsWithChildren, memo } from "react";
+import { memo, type PropsWithChildren } from "react";
 
 export const Body = memo<PropsWithChildren>(({ children }) => (
   <body className="flex h-full flex-col bg-foundation text-primary antialiased">

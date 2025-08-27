@@ -1,12 +1,11 @@
 "use client";
 
+import { ChevronDown, type LucideIcon } from "lucide-react";
 import type {
   ForwardRefExoticComponent,
   ReactNode,
   RefAttributes,
 } from "react";
-
-import { ChevronDown, type LucideIcon } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
@@ -155,6 +154,7 @@ export const MobileSelectGroup = ({
             "transform transition-transform duration-300",
             open ? "translate-y-0" : "translate-y-full",
           )}
+          role="dialog"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center justify-between border-outline border-b p-4 pb-3">

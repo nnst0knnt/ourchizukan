@@ -1,8 +1,7 @@
 "use client";
 
-import { type HTMLAttributes, forwardRef } from "react";
-
 import { Glasses, Moon, Sun, ZoomIn, ZoomOut } from "lucide-react";
+import { forwardRef, type HTMLAttributes } from "react";
 
 import { useContrast, useSize, useTheme } from "@/hooks";
 import { cn } from "@/styles/functions";

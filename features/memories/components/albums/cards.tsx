@@ -1,9 +1,9 @@
+import { FolderOpen, FolderPlus } from "lucide-react";
+import { memo } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered } from "@/components/structures";
 import { useScrollToTop } from "@/hooks";
 import { cn } from "@/styles/functions";
-import { FolderOpen, FolderPlus } from "lucide-react";
-import { memo } from "react";
 import type { AlbumCard } from "../../models/card";
 import { Card } from "./card";
 import { Create } from "./create";

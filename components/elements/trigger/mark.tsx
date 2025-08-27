@@ -1,16 +1,14 @@
 "use client";
 
+import type { LucideIcon } from "lucide-react";
 import {
   type ButtonHTMLAttributes,
   type ForwardRefExoticComponent,
-  type RefAttributes,
   forwardRef,
+  type RefAttributes,
   useState,
 } from "react";
-
 import { cn } from "@/styles/functions";
-
-import type { LucideIcon } from "lucide-react";
 
 /**
  * 印の種類

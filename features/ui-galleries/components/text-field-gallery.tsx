@@ -1,8 +1,7 @@
 "use client";
 
-import { memo } from "react";
-
 import { Mail, Search } from "lucide-react";
+import { memo } from "react";
 
 import { Input, Textarea } from "@/components/elements/text-field";
 import { Title } from "@/components/elements/typography";

@@ -1,5 +1,5 @@
-import { validator } from "@/routes/middlewares";
 import { StatusCodes } from "http-status-codes";
+import { validator } from "@/routes/middlewares";
 import { factory, toBody } from "../../../helpers";
 import { UploadPicture } from "./schema";
 

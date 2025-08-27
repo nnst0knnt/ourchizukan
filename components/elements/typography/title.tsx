@@ -1,13 +1,11 @@
+import type { LucideIcon } from "lucide-react";
 import {
   type ForwardRefExoticComponent,
+  forwardRef,
   type HTMLAttributes,
   type RefAttributes,
-  forwardRef,
 } from "react";
-
 import { cn } from "@/styles/functions";
-
-import type { LucideIcon } from "lucide-react";
 
 /**
  * TitleProps
