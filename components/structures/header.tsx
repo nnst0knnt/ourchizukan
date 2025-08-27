@@ -12,7 +12,7 @@ import { AccessibilityControls } from "../tools";
  * アプリケーションの最上部に常時表示され、ロゴとアクセシビリティ設定を提供します。
  */
 export const Header = memo(() => (
-  <header className="sticky top-0 z-50 w-full border-outline border-b bg-foundation shadow-sm">
+  <header className="z-50 w-full border-outline border-b bg-foundation shadow-sm">
     <div
       className={cn(
         "mx-auto flex h-14 w-full max-w-7xl items-center justify-between md:h-16",

@@ -43,7 +43,7 @@ export default function Layout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="ja" className="no-scrollbar" suppressHydrationWarning>
+    <html lang="ja" className="h-full overflow-hidden" suppressHydrationWarning>
       <head>
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
         <script
@@ -55,7 +55,7 @@ export default function Layout({
           src="/scripts/sync-accessibility.js"
         />
       </head>
-      <body className="flex min-h-screen flex-col bg-foundation text-primary antialiased">
+      <body className="flex h-full flex-col bg-foundation text-primary antialiased">
         <TransitionProgress />
         <Header />
         <Content>{children}</Content>
