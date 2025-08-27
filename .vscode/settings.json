@@ -102,6 +102,22 @@
       "semver": null
     },
     {
+      "emoji": "⬇️",
+      "entity": "⬇️",
+      "code": ":arrow_down:",
+      "description": "依存パッケージをダウングレードした際に使用します",
+      "name": "arrow_down",
+      "semver": null
+    },
+    {
+      "emoji": "👕",
+      "entity": "👕",
+      "code": ":shirt:",
+      "description": "スタイルやテーマの変更をした際に使用します",
+      "name": "shirt",
+      "semver": null
+    },
+    {
       "emoji": "📦",
       "entity": "📦",
       "code": ":package:",
