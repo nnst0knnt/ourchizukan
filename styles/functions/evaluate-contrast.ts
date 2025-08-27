@@ -1,10 +1,4 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-/**
- * RGB色
- */
-type Rgb = { r: number; g: number; b: number };
+import { type Rgb, hexToRgb } from "./hex-to-rgb";
 
 /**
  * WCAGアクセシビリティ基準値
@@ -78,40 +72,6 @@ const ContrastColors = {
 type ContrastColor = (typeof ContrastColors)[keyof typeof ContrastColors];
 
 /**
- * CSSクラス名をマージする
- */
-export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
-
-/**
- * 16進数カラーコードをRGB値に変換する
- */
-export const hexToRgb = (hex: string): Rgb | null => {
-  const replaced = hex.startsWith("#") ? hex.slice(1) : hex;
-
-  if (replaced.length === 3) {
-    const r = Number.parseInt(replaced.charAt(0) + replaced.charAt(0), 16);
-    const g = Number.parseInt(replaced.charAt(1) + replaced.charAt(1), 16);
-    const b = Number.parseInt(replaced.charAt(2) + replaced.charAt(2), 16);
-    return { r, g, b };
-  }
-
-  if (replaced.length === 6) {
-    const r = Number.parseInt(replaced.substring(0, 2), 16);
-    const g = Number.parseInt(replaced.substring(2, 4), 16);
-    const b = Number.parseInt(replaced.substring(4, 6), 16);
-    return { r, g, b };
-  }
-
-  return null;
-};
-
-/**
- * CSS変数を16進数カラーコードに変換する
- */
-export const varsToHex = (vars: string): string =>
-  getComputedStyle(document.documentElement).getPropertyValue(vars).trim();
-
-/**
  * 色のコントラスト比を評価する
  */
 export const evaluateContrast = (
@@ -124,6 +84,8 @@ export const evaluateContrast = (
   color: ContrastColor;
 } => {
   const ratio = getRatio(foreground, background);
+
+  if (!ratio) throw new Error("コントラスト比を計算できません");
 
   const isElderlyFriendly = ratio >= WcagContrastRatios.ElderlyFriendly;
   const isAAANormal = ratio >= WcagContrastRatios.AAANormal;
@@ -176,13 +138,11 @@ const getLuminance = (color: Rgb): number => {
 /**
  * 2色間のコントラスト比を計算する
  */
-const getRatio = (color1: string, color2: string): number => {
+const getRatio = (color1: string, color2: string): number | null => {
   const rgb1 = hexToRgb(color1);
   const rgb2 = hexToRgb(color2);
 
-  if (!rgb1 || !rgb2) {
-    throw new Error(`無効なカラー形式 > ${color1}, ${color2}`);
-  }
+  if (!rgb1 || !rgb2) return null;
 
   const luminance1 = getLuminance(rgb1);
   const luminance2 = getLuminance(rgb2);
