@@ -1,4 +1,4 @@
-import { env } from "../env/server";
+import { env } from "../../env/server";
 import { createCloudflareKV } from "./cloudflare-kv";
 import { createInMemory } from "./in-memory";
 
@@ -10,4 +10,4 @@ const createFactory = (): KeyValueStorageFactory => {
   return createInMemory;
 };
 
-export const kv = createFactory();
+export const createKeyValueStorage = createFactory();

@@ -1,5 +1,5 @@
 import { keeper } from "@/services/keeper";
-import { kv } from "@/services/kv";
+import { createKeyValueStorage } from "@/services/storage";
 import type { Context } from "hono";
 import { getConnInfo } from "hono/cloudflare-workers";
 import { factory } from "../helpers";
@@ -37,7 +37,7 @@ export const environment = () =>
     /**
      * 認証クライアント
      */
-    context.set("keeper", keeper(kv(_context.env.Families)));
+    context.set("keeper", keeper(createKeyValueStorage(_context.env.Families)));
 
     await next();
   });

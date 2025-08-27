@@ -1,20 +1,45 @@
 /**
- * キーバリューストレージ
+ * キーバリューストレージ
  */
 export type KeyValueStorage = {
-  /** キーを指定して値を取得する */
+  /** 値を取得する */
   get: (key: string) => Promise<string | null>;
-  /** 指定したキーに値をセットする */
+  /** 値をセットする */
   set: (key: string, value: string, expiry?: number) => Promise<void>;
-  /** 指定したキーを削除する */
+  /** 値を削除する */
   delete: (key: string) => Promise<boolean>;
   /** 指定したプレフィックスのキーを全て取得する */
   list: (prefix: string) => Promise<string[]>;
 };
 
 /**
- * キーバリューストレージのファクトリ
+ * キーバリューストレージのファクトリ
  */
-export type KeyValueStorageFactory = (
-  namespace: KVNamespace,
+export type KeyValueStorageFactory<Store = any> = (
+  store: Store,
 ) => KeyValueStorage;
+
+/**
+ * オブジェクトストレージ
+ */
+export type ObjectStorage = {
+  /** オブジェクトを取得する */
+  get: (key: string) => Promise<ArrayBuffer | null>;
+  /** オブジェクトを保存する */
+  put: (
+    key: string,
+    value: ArrayBuffer,
+    options?: { mime?: string },
+  ) => Promise<void>;
+  /** オブジェクトを削除する */
+  delete: (key: string) => Promise<boolean>;
+  /** 署名付きURLを生成する */
+  url: (key: string, expiry?: number) => Promise<string>;
+};
+
+/**
+ * オブジェクトストレージのファクトリ
+ */
+export type ObjectStorageFactory<Bucket = any> = (
+  bucket: Bucket,
+) => ObjectStorage;

@@ -1,7 +1,7 @@
 import type { KeyValueStorageFactory } from "@/models";
 
-export const createCloudflareKV: KeyValueStorageFactory = (
-  namespace: KVNamespace,
+export const createCloudflareKV: KeyValueStorageFactory<KVNamespace> = (
+  namespace,
 ) => ({
   get: async (key: string) => {
     return namespace.get(key);

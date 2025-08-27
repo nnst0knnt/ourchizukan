@@ -40,7 +40,8 @@
         "noUnusedVariables": "warn"
       },
       "suspicious": {
-        "noShadowRestrictedNames": "off"
+        "noShadowRestrictedNames": "off",
+        "noExplicitAny": "off"
       },
       "a11y": {
         "useSemanticElements": "off"

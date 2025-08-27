@@ -1,7 +1,18 @@
-import type { http } from "@/services/http";
-import type { InferResponseType } from "hono";
+import type { AccessMethod } from "./access-method";
 
 /**
- * おうちに入っている人
+ * 認証済みメンバー
  */
-export type Member = InferResponseType<typeof http.families.member.$get>;
+export type VerifiedMember = {
+  method: AccessMethod;
+};
+
+/**
+ * 未認証メンバー
+ */
+export type UnverifiedMember = null;
+
+/**
+ * おうちのメンバー
+ */
+export type Member = VerifiedMember | UnverifiedMember;
