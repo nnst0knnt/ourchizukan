@@ -6,18 +6,9 @@ import { env } from "./services/env";
 const config: NextConfig = {
   env: env as unknown as NextConfig["env"],
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
-        pathname: "/**",
-      },
-    ],
+    loader: "custom",
+    loaderFile: "./services/loader/index.ts",
+    formats: ["image/webp", "image/avif"],
   },
 };
 
