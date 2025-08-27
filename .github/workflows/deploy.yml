@@ -42,7 +42,8 @@ jobs:
 
           echo "📦 ${size}KiB"
 
-          if (( $(awk "BEGIN {print ($size > 3000)}") )); then
+          # WIP
+          if (( $(awk "BEGIN {print ($size > 1000)}") )); then
             echo "🚨 ${size}KiB > 3000KiB"
             exit 1
           fi
