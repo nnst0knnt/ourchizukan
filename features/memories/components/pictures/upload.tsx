@@ -27,7 +27,7 @@ export const Upload = memo<UploadProps>(
     const {
       setValue,
       handleSubmit,
-      formState: { isSubmitting },
+      formState: { errors, isSubmitting },
       setError,
       watch,
     } = useForm<UploadPicturesBody>({
@@ -36,6 +36,7 @@ export const Upload = memo<UploadProps>(
         files: [],
       },
       resolver: zodResolver(UploadPicturesBody),
+      mode: "onChange",
     });
 
     const files = watch("files");
@@ -51,10 +52,14 @@ export const Upload = memo<UploadProps>(
 
     const drop = useCallback(
       (acceptedFiles: File[]) =>
-        setValue("files", [
-          ...files,
-          ...acceptedFiles.filter((file) => file.type.startsWith("image/")),
-        ]),
+        setValue(
+          "files",
+          [
+            ...files,
+            ...acceptedFiles.filter((file) => file.type.startsWith("image/")),
+          ],
+          { shouldValidate: true },
+        ),
       [files, setValue],
     );
 
@@ -72,6 +77,7 @@ export const Upload = memo<UploadProps>(
         setValue(
           "files",
           files.filter((_, index) => index !== selected),
+          { shouldValidate: true },
         );
       },
       [files, setValue],
@@ -112,12 +118,18 @@ export const Upload = memo<UploadProps>(
               <div className="flex flex-col items-center justify-center gap-2">
                 <Images className="h-12 w-12 text-secondary" />
                 <p className="text-center text-lg text-secondary">写真を追加</p>
+                <p>※ 一度に20枚までアップロード可能</p>
               </div>
             </div>
 
             {files.length > 0 && (
               <div className="flex flex-col gap-2">
-                <p className="text-sm">選択された写真（{files.length}枚）</p>
+                <div className="flex items-center gap-2 text-sm">
+                  <p>選択された写真（{files.length}枚）</p>
+                  {errors.files && (
+                    <p className="text-error">{errors.files.message}</p>
+                  )}
+                </div>
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
                   {previews.map((file, index) => (
                     <li
@@ -152,7 +164,7 @@ export const Upload = memo<UploadProps>(
           <AsyncButton
             onClick={submit}
             onSuccess={onClose}
-            disabled={files.length === 0 || isSubmitting}
+            disabled={files.length === 0 || !!errors.files || isSubmitting}
             fullWidth
           >
             アップロードする

@@ -29,6 +29,7 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
       title: "",
     },
     resolver: zodResolver(CreateAlbumBody),
+    mode: "onChange",
   });
 
   const submit = handleSubmit(async (data) => {

@@ -21,6 +21,7 @@ export const EmailController = memo(() => {
       email: "",
     },
     resolver: zodResolver(EnterFamilyBody),
+    mode: "onChange",
   });
 
   const submit = handleSubmit(async (data) => {
