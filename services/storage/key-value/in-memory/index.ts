@@ -22,7 +22,7 @@ export const createInMemory: KeyValueStorageFactory = () => {
   }
 
   return {
-    get: async (key: string) => {
+    get: async (key) => {
       const entry = store.get(key);
 
       if (!entry) return null;
@@ -35,16 +35,16 @@ export const createInMemory: KeyValueStorageFactory = () => {
 
       return entry.value;
     },
-    set: async (key: string, value: string, expirySeconds?: number) => {
+    set: async (key, value, expirySeconds) => {
       store.set(key, {
         value,
         expiry: expirySeconds ? date().unix() + expirySeconds : undefined,
       });
     },
-    delete: async (key: string) => {
+    delete: async (key) => {
       return store.delete(key);
     },
-    list: async (prefix: string) => {
+    list: async (prefix) => {
       const now = date().unix();
       const keys: string[] = [];
 

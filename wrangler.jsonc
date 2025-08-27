@@ -26,6 +26,12 @@
       "binding": "Families",
       "id": "19f049cf571144e68112ba9e1d40ffb6"
     }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "Pictures",
+      "bucket_name": "pictures"
+    }
   ]
   /**
    * Environment Variables

@@ -33,8 +33,6 @@ export type ObjectStorage = {
   ) => Promise<void>;
   /** オブジェクトを削除する */
   delete: (key: string) => Promise<boolean>;
-  /** 署名付きURLを生成する */
-  url: (key: string, expiry?: number) => Promise<string>;
 };
 
 /**
