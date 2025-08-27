@@ -20,9 +20,9 @@ export const pictures = sqliteTable(
   "pictures",
   {
     id: text("id").primaryKey(),
-    albumId: text("album_id")
-      .notNull()
-      .references(() => albums.id, { onDelete: "cascade" }),
+    albumId: text("album_id").references(() => albums.id, {
+      onDelete: "cascade",
+    }),
     originalKey: text("original_key").notNull(),
     thumbnailKey: text("thumbnail_key").notNull(),
     takenAt: integer("taken_at").notNull(),
