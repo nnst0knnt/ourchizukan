@@ -1,6 +1,5 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useToggle } from "react-use";
 import { Description, Title } from "@/components/elements/typography";
@@ -37,10 +36,10 @@ export const Album = ({ id }: Props) => {
 
   return (
     <PullToRefresh>
-      <Container>
+      <Container className="h-[calc(100%-4rem)] md:h-[calc(100%-4.5rem)]">
         <div className={cn("flex flex-col gap-4", open ? "hidden" : "flex")}>
-          <Title as="h1">{album ? album.title : "アルバム"}</Title>
-          {album && pictures !== undefined ? (
+          <Title as="h1">{album ? album.title : ""}</Title>
+          {album && pictures !== undefined && (
             <Description>
               <p>
                 {pictures.length}
@@ -48,8 +47,6 @@ export const Album = ({ id }: Props) => {
               </p>
               <p>写真をタップすると大きく表示されます。</p>
             </Description>
-          ) : (
-            <Loader2 className="h-12 w-12 animate-spin" />
           )}
         </div>
 

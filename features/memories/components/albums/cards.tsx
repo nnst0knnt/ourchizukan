@@ -1,4 +1,4 @@
-import { FolderOpen, FolderPlus, Loader2 } from "lucide-react";
+import { FolderOpen, FolderPlus, LoaderCircle } from "lucide-react";
 import { memo } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered } from "@/components/structures";
@@ -27,18 +27,20 @@ export const Cards = memo<CardsProps>(({ data, open, toggle, onRefresh }) => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {data === undefined ? (
-            <Loader2 className="h-12 w-12 animate-spin" />
-          ) : data && data.length > 0 ? (
-            data.map((datum) => <Card key={datum.id} datum={datum} />)
-          ) : (
-            <div className="col-span-full flex flex-col items-center justify-center gap-2 py-8 text-center text-secondary">
-              <FolderOpen className="h-12 w-12" />
-              <p>アルバムがありません</p>
-            </div>
-          )}
-        </div>
+        {data === undefined ? (
+          <LoaderCircle className="size-10 animate-spin self-center" />
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {data && data.length > 0 ? (
+              data.map((datum) => <Card key={datum.id} datum={datum} />)
+            ) : (
+              <div className="col-span-full flex flex-col items-center justify-center gap-2 py-8 text-center text-secondary">
+                <FolderOpen className="h-12 w-12" />
+                <p>アルバムがありません</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {open && (

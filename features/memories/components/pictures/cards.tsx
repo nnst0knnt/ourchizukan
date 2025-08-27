@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageOff, Loader2, Upload as UploadIcon } from "lucide-react";
+import { ImageOff, LoaderCircle, Upload as UploadIcon } from "lucide-react";
 import { Fragment, memo, useCallback, useMemo, useState } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered, Footer } from "@/components/structures";
@@ -70,34 +70,35 @@ export const Cards = memo<CardsProps>(
               写真をアップロード
             </Button>
           </div>
-
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {data === undefined ? (
-              <Loader2 className="h-12 w-12 animate-spin" />
-            ) : data && data.length > 0 ? (
-              data.map((datum, index) => (
-                <Fragment key={datum.id}>
-                  <Card datum={datum} onClick={() => select(index)} />
-                  <Viewer
-                    invisible={index !== selected}
-                    datum={datum}
-                    onClose={reset}
-                    onNext={hasNext ? next : undefined}
-                    onPrevious={hasPrevious ? previous : undefined}
-                  />
-                </Fragment>
-              ))
-            ) : (
-              <div
-                className={cn(
-                  "col-span-full flex flex-col items-center justify-center gap-2 py-8 text-center text-secondary",
-                )}
-              >
-                <ImageOff className="h-12 w-12" />
-                <p>写真がありません</p>
-              </div>
-            )}
-          </div>
+          {data === undefined ? (
+            <LoaderCircle className="size-10 animate-spin self-center" />
+          ) : (
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {data && data.length > 0 ? (
+                data.map((datum, index) => (
+                  <Fragment key={datum.id}>
+                    <Card datum={datum} onClick={() => select(index)} />
+                    <Viewer
+                      invisible={index !== selected}
+                      datum={datum}
+                      onClose={reset}
+                      onNext={hasNext ? next : undefined}
+                      onPrevious={hasPrevious ? previous : undefined}
+                    />
+                  </Fragment>
+                ))
+              ) : (
+                <div
+                  className={cn(
+                    "col-span-full flex flex-col items-center justify-center gap-2 py-8 text-center text-secondary",
+                  )}
+                >
+                  <ImageOff className="h-12 w-12" />
+                  <p>写真がありません</p>
+                </div>
+              )}
+            </div>
+          )}
           <Footer to="/albums" fixed />
         </div>
 
