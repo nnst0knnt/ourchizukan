@@ -3,7 +3,7 @@ import { memo } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Footer, Header } from "@/components/structures";
 import { useKeyboard } from "@/hooks";
-import { date } from "@/services/date";
+import { toJaYYYYMMDD } from "@/services/date";
 import { cn } from "@/styles/functions";
 import type { PictureCard } from "../../models/picture";
 import { Picture } from "./picture";
@@ -39,7 +39,7 @@ export const Viewer = memo<ViewerProps>(
         <Header className="relative">
           <p className="flex items-center gap-2 font-bold">
             <Camera className="inline-block h-4 w-4" />
-            <span>{date(datum.takenAt).format("YYYY年M月D日")}</span>
+            <span>{toJaYYYYMMDD(datum.takenAt)}</span>
           </p>
         </Header>
 

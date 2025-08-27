@@ -1,7 +1,7 @@
 import { ObjectKey } from "@/models";
 import type { ListPicturesQueryParameter } from "@/routes/endpoints/pictures/list/schema";
 import type { UploadPicturesBody } from "@/routes/endpoints/pictures/upload/schema";
-import { date } from "@/services/date";
+import { toYYYYMMDD } from "@/services/date";
 import { env } from "@/services/env";
 import { http } from "@/services/http";
 
@@ -32,7 +32,7 @@ export const list = async ({
       albumId: picture.albumId,
       originalUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.original}`,
       thumbnailUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.thumbnail}`,
-      takenAt: date(picture.takenAt).format("YYYY-MM-DD"),
+      takenAt: toYYYYMMDD(picture.takenAt),
       priority: !offset,
     })),
     meta,

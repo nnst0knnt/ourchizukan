@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { date } from "@/services/date";
+import { toYYYY } from "@/services/date";
 
 export const Unsupported = memo(() => (
   <noscript>
@@ -154,7 +154,7 @@ export const Unsupported = memo(() => (
               padding: "0.5rem !important",
             }}
           >
-            <span>© {date().format("YYYY")}</span>
+            <span>© {toYYYY()}</span>
             <span>おうちずかん</span>
           </div>
         </footer>

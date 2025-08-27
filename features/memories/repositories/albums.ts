@@ -4,7 +4,7 @@ import { ObjectKey } from "@/models";
 import type { CreateAlbumBody } from "@/routes/endpoints/albums/create/schema";
 import type { GetAlbumPathParameter } from "@/routes/endpoints/albums/get/schema";
 import type { ListAlbumsQueryParameter } from "@/routes/endpoints/albums/list/schema";
-import { date } from "@/services/date";
+import { toYYYYMMDD } from "@/services/date";
 import { env } from "@/services/env";
 import { http } from "@/services/http";
 
@@ -37,7 +37,7 @@ export const list = async ({
         ? `${env.APP_URL}/api/pictures/${album.thumbnailId}?kind=${ObjectKey.Picture.thumbnail}`
         : "",
       count: album.count,
-      createdAt: date(album.createdAt).format("YYYY-MM-DD"),
+      createdAt: toYYYYMMDD(album.createdAt),
     })),
     meta,
   };
@@ -63,7 +63,7 @@ export const get = async (path: GetAlbumPathParameter) => {
   return {
     id: data.id,
     title: data.title,
-    createdAt: date(data.createdAt).format("YYYY-MM-DD"),
+    createdAt: toYYYYMMDD(data.createdAt),
   };
 };
 

@@ -1,6 +1,6 @@
 import { except } from "hono/combine";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { date } from "@/services/date";
+import { toYYYYMMDDHHmmss } from "@/services/date";
 import { env } from "@/services/env";
 import { albums } from "./endpoints/albums";
 import { families } from "./endpoints/families";
@@ -45,7 +45,7 @@ export const app = factory
         path: context.req.path,
         userAgent: context.req.header("user-agent"),
         ip: context.get("ip"),
-        timestamp: date().format("YYYY-MM-DD HH:mm:ss"),
+        timestamp: toYYYYMMDDHHmmss(),
       },
     });
 
