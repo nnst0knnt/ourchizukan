@@ -104,7 +104,7 @@ const unauthenticated = async (
 
   if (has(options.failure.unauthenticated, "message")) {
     return context.json(
-      options.failure.unauthenticated.message,
+      { message: options.failure.unauthenticated.message },
       StatusCodes.UNAUTHORIZED,
     );
   }
@@ -115,7 +115,10 @@ const unauthenticated = async (
     );
   }
 
-  return context.text(ReasonPhrases.UNAUTHORIZED, StatusCodes.UNAUTHORIZED);
+  return context.json(
+    { message: ReasonPhrases.UNAUTHORIZED },
+    StatusCodes.UNAUTHORIZED,
+  );
 };
 
 /**
@@ -134,7 +137,7 @@ const authenticated = async (
 
   if (has(options.failure.authenticated, "message")) {
     return context.json(
-      options.failure.authenticated.message,
+      { message: options.failure.authenticated.message },
       StatusCodes.FORBIDDEN,
     );
   }
@@ -145,5 +148,8 @@ const authenticated = async (
     );
   }
 
-  return context.text(ReasonPhrases.FORBIDDEN, StatusCodes.FORBIDDEN);
+  return context.json(
+    { message: ReasonPhrases.FORBIDDEN },
+    StatusCodes.FORBIDDEN,
+  );
 };

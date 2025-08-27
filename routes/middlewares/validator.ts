@@ -19,7 +19,7 @@ const hasBody = <Kind extends keyof Pick<ValidationTargets, "json" | "form">>(
     ({ success }, context) => {
       if (!success) {
         return context.json(
-          ReasonPhrases.UNPROCESSABLE_ENTITY,
+          { message: ReasonPhrases.UNPROCESSABLE_ENTITY },
           StatusCodes.UNPROCESSABLE_ENTITY,
         );
       }
@@ -33,7 +33,7 @@ const json = <Schema extends z.ZodType>(schema: Schema) => {
   const middleware = zValidator("json", schema, ({ success }, context) => {
     if (!success) {
       return context.json(
-        ReasonPhrases.UNPROCESSABLE_ENTITY,
+        { message: ReasonPhrases.UNPROCESSABLE_ENTITY },
         StatusCodes.UNPROCESSABLE_ENTITY,
       );
     }
@@ -51,7 +51,7 @@ const form = <Schema extends z.ZodType>(schema: Schema) => {
 
     if (!body) {
       return context.json(
-        ReasonPhrases.UNPROCESSABLE_ENTITY,
+        { message: ReasonPhrases.UNPROCESSABLE_ENTITY },
         StatusCodes.UNPROCESSABLE_ENTITY,
       );
     }
@@ -69,7 +69,7 @@ const path = <Schema extends z.ZodType>(schema: Schema) =>
   zValidator("param", schema, ({ success }, context) => {
     if (!success) {
       return context.json(
-        ReasonPhrases.UNPROCESSABLE_ENTITY,
+        { message: ReasonPhrases.UNPROCESSABLE_ENTITY },
         StatusCodes.UNPROCESSABLE_ENTITY,
       );
     }
@@ -82,7 +82,7 @@ const query = <Schema extends z.ZodType>(schema: Schema) =>
   zValidator("query", schema, ({ success }, context) => {
     if (!success) {
       return context.json(
-        ReasonPhrases.UNPROCESSABLE_ENTITY,
+        { message: ReasonPhrases.UNPROCESSABLE_ENTITY },
         StatusCodes.UNPROCESSABLE_ENTITY,
       );
     }

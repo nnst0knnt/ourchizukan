@@ -11,7 +11,7 @@ export const enter = factory.createHandlers(
 
     if (!(await context.var.keeper.attempts.verify(context.var.ip))) {
       return context.json(
-        "ちょっと休憩してからもう一度お試しください",
+        { message: "ちょっと休憩してからもう一度お試しください" },
         StatusCodes.TOO_MANY_REQUESTS,
       );
     }
@@ -23,7 +23,7 @@ export const enter = factory.createHandlers(
       );
 
       return context.json(
-        "このメールアドレスは見覚えがないようです",
+        { message: "このメールアドレスは見覚えがないようです" },
         StatusCodes.UNAUTHORIZED,
       );
     }
@@ -35,11 +35,14 @@ export const enter = factory.createHandlers(
 
     if (!session) {
       return context.json(
-        "今はおうちに入ることができないようです",
+        { message: "今はおうちに入ることができないようです" },
         StatusCodes.INTERNAL_SERVER_ERROR,
       );
     }
 
-    return context.json("おうちずかんへようこそ！", StatusCodes.OK);
+    return context.json(
+      { message: "おうちずかんへようこそ！" },
+      StatusCodes.OK,
+    );
   },
 );

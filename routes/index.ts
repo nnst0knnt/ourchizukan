@@ -35,13 +35,13 @@ export const app = factory
   .route("/albums", albums)
   .route("/pictures", pictures)
   .notFound((context) =>
-    context.json(ReasonPhrases.NOT_FOUND, StatusCodes.NOT_FOUND),
+    context.json({ message: ReasonPhrases.NOT_FOUND }, StatusCodes.NOT_FOUND),
   )
   .onError((e, context) => {
     console.error(`🚨 予期せぬエラーが発生しました\n`, e);
 
     return context.json(
-      ReasonPhrases.INTERNAL_SERVER_ERROR,
+      { message: ReasonPhrases.INTERNAL_SERVER_ERROR },
       StatusCodes.INTERNAL_SERVER_ERROR,
     );
   });
