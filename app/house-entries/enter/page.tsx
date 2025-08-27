@@ -1,3 +1,4 @@
+import { Enter } from "@/features/house-entries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <></>;
+  return <Enter />;
 }

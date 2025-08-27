@@ -19,11 +19,6 @@ type ErrorProps = {
   reset: () => void;
 };
 
-/**
- * エラー境界
- *
- * エラーが発生した場合に表示されるページです。
- */
 export default function Error({ error: e }: ErrorProps) {
   const error = new (Constructors[e.name] ?? UnknownError)();
 

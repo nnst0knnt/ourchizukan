@@ -1,10 +1,5 @@
 import type { MetadataRoute } from "next";
 
-/**
- * マニフェスト
- *
- * PWA用のマニフェストを提供します。
- */
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "おうちずかん",

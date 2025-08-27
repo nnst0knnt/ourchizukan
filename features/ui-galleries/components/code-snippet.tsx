@@ -32,7 +32,7 @@ export const CodeSnippet = memo(
         setSnippet(
           <div
             className={cn("size-full", className)}
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: https://biomejs.dev/ja/linter/rules/no-dangerously-set-inner-html/
+            /* biome-ignore lint/security/noDangerouslySetInnerHtml: https://biomejs.dev/ja/linter/rules/no-dangerously-set-inner-html */
             dangerouslySetInnerHTML={{ __html: out }}
           />,
         );

@@ -37,11 +37,6 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-/**
- * レイアウト
- *
- * アプリケーションの基本的なレイアウトを提供します。
- */
 export default function Layout({
   children,
 }: Readonly<{
