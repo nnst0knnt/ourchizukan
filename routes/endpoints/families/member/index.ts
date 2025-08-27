@@ -1,3 +1,4 @@
+import { StatusCodes } from "http-status-codes";
 import { factory } from "../../../helpers";
 
 export const member = factory.createHandlers(async (context) => {
@@ -9,5 +10,6 @@ export const member = factory.createHandlers(async (context) => {
           method: session.method,
         }
       : null,
+    StatusCodes.OK,
   );
 });

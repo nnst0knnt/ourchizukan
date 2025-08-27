@@ -3,11 +3,7 @@
  */
 export const AttemptKind = {
   /** メールアドレス認証失敗 */
-  EmailFail: "email-fail",
-  /** レート制限 */
-  RateLimit: "rate-limit",
-  /** 不正なセッションIDでのアクセス */
-  InvalidSession: "invalid-session",
+  FailedEmail: "failed-email",
 } as const;
 export type AttemptKind = (typeof AttemptKind)[keyof typeof AttemptKind];
 

@@ -104,7 +104,7 @@ const unauthenticated = async (
 
   if (has(options.failure.unauthenticated, "message")) {
     return context.json(
-      { message: options.failure.unauthenticated.message },
+      options.failure.unauthenticated.message,
       StatusCodes.UNAUTHORIZED,
     );
   }
@@ -134,7 +134,7 @@ const authenticated = async (
 
   if (has(options.failure.authenticated, "message")) {
     return context.json(
-      { message: options.failure.authenticated.message },
+      options.failure.authenticated.message,
       StatusCodes.FORBIDDEN,
     );
   }

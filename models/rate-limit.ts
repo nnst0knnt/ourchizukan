@@ -9,15 +9,15 @@ export const RateLimitOptions = {
    */
   MaxAttempts: 3,
   /**
-   * レート制限の監視期間（ミリ秒）
+   * レート制限の監視期間（秒）
    *
    * この期間内での認証試行回数をカウントします。
    */
-  CountingPeriod: 10 * 60 * 1000,
+  CountingPeriod: 5 * 60,
   /**
-   * ロックアウト期間（ミリ秒）
+   * ロックアウト期間（秒）
    *
    * 最大試行回数を超えた後、この期間は認証ができなくなります。
    */
-  LockoutDuration: 15 * 60 * 1000,
+  LockoutDuration: 15 * 60,
 } as const;
