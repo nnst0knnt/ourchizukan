@@ -1,7 +1,11 @@
 import type { Context } from "hono";
 import { getConnInfo } from "hono/cloudflare-workers";
 import { keeper } from "@/services/keeper";
-import { createKeyValueStorage, createObjectStorage } from "@/services/storage";
+import {
+  createDatabaseStorage,
+  createKeyValueStorage,
+  createObjectStorage,
+} from "@/services/storage";
 import { factory } from "../helpers";
 
 /**
@@ -12,9 +16,10 @@ export type Environment = {
   Variables: {
     ip: string;
     keeper: ReturnType<typeof keeper>;
-    storage: {
+    buckets: {
       pictures: ReturnType<typeof createObjectStorage>;
     };
+    database: ReturnType<typeof createDatabaseStorage>;
   };
 };
 
@@ -43,11 +48,16 @@ export const environment = () =>
     context.set("keeper", keeper(createKeyValueStorage(_context.env.Families)));
 
     /**
-     * ストレージ
+     * バケット
      */
-    context.set("storage", {
+    context.set("buckets", {
       pictures: createObjectStorage(_context.env.Pictures),
     });
+
+    /**
+     * データベース
+     */
+    context.set("database", createDatabaseStorage(_context.env.Database));
 
     await next();
   });

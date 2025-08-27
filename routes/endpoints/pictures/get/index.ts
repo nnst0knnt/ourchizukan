@@ -8,7 +8,7 @@ export const get = factory.createHandlers(
   async (context) => {
     const { id } = context.req.valid("param");
 
-    const picture = await context.var.storage.pictures.get(id);
+    const picture = await context.var.buckets.pictures.get(id);
 
     if (!picture) {
       return context.newResponse(null, StatusCodes.OK);

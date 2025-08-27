@@ -29,7 +29,7 @@ export const EmailController = memo(() => {
     });
 
     if (!response.ok) {
-      setError("email", { message: await response.json() });
+      setError("email", { message: await response.text() });
 
       throw new Error();
     }

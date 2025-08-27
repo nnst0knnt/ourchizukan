@@ -5,7 +5,7 @@
 {
   "main": ".open-next/worker.js",
   "name": "ourchizukan",
-  "compatibility_date": "2025-06-06",
+  "compatibility_date": "2025-08-10",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".open-next/assets",
@@ -35,6 +35,14 @@
     {
       "binding": "Pictures",
       "bucket_name": "pictures"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "Database",
+      "database_name": "preview",
+      "database_id": "a304a33f-9ec2-4ebf-8c9c-290f1cb8749f",
+      "migrations_dir": "database/migrations"
     }
   ]
   /**

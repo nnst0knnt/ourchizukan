@@ -25,7 +25,7 @@ export const Create = memo<CreateProps>(({ onClose }) => {
     handleSubmit,
   } = useForm<CreateAlbum>({
     defaultValues: {
-      name: "",
+      title: "",
     },
     resolver: zodResolver(CreateAlbum),
   });
@@ -36,7 +36,7 @@ export const Create = memo<CreateProps>(({ onClose }) => {
     });
 
     if (!response.ok) {
-      setError("name", { message: await response.json() });
+      setError("title", { message: await response.text() });
 
       throw new Error();
     }
@@ -54,7 +54,7 @@ export const Create = memo<CreateProps>(({ onClose }) => {
 
       <Controller
         control={control}
-        name="name"
+        name="title"
         render={({
           field: { onChange },
           formState: { isValid, isSubmitting },
@@ -64,8 +64,8 @@ export const Create = memo<CreateProps>(({ onClose }) => {
               label="アルバム名"
               placeholder="2025年の伊豆旅行"
               onChange={onChange}
-              {...(errors.name
-                ? { error: errors.name.message }
+              {...(errors.title
+                ? { error: errors.title.message }
                 : isValid
                   ? { success: "アルバムを作成できます" }
                   : {

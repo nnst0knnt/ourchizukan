@@ -1,10 +1,10 @@
 import type { KeyValueStorageFactory } from "@/models";
-import { env } from "../../env/server";
+import { env } from "../../env";
 import { createCloudflareKV } from "./cloudflare-kv";
 import { createInMemory } from "./in-memory";
 
 const createFactory = (): KeyValueStorageFactory => {
-  if (!env.DEBUG) return createCloudflareKV;
+  if (!env.APP_DEBUG) return createCloudflareKV;
 
   return createInMemory;
 };

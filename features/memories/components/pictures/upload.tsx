@@ -81,7 +81,7 @@ export const Upload = memo<UploadProps>(({ albumId = null, onClose }) => {
     });
 
     if (!response.ok) {
-      setError("files", { message: await response.json() });
+      setError("files", { message: await response.text() });
 
       throw new Error();
     }

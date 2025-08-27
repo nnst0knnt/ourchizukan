@@ -1,7 +1,7 @@
 import { hc } from "hono/client";
 
 import type { app } from "@/routes";
-import { env } from "../env/client";
+import { env } from "../env";
 
 export type PathParameters<T extends object> = {
   params: Promise<T>;

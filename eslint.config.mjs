@@ -51,6 +51,12 @@ const eslintConfig = [
       "@typescript-eslint/no-explicit-any": ["off"],
     },
   },
+  {
+    files: ["services/env/*.ts", "drizzle.config.ts"],
+    rules: {
+      "n/no-process-env": ["off"],
+    },
+  },
 ];
 
 export default eslintConfig;
