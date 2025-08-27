@@ -1,5 +1,9 @@
-import { type HTMLAttributes, memo, type ReactNode } from "react";
-import type { BundledLanguage } from "shiki";
+import {
+  type ComponentProps,
+  type HTMLAttributes,
+  memo,
+  type ReactNode,
+} from "react";
 import { Description, Title } from "@/components/elements/typography";
 import { cn } from "@/styles/functions";
 import { CodeSnippet } from "./code-snippet";
@@ -16,7 +20,7 @@ type ComponentCardProps = {
   /** サンプルコード */
   code: string;
   /** コードの言語 */
-  language?: BundledLanguage;
+  language?: ComponentProps<typeof CodeSnippet>["language"];
   /** 表示するコンポーネント */
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>;

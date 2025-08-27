@@ -1,20 +1,34 @@
 "use client";
 
 import { type JSX, memo, useCallback, useEffect, useState } from "react";
-
-import { type BundledLanguage, codeToHtml } from "shiki";
+import { createHighlighterCore, type HighlighterCore } from "shiki/core";
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 
 import { cn } from "@/styles/functions";
 
-const light = "github-light";
-const dark = "one-dark-pro";
+let _highlighter: HighlighterCore | null = null;
+
+const highlighter = async () => {
+  if (!_highlighter) {
+    _highlighter = await createHighlighterCore({
+      themes: [
+        import("@shikijs/themes/github-light"),
+        import("@shikijs/themes/one-dark-pro"),
+      ],
+      langs: [import("@shikijs/langs/tsx")],
+      engine: createJavaScriptRegexEngine(),
+    });
+  }
+
+  return _highlighter;
+};
 
 /**
  * CodeSnippetProps
  */
 type CodeSnippetProps = {
   code: string;
-  language: BundledLanguage;
+  language?: "tsx";
   className?: string;
 };
 
@@ -29,11 +43,11 @@ export const CodeSnippet = memo<CodeSnippetProps>(
 
     const toHtml = useCallback(async () => {
       try {
-        const out = await codeToHtml(code, {
+        const out = (await highlighter()).codeToHtml(code, {
           lang: language,
           themes: {
-            light,
-            dark,
+            light: "github-light",
+            dark: "one-dark-pro",
           },
         });
 
