@@ -55,7 +55,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     const [enabledTooltip, setEnabledTooltip] = useState(false);
 
     const baseStyles =
-      "rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-1 shadow-sm transition-colors duration-200 relative";
+      "rounded-full flex items-center justify-center shadow-sm transition-colors duration-200 relative";
 
     const kindStyles = {
       primary: filled

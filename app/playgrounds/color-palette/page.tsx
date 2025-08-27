@@ -172,7 +172,7 @@ export default function ColorPalette() {
                 type="button"
                 onClick={theme.toggle}
                 className={cn(
-                  "relative inline-flex h-7 w-20 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-focus",
+                  "relative inline-flex h-7 w-20 items-center rounded-full transition-colors",
                   theme.isDark ? "bg-brand" : "bg-outline",
                 )}
                 aria-checked={theme.isDark}
@@ -205,7 +205,7 @@ export default function ColorPalette() {
                 type="button"
                 onClick={contrast.toggle}
                 className={cn(
-                  "relative inline-flex h-7 w-20 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-focus",
+                  "relative inline-flex h-7 w-20 items-center rounded-full transition-colors",
                   contrast.isHigh ? "bg-accent" : "bg-outline",
                 )}
                 aria-checked={contrast.isHigh}

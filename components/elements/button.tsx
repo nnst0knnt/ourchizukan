@@ -1,7 +1,7 @@
 import { cn } from "@/styles/functions";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { forwardRef } from "react";
+import { Children, forwardRef } from "react";
 
 /**
  * ボタンの種類
@@ -45,6 +45,8 @@ export type ButtonProps = {
   fullWidth?: boolean;
   /** ボタンの状態 */
   status?: ButtonStatus;
+  /** アクセシビリティのためのラベル（テキストがない場合や説明が必要な場合） */
+  "aria-label"?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
@@ -66,6 +68,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth = false,
       disabled,
       type = "button",
+      "aria-label": ariaLabel,
       ...props
     },
     ref,
@@ -76,8 +79,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       status === ButtonStatus.Success ||
       status === ButtonStatus.Error;
 
+    const hasTextContent = Children.toArray(children).some(
+      (child) => typeof child === "string" || typeof child === "number",
+    );
+
     const baseStyles =
-      "rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-1 shadow-sm flex items-center justify-center gap-2 relative";
+      "rounded-md font-medium transition-colors duration-200 shadow-sm flex items-center justify-center gap-2 relative";
 
     const kindStyles = {
       primary: "bg-brand text-foreground hover:bg-brand/90 active:bg-brand/80",
@@ -131,6 +138,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         disabled={isDisabled}
         className={classNames}
+        aria-label={!hasTextContent ? ariaLabel : "ボタン"}
         {...props}
       >
         <div

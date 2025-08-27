@@ -74,4 +74,26 @@
       padding: 0.875rem 1.25rem;
     }
   }
+
+  /* インタラクティブ要素のフォーカス状態強化 */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-3 ring-focus ring-offset-2;
+  }
+
+  /* 高コントラストモード時のフォーカス状態強化 */
+  [data-contrast="high"] a:focus-visible,
+  [data-contrast="high"] button:focus-visible,
+  [data-contrast="high"] input:focus-visible,
+  [data-contrast="high"] select:focus-visible,
+  [data-contrast="high"] textarea:focus-visible,
+  [data-contrast="high"] [role="button"]:focus-visible,
+  [data-contrast="high"] [tabindex]:focus-visible {
+    @apply ring-4 ring-offset-4;
+  }
 }

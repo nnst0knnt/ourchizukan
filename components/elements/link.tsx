@@ -96,12 +96,14 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
 
     const accessibilityProps = {
       "aria-label": openInNewTab
-        ? `${props["aria-label"] || children?.toString() || "リンク"} (新しいタブで開きます)`
-        : props["aria-label"],
+        ? `${props["aria-label"] || children?.toString() || "リンク"}（新しいタブで開きます)`
+        : isExternal
+          ? `${props["aria-label"] || children?.toString() || "リンク"}（外部サイト）`
+          : props["aria-label"] || children?.toString() || "リンク",
     };
 
     const baseStyles =
-      "inline-flex items-center gap-2 w-fit rounded focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-1 focus:px-2 transition-all duration-200";
+      "inline-flex items-center gap-2 w-fit rounded transition-all duration-200";
 
     const kindStyles = {
       default:
