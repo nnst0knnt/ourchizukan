@@ -140,7 +140,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
               />
               <div
                 className={cn(
-                  "flex cursor-pointer items-center justify-center rounded-full border bg-foundation",
+                  "no-min-size flex cursor-pointer items-center justify-center rounded-full border bg-foundation",
                   containerSizeStyles[size || state.size],
                   statusStyles[status],
                   isChecked && "border-brand p-1",

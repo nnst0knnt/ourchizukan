@@ -149,7 +149,7 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
               />
               <div
                 className={cn(
-                  "flex cursor-pointer items-center justify-center rounded border bg-foundation",
+                  "no-min-size flex cursor-pointer items-center justify-center rounded border bg-foundation",
                   containerSizeStyles[size || state.size],
                   statusStyles[status],
                   isChecked && "border-brand bg-brand",

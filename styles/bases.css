@@ -43,7 +43,7 @@
 
   /* クリック可能要素　- 最小サイズ */
   button,
-  [role="button"],
+  [role="button"]:not(.no-min-size),
   a,
   input[type="button"],
   input[type="submit"],
