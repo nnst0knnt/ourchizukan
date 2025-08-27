@@ -1,4 +1,5 @@
 import { eq } from "drizzle-orm";
+import { chunk } from "es-toolkit/array";
 import { StatusCodes } from "http-status-codes";
 import { albums, pictures } from "@/database/schema";
 import { ObjectKey } from "@/models";
@@ -41,50 +42,68 @@ export const upload = factory.createHandlers(
     const uploaded: string[] = [];
 
     try {
-      await context.var.database.transaction(async (transaction) => {
-        for (const file of body.files) {
-          const id = uuid();
-          const originalKey = `${ObjectKey.Picture.original}/${id}`;
-          const thumbnailKey = `${ObjectKey.Picture.thumbnail}/${id}`;
-          const now = date().unix();
+      for (const file of body.files) {
+        const id = uuid();
+        const originalKey = `${ObjectKey.Picture.original}/${id}`;
+        const thumbnailKey = `${ObjectKey.Picture.thumbnail}/${id}`;
+        const now = date().unix();
 
-          try {
-            const buffer = await file.arrayBuffer();
+        try {
+          const buffer = await file.arrayBuffer();
 
-            await context.var.buckets.pictures.put(originalKey, buffer, {
-              mime: file.type,
-            });
-            uploaded.push(originalKey);
+          await context.var.buckets.pictures.put(originalKey, buffer, {
+            mime: file.type,
+          });
+          uploaded.push(originalKey);
 
-            await context.var.buckets.pictures.put(thumbnailKey, buffer, {
-              mime: file.type,
-            });
-            uploaded.push(thumbnailKey);
+          await context.var.buckets.pictures.put(thumbnailKey, buffer, {
+            mime: file.type,
+          });
+          uploaded.push(thumbnailKey);
 
-            await transaction.insert(pictures).values({
-              id,
-              albumId: body.albumId,
-              originalKey,
-              thumbnailKey,
-              takenAt: now,
-              createdAt: now,
-            });
+          data.push({
+            id,
+            albumId: body.albumId,
+            originalKey,
+            thumbnailKey,
+            takenAt: now,
+            createdAt: now,
+          });
+        } catch (e) {
+          console.error(`⚠️ ${file.name}のアップロードに失敗しました`, e);
 
-            data.push({
-              id,
-              albumId: body.albumId,
-              originalKey,
-              thumbnailKey,
-              takenAt: now,
-              createdAt: now,
-            });
-          } catch (e) {
-            console.error(`⚠️ ${file.name}のアップロードに失敗しました`, e);
-
-            throw e;
-          }
+          throw e;
         }
-      });
+      }
+
+      if (data.length > 0) {
+        const chunks = chunk(data, 16);
+        const inserted: string[] = [];
+
+        try {
+          for (const chunk of chunks) {
+            await context.var.database.insert(pictures).values(chunk);
+
+            inserted.push(...chunk.map(({ id }) => id));
+          }
+        } catch (e) {
+          console.error("⚠️ 写真の追加に失敗しました", e);
+
+          if (inserted.length > 0) {
+            try {
+              for (const id of inserted) {
+                await context.var.database
+                  .delete(pictures)
+                  .where(eq(pictures.id, id));
+              }
+            } catch (e) {
+              console.error("⚠️ 写真の削除に失敗しました", e);
+            }
+          }
+
+          throw e;
+        }
+      }
 
       return context.json(data, StatusCodes.CREATED);
     } catch (e) {
