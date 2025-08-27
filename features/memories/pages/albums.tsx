@@ -34,19 +34,23 @@ export const Albums = () => {
           </Description>
         </div>
 
-        <Cards
-          data={data}
-          open={open}
-          loading={loading}
-          toggle={toggle}
-          refresh={refresh}
-        />
-        {loading && !open && (
-          <div className="flex items-center justify-center">
-            <LoaderCircle className="h-12 w-12 animate-spin" />
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-4">
+            <Cards
+              data={data}
+              open={open}
+              loading={loading}
+              toggle={toggle}
+              refresh={refresh}
+            />
+            {loading && !open && (
+              <div className="flex items-center justify-center">
+                <LoaderCircle className="h-12 w-12 animate-spin" />
+              </div>
+            )}
           </div>
-        )}
-        <div ref={trigger} className="h-px" />
+          <div ref={trigger} className="h-px" />
+        </div>
       </Container>
     </PullToRefresh>
   );
