@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "@/styles/globals.css";
-import { ContrastVariants, SizeVariants, ThemeVariants } from "@/hooks";
+import { ContrastKind, SizeKind, ThemeKind } from "@/hooks";
 
 export const metadata: Metadata = {
   title: {
@@ -35,9 +35,9 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      data-theme={ThemeVariants.Light}
-      data-contrast={ContrastVariants.Normal}
-      data-size={SizeVariants.Normal}
+      data-theme={ThemeKind.Light}
+      data-contrast={ContrastKind.Normal}
+      data-size={SizeKind.Normal}
       suppressHydrationWarning
     >
       <head />

@@ -4,29 +4,29 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 const Key = "theme";
 
-export const ThemeVariants = {
+export const ThemeKind = {
   Light: "light",
   Dark: "dark",
 } as const;
-export type ThemeVariant = (typeof ThemeVariants)[keyof typeof ThemeVariants];
+export type ThemeKind = (typeof ThemeKind)[keyof typeof ThemeKind];
 
 export const useTheme = () => {
-  const [value, setValue] = useState<ThemeVariant>();
+  const [value, setValue] = useState<ThemeKind>();
 
   /**
    * ライトモードか
    */
-  const isLight = useMemo(() => value === ThemeVariants.Light, [value]);
+  const isLight = useMemo(() => value === ThemeKind.Light, [value]);
 
   /**
    * ダークモードか
    */
-  const isDark = useMemo(() => value === ThemeVariants.Dark, [value]);
+  const isDark = useMemo(() => value === ThemeKind.Dark, [value]);
 
   /**
    * テーマを更新する
    */
-  const update = useCallback((value: ThemeVariant) => {
+  const update = useCallback((value: ThemeKind) => {
     document.documentElement.setAttribute("data-theme", value);
     localStorage.setItem(Key, value);
   }, []);
@@ -37,10 +37,8 @@ export const useTheme = () => {
   const toggle = useCallback(
     () =>
       setValue((current) => {
-        const value: ThemeVariant =
-          current === ThemeVariants.Light
-            ? ThemeVariants.Dark
-            : ThemeVariants.Light;
+        const value: ThemeKind =
+          current === ThemeKind.Light ? ThemeKind.Dark : ThemeKind.Light;
 
         update(value);
 
@@ -53,8 +51,7 @@ export const useTheme = () => {
    * マウント時にローカルストレージからテーマを読み込む
    */
   useEffect(() => {
-    const value = (localStorage.getItem(Key) ||
-      ThemeVariants.Light) as ThemeVariant;
+    const value = (localStorage.getItem(Key) || ThemeKind.Light) as ThemeKind;
 
     update(value);
 

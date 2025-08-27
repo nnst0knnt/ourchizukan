@@ -8,10 +8,10 @@
   "files": {
     "ignoreUnknown": false,
     "ignore": [
+      "node_modules/**/*",
       ".next/**/*",
       ".vercel/**/*",
       ".wrangler/**/*",
-      "node_modules/**/*",
       "env.d.ts"
     ]
   },

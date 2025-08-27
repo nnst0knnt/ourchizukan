@@ -4,30 +4,29 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 const Key = "contrast";
 
-export const ContrastVariants = {
+export const ContrastKind = {
   Normal: "normal",
   High: "high",
 } as const;
-export type ContrastVariant =
-  (typeof ContrastVariants)[keyof typeof ContrastVariants];
+export type ContrastKind = (typeof ContrastKind)[keyof typeof ContrastKind];
 
 export const useContrast = () => {
-  const [value, setValue] = useState<ContrastVariant>();
+  const [value, setValue] = useState<ContrastKind>();
 
   /**
    * コントラストが標準か
    */
-  const isNormal = useMemo(() => value === ContrastVariants.Normal, [value]);
+  const isNormal = useMemo(() => value === ContrastKind.Normal, [value]);
 
   /**
    * コントラストが高いか
    */
-  const isHigh = useMemo(() => value === ContrastVariants.High, [value]);
+  const isHigh = useMemo(() => value === ContrastKind.High, [value]);
 
   /**
    * コントラストを更新する
    */
-  const update = useCallback((value: ContrastVariant) => {
+  const update = useCallback((value: ContrastKind) => {
     document.documentElement.setAttribute("data-contrast", value);
     localStorage.setItem(Key, value);
   }, []);
@@ -38,10 +37,10 @@ export const useContrast = () => {
   const toggle = useCallback(
     () =>
       setValue((current) => {
-        const value: ContrastVariant =
-          current === ContrastVariants.Normal
-            ? ContrastVariants.High
-            : ContrastVariants.Normal;
+        const value: ContrastKind =
+          current === ContrastKind.Normal
+            ? ContrastKind.High
+            : ContrastKind.Normal;
 
         update(value);
 
@@ -55,7 +54,7 @@ export const useContrast = () => {
    */
   useEffect(() => {
     const value = (localStorage.getItem(Key) ||
-      ContrastVariants.Normal) as ContrastVariant;
+      ContrastKind.Normal) as ContrastKind;
 
     update(value);
 

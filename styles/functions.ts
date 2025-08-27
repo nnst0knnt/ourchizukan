@@ -108,8 +108,8 @@ export const hexToRgb = (hex: string): Rgb | null => {
 /**
  * CSS変数を16進数カラーコードに変換する
  */
-export const variantToHex = (variant: string): string =>
-  getComputedStyle(document.documentElement).getPropertyValue(variant).trim();
+export const varsToHex = (vars: string): string =>
+  getComputedStyle(document.documentElement).getPropertyValue(vars).trim();
 
 /**
  * 色のコントラスト比を評価する

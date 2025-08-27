@@ -4,35 +4,35 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 const Key = "size";
 
-export const SizeVariants = {
+export const SizeKind = {
   Small: "small",
   Normal: "normal",
   Large: "large",
 } as const;
-export type SizeVariant = (typeof SizeVariants)[keyof typeof SizeVariants];
+export type SizeKind = (typeof SizeKind)[keyof typeof SizeKind];
 
 export const useSize = () => {
-  const [value, setValue] = useState<SizeVariant>();
+  const [value, setValue] = useState<SizeKind>();
 
   /**
    * 文字サイズが小さいか
    */
-  const isSmall = useMemo(() => value === SizeVariants.Small, [value]);
+  const isSmall = useMemo(() => value === SizeKind.Small, [value]);
 
   /**
    * 文字サイズが標準か
    */
-  const isNormal = useMemo(() => value === SizeVariants.Normal, [value]);
+  const isNormal = useMemo(() => value === SizeKind.Normal, [value]);
 
   /**
    * 文字サイズが大きいか
    */
-  const isLarge = useMemo(() => value === SizeVariants.Large, [value]);
+  const isLarge = useMemo(() => value === SizeKind.Large, [value]);
 
   /**
    * 文字サイズを更新する
    */
-  const update = useCallback((value: SizeVariant) => {
+  const update = useCallback((value: SizeKind) => {
     document.documentElement.setAttribute("data-size", value);
     localStorage.setItem(Key, value);
   }, []);
@@ -43,12 +43,10 @@ export const useSize = () => {
   const increase = useCallback(
     () =>
       setValue((current) => {
-        if (current === SizeVariants.Large) return current;
+        if (current === SizeKind.Large) return current;
 
-        const value: SizeVariant =
-          current === SizeVariants.Small
-            ? SizeVariants.Normal
-            : SizeVariants.Large;
+        const value: SizeKind =
+          current === SizeKind.Small ? SizeKind.Normal : SizeKind.Large;
 
         update(value);
 
@@ -63,12 +61,10 @@ export const useSize = () => {
   const decrease = useCallback(
     () =>
       setValue((current) => {
-        if (current === SizeVariants.Small) return current;
+        if (current === SizeKind.Small) return current;
 
-        const value: SizeVariant =
-          current === SizeVariants.Large
-            ? SizeVariants.Normal
-            : SizeVariants.Small;
+        const value: SizeKind =
+          current === SizeKind.Large ? SizeKind.Normal : SizeKind.Small;
 
         update(value);
 
@@ -81,8 +77,7 @@ export const useSize = () => {
    * マウント時にローカルストレージから文字サイズを読み込む
    */
   useEffect(() => {
-    const value = (localStorage.getItem(Key) ||
-      SizeVariants.Normal) as SizeVariant;
+    const value = (localStorage.getItem(Key) || SizeKind.Normal) as SizeKind;
 
     update(value);
 

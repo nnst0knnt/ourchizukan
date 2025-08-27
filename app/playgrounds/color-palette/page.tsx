@@ -1,9 +1,9 @@
 "use client";
 
 import { useContrast, useTheme } from "@/hooks";
-import { evaluateContrast, variantToHex } from "@/styles/functions";
+import { evaluateContrast, varsToHex } from "@/styles/functions";
 import { cn } from "@/styles/functions";
-import { Eye, EyeOff, Moon, Palette as PaletteIcon, Sun } from "lucide-react";
+import { Eye, EyeOff, Moon, Palette, Sun } from "lucide-react";
 
 type Color = {
   name: string;
@@ -135,7 +135,7 @@ const evaluations: Evaluation[] = [
   },
 ];
 
-export default function Palette() {
+export default function ColorPalette() {
   const theme = useTheme();
   const contrast = useContrast();
 
@@ -147,15 +147,15 @@ export default function Palette() {
         <div className="flex flex-col gap-8">
           <div className="relative flex flex-col gap-4 bg-base">
             <h1 className="flex flex-row gap-2 items-center justify-between text-3xl font-bold text-primary">
-              <span>パレット</span>
+              <span>カラーパレット</span>
               <span className="text-brand opacity-80">
-                <PaletteIcon size={48} />
+                <Palette size={48} />
               </span>
             </h1>
             <div className="flex flex-col gap-2 text-sm">
               <p className="text-secondary">
                 <strong className="font-medium">おうちずかん</strong>
-                <span>で使用しているカラーとコントラストの一覧です。</span>
+                <span>で使用している色を紹介します。</span>
               </p>
               <p className="text-secondary">
                 高齢者にも見やすく使いやすいよう、色の組み合わせに配慮しています。
@@ -172,7 +172,7 @@ export default function Palette() {
                 type="button"
                 onClick={theme.toggle}
                 className={cn(
-                  "relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand",
+                  "relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-focus",
                   theme.isDark ? "bg-brand" : "bg-outline",
                 )}
                 aria-checked={theme.isDark}
@@ -205,7 +205,7 @@ export default function Palette() {
                 type="button"
                 onClick={contrast.toggle}
                 className={cn(
-                  "relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent",
+                  "relative inline-flex h-7 w-14 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-focus",
                   contrast.isHigh ? "bg-accent" : "bg-outline",
                 )}
                 aria-checked={contrast.isHigh}
@@ -236,7 +236,7 @@ export default function Palette() {
         <div className="flex flex-col gap-8">
           <section className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold tracking-tight relative inline-flex items-center">
-              <span className="relative z-10">カラー</span>
+              <span className="relative z-10">一覧</span>
               <span className="absolute bottom-1 left-0 w-16 h-3 bg-brand opacity-20 z-0 rounded-sm" />
             </h2>
 
@@ -253,7 +253,7 @@ export default function Palette() {
                       {color.category}
                     </div>
                     <div className="bg-base border border-outline text-primary text-xs font-mono px-2 py-1 m-3 rounded shadow-sm">
-                      {variantToHex(color.cssVar)}
+                      {varsToHex(color.cssVar)}
                     </div>
                   </div>
 
@@ -283,15 +283,15 @@ export default function Palette() {
 
           <section className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold tracking-tight relative inline-flex items-center">
-              <span className="relative z-10">コントラスト</span>
+              <span className="relative z-10">評価</span>
               <span className="absolute bottom-1 left-0 w-28 h-3 bg-accent opacity-20 z-0 rounded-sm" />
             </h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {evaluations.map((evaluation) => {
                 const evaluated = evaluateContrast(
-                  variantToHex(evaluation.foreground),
-                  variantToHex(evaluation.background),
+                  varsToHex(evaluation.foreground),
+                  varsToHex(evaluation.background),
                 );
 
                 return (
@@ -302,8 +302,8 @@ export default function Palette() {
                     <div
                       className="flex flex-col items-center justify-center gap-2 py-10 px-6 group-hover/card:py-12 transition-all duration-300 relative border-b border-outline"
                       style={{
-                        backgroundColor: variantToHex(evaluation.background),
-                        color: variantToHex(evaluation.foreground),
+                        backgroundColor: varsToHex(evaluation.background),
+                        color: varsToHex(evaluation.foreground),
                       }}
                     >
                       <span className="font-bold text-xl text-center">

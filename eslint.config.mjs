@@ -1,5 +1,6 @@
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { globalIgnores } from "@eslint/config-helpers";
 import { FlatCompat } from "@eslint/eslintrc";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -10,6 +11,7 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  globalIgnores([".next", ".vercel", ".wrangler", "env.d.ts"]),
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
 
