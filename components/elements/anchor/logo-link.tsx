@@ -4,8 +4,8 @@ import { type HTMLAttributes, forwardRef } from "react";
 
 import { cn } from "@/styles/functions";
 
-import { Link, type LinkProps } from "./link";
 import { Logo } from "../symbol";
+import { Link, type LinkProps } from "./link";
 
 /**
  * LogoLinkProps
@@ -15,6 +15,8 @@ export type LogoLinkProps = {
   size?: LinkProps["size"];
   /** 印のみ表示 */
   markOnly?: boolean;
+  /** リンクとしての機能をオフにする */
+  fake?: boolean;
 } & HTMLAttributes<HTMLAnchorElement>;
 
 /**

@@ -18,7 +18,7 @@ export type AccessibilityControlsProps = HTMLAttributes<HTMLDivElement>;
  * AccessibilityControls
  *
  * アプリケーションの表示設定を調整するためのコントロールを提供します。
- * テーマ切替、コントラスト切替、文字サイズ調整など、ユーザーが自分に合った表示設定を選べるようにしています。
+ * テーマ切り替え、コントラスト切り替え、文字サイズ調整など、ユーザーが自分に合った表示設定を選べるようにしています。
  */
 export const AccessibilityControls = forwardRef<
   HTMLDivElement,

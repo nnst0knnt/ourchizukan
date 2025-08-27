@@ -178,7 +178,7 @@ export const CheckboxOption = forwardRef<HTMLInputElement, CheckboxOptionProps>(
               >
                 <Check
                   className={cn(
-                    "text-foreground opacity-0 transition-opacity",
+                    "text-foreground opacity-0",
                     checkSizeStyles[size || state.size],
                     isChecked && "opacity-100",
                   )}

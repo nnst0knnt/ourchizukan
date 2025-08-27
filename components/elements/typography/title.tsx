@@ -71,7 +71,7 @@ export const Title = forwardRef<HTMLHeadingElement, TitleProps>(
           {accented ? (
             <span className="relative inline-flex items-center">
               <span className="relative z-10">{children}</span>
-              <span className="absolute bottom-1 left-0 z-0 h-3 w-16 rounded-sm bg-brand opacity-20" />
+              <span className="absolute bottom-1 left-0 z-0 h-3 w-[calc(100%+8px)] rounded-sm bg-brand opacity-20" />
             </span>
           ) : (
             children

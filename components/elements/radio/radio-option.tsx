@@ -10,8 +10,6 @@ import {
   useRef,
 } from "react";
 
-import { Circle } from "lucide-react";
-
 import { cn } from "@/styles/functions";
 
 import { RadioGroupState, type RadioSize } from "./radio-group";
@@ -137,11 +135,6 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
       large: "h-8 w-8",
     };
 
-    const circleSizeStyles = {
-      default: "h-4 w-4",
-      large: "h-5 w-5",
-    };
-
     const labelSizeStyles = {
       default: "text-base",
       large: "text-lg mb-1",
@@ -172,20 +165,18 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
                   "flex cursor-pointer items-center justify-center rounded-full border bg-foundation",
                   containerSizeStyles[size || state.size],
                   statusStyles[status],
-                  isChecked && "border-brand",
+                  isChecked && "border-brand p-1",
                   disabled && "disabled",
                 )}
                 onClick={disabled ? undefined : click}
                 onKeyDown={disabled ? undefined : click}
               >
-                <Circle
+                <div
                   className={cn(
-                    "text-brand opacity-0 transition-opacity",
-                    circleSizeStyles[size || state.size],
-                    isChecked && "opacity-100",
+                    "text-brand opacity-0",
+                    isChecked && "size-full rounded-full bg-brand opacity-100",
                   )}
                   aria-hidden="true"
-                  fill="currentColor"
                 />
               </div>
             </div>

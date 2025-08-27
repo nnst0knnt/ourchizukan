@@ -2,8 +2,8 @@
 
 import type {
   ForwardRefExoticComponent,
-  RefAttributes,
   ReactNode,
+  RefAttributes,
 } from "react";
 
 import { ChevronDown, type LucideIcon } from "lucide-react";
@@ -99,7 +99,7 @@ export const MobileSelectGroup = ({
     sizeStyles[size],
     statusStyles[status],
     Mark && paddingsStyles[size],
-    open && "focused",
+    open && "focused transition-none!",
     className,
   );
 

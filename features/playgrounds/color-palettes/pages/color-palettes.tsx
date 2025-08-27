@@ -3,6 +3,11 @@ import { Description, Title } from "@/components/elements/typography";
 import { ColorsInUse } from "../components/colors-in-use";
 import { ContrastEvaluation } from "../components/contrast-evaluation";
 
+/**
+ * ColorPalettes
+ *
+ * `おうちずかん`で使用している色を紹介するページです。
+ */
 export const ColorPalettes = () => (
   <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
     <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">

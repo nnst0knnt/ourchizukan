@@ -2,11 +2,11 @@
 
 import {
   type ForwardRefExoticComponent,
-  type RefAttributes,
   type ReactNode,
-  useState,
-  useRef,
+  type RefAttributes,
   useCallback,
+  useRef,
+  useState,
 } from "react";
 
 import { ChevronDown, ChevronUp, type LucideIcon } from "lucide-react";

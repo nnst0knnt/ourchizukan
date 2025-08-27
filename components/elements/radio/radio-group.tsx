@@ -176,7 +176,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
             size,
           }}
         >
-          <div className="flex flex-col rounded-s border-brand/50 border-l-4 pl-2">
+          <div className="flex flex-col border-brand/60 border-l-4 pl-2">
             {children}
           </div>
         </RadioGroupState.Provider>

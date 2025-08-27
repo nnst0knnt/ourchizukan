@@ -1,6 +1,7 @@
 import {
   type AnchorHTMLAttributes,
   type ForwardRefExoticComponent,
+  type PropsWithChildren,
   type RefAttributes,
   forwardRef,
 } from "react";
@@ -62,6 +63,8 @@ export type LinkProps = {
   openInNewTab?: boolean;
   /** 外部リンクとして扱うかどうか */
   external?: boolean;
+  /** リンクとしての機能をオフにする */
+  fake?: boolean;
 } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target" | "rel">;
 
 /**
@@ -80,15 +83,15 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       markPosition = "left",
       underline = true,
       openInNewTab = false,
-      external: isExternalProp,
+      external,
+      fake = false,
       className,
       children,
       ...props
     },
     ref,
   ) => {
-    const isExternal =
-      isExternalProp !== undefined ? isExternalProp : isExternalUrl(href);
+    const isExternal = external !== undefined ? external : isExternalUrl(href);
 
     const enabledExternalMark = isExternal && !Mark;
 
@@ -143,16 +146,30 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       className,
     );
 
+    const Component = ({ children }: PropsWithChildren) =>
+      !fake ? (
+        <NextLink
+          href={href}
+          className={classNames}
+          ref={ref}
+          {...targetProps}
+          {...relProps}
+          {...accessibilityProps}
+          {...props}
+        >
+          {children}
+        </NextLink>
+      ) : (
+        <div
+          className={cn(classNames, "cursor-pointer")}
+          {...accessibilityProps}
+        >
+          {children}
+        </div>
+      );
+
     return (
-      <NextLink
-        href={href}
-        className={classNames}
-        ref={ref}
-        {...targetProps}
-        {...relProps}
-        {...accessibilityProps}
-        {...props}
-      >
+      <Component>
         {Mark && markPosition === "left" && (
           <Mark className={markStyles[size]} aria-hidden="true" />
         )}
@@ -163,7 +180,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         {enabledExternalMark && (
           <ExternalLink className={markStyles[size]} aria-hidden="true" />
         )}
-      </NextLink>
+      </Component>
     );
   },
 );

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { UIGalleries } from "@/features/playgrounds/ui-galleries";
+
 export const metadata: Metadata = {
   title: "UIギャラリー",
 };
@@ -10,5 +12,5 @@ export const metadata: Metadata = {
  * `おうちずかん`で使用しているUIを紹介するページです。
  */
 export default function Page() {
-  return <></>;
+  return <UIGalleries />;
 }

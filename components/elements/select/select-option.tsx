@@ -49,16 +49,18 @@ export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
     const inputId = id || defaultId;
 
     const sizeStyles = {
-      default: "py-2 px-4 text-base",
-      large: "py-3 px-5 text-lg",
+      default: "py-3 px-4 text-base",
+      large: "py-4 px-5 text-lg",
     };
 
     const classNames = cn(
-      "flex cursor-pointer select-none items-center justify-between",
+      "flex cursor-pointer select-none items-center justify-between border-outline border-b last:border-none",
       "hover:bg-primary/10 active:bg-primary/10 transition-all duration-200",
       sizeStyles[state.size],
       isMobile && "py-4",
-      isSelected ? "bg-brand/10 text-primary" : "text-primary",
+      isSelected
+        ? "bg-brand text-foreground font-semibold hover:bg-brand active:bg-brand"
+        : "text-primary",
       disabled && "disabled",
       className,
     );
@@ -83,7 +85,9 @@ export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
       >
         <span>{label || children}</span>
         {isSelected && (
-          <Check className="h-4 w-4 text-brand" aria-hidden="true" />
+          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-foreground">
+            <Check className="h-4 w-4 stroke-2 text-brand" aria-hidden="true" />
+          </div>
         )}
       </div>
     );
