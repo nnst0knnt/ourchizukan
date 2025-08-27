@@ -11,6 +11,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 
 const Dimensions = {
   /** 抵抗が切り替わる距離 */
@@ -30,6 +31,15 @@ const Resistances = {
   Strong: 0.2,
 } as const;
 
+enum Status {
+  /** 初期状態 */
+  Idle = "idle",
+  /** リフレッシュ中 */
+  Refreshing = "refreshing",
+  /** リフレッシュ完了 */
+  Refreshed = "refreshed",
+}
+
 /**
  * PullToRefreshProps
  */
@@ -38,6 +48,8 @@ type PullToRefreshProps = {
   threshold?: number;
   /** 誤動作防止の最小距離（ピクセル） */
   deadzone?: number;
+  /** リフレッシュUIを適用する要素のセレクタ（relativeである必要がある） */
+  selector?: string;
   /** リフレッシュしたときのハンドラー */
   onRefresh?: () => Promise<void>;
 } & HTMLAttributes<HTMLDivElement>;
@@ -50,22 +62,32 @@ type PullToRefreshProps = {
  */
 export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
   (
-    { threshold = 50, deadzone = 5, onRefresh, className, children, ...props },
+    {
+      threshold = 50,
+      deadzone = 5,
+      onRefresh,
+      selector = "main",
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const containerRef = useForwardedRef(ref);
+    const selectorRef = useRef<HTMLElement | null>(null);
 
     const [distance, setDistance] = useState(0);
-    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [status, setStatus] = useState<Status>(Status.Idle);
     const [isActive, setIsActive] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     const startY = useRef(0);
     const moveY = useRef(0);
 
     const refresh = useCallback(async () => {
-      if (isRefreshing) return;
+      if (status !== Status.Idle) return;
 
-      setIsRefreshing(true);
+      setStatus(Status.Refreshing);
 
       try {
         if (onRefresh) {
@@ -77,29 +99,40 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
       } catch (e) {
         console.error(e);
       } finally {
-        setIsRefreshing(false);
+        setStatus(Status.Refreshed);
         setDistance(0);
+
+        setTimeout(() => {
+          setStatus(Status.Idle);
+        }, 500);
       }
-    }, [isRefreshing, onRefresh]);
+    }, [onRefresh, status]);
 
     const reset = useCallback(() => {
       setDistance(0);
       setIsActive(false);
+      setStatus(Status.Idle);
+      startY.current = 0;
+      moveY.current = 0;
     }, []);
 
     const start = useCallback(
       (e: TouchEvent) => {
+        e.stopPropagation();
+
         /** ページが最上部にあり、リフレッシュ中でない場合のみ開始位置を記録 */
-        if (window.scrollY === 0 && !isRefreshing) {
+        if (window.scrollY === 0 && status === Status.Idle) {
           startY.current = e.touches[0].clientY;
         }
       },
-      [isRefreshing],
+      [status],
     );
 
     const move = useCallback(
       (e: TouchEvent) => {
-        if (startY.current === 0 || isRefreshing) return;
+        e.stopPropagation();
+
+        if (startY.current === 0 || status !== Status.Idle) return;
 
         moveY.current = e.touches[0].clientY;
         let difference = moveY.current - startY.current;
@@ -132,22 +165,31 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
           e.preventDefault();
         }
       },
-      [isRefreshing, deadzone, threshold],
+      [status, deadzone, threshold],
     );
 
     const end = useCallback(() => {
-      if (distance >= threshold && !isRefreshing) {
+      if (status !== Status.Idle) return;
+
+      if (distance >= threshold) {
         refresh();
       } else {
         reset();
       }
-
-      startY.current = 0;
-      moveY.current = 0;
-    }, [distance, isRefreshing, refresh, reset, threshold]);
+    }, [distance, refresh, reset, status, threshold]);
 
     useEffect(() => {
-      const element = containerRef.current;
+      const element = document.querySelector(selector) as HTMLElement;
+
+      if (element) {
+        selectorRef.current = element;
+
+        setMounted(true);
+      }
+    }, [selector]);
+
+    useEffect(() => {
+      const element = selectorRef.current;
 
       if (!element) return;
 
@@ -163,53 +205,62 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
         element.removeEventListener("touchmove", move);
         element.removeEventListener("touchend", end);
       };
-    }, [containerRef, end, move, start]);
+    }, [end, move, start]);
 
     return (
-      <div ref={containerRef} className={cn("relative", className)} {...props}>
-        <div
-          className={cn(
-            "absolute top-0 right-0 left-0 z-10 flex flex-col items-center justify-center bg-foundation/95",
-            "overflow-hidden transition-all duration-200",
-          )}
-          style={{
-            height: isRefreshing
-              ? `${Dimensions.RefreshHeight}px`
-              : distance > 0
-                ? `${Math.min(
-                    distance * Dimensions.HeightRatio,
-                    Dimensions.MaxHeight,
-                  )}px`
-                : "0px",
-            opacity: distance > 0 || isRefreshing ? 1 : 0,
-          }}
-        >
-          {isRefreshing ? (
-            <div className="flex flex-col items-center justify-center p-2 text-primary">
-              <RotateCw className="mb-2 h-6 w-6 animate-spin" />
-              <span className="mb-2 font-bold text-sm">読み込み中</span>
-            </div>
-          ) : (
+      <>
+        {mounted &&
+          selectorRef.current &&
+          createPortal(
             <div
+              ref={containerRef}
               className={cn(
-                "flex flex-col items-center justify-center p-2 text-secondary",
-                "transition-opacity",
-                distance > 0 ? "opacity-100" : "opacity-0",
+                "absolute top-0 right-0 left-0 z-10 flex flex-col items-center justify-center bg-foundation/95",
+                "overflow-hidden transition-all duration-200",
+                className,
               )}
+              style={{
+                height:
+                  status === Status.Refreshing
+                    ? `calc(${Dimensions.RefreshHeight}px + 1.5rem)`
+                    : distance > 0
+                      ? `${Math.min(
+                          distance * Dimensions.HeightRatio,
+                          Dimensions.MaxHeight,
+                        )}px`
+                      : "0px",
+                opacity: distance > 0 || status === Status.Refreshing ? 1 : 0,
+              }}
+              {...props}
             >
-              {isActive ? (
-                <RotateCw className="mb-2 h-6 w-6 animate-spin" />
-              ) : (
-                <ArrowDown className="h-6 w-6 animate-bounce" />
-              )}
-              <span className="font-bold text-sm">
-                {isActive ? "指を離して更新" : "もう少し下へ"}
-              </span>
-            </div>
+              {status === Status.Refreshing ? (
+                <div className="flex flex-col items-center justify-center p-2 text-primary">
+                  <RotateCw className="mb-2 h-6 w-6 animate-spin" />
+                  <span className="font-bold text-sm">読み込み中</span>
+                </div>
+              ) : status === Status.Idle ? (
+                <div
+                  className={cn(
+                    "flex flex-col items-center justify-center p-2 text-secondary",
+                    "transition-opacity",
+                    distance > 0 ? "opacity-100" : "opacity-0",
+                  )}
+                >
+                  {isActive ? (
+                    <RotateCw className="mb-2 h-6 w-6 animate-spin" />
+                  ) : (
+                    <ArrowDown className="h-6 w-6 animate-bounce" />
+                  )}
+                  <span className="font-bold text-sm">
+                    {isActive ? "指を離して更新" : "もう少し下へ"}
+                  </span>
+                </div>
+              ) : null}
+            </div>,
+            selectorRef.current,
           )}
-        </div>
-        <div className="relative">{children}</div>
-      </div>
+        {children}
+      </>
     );
   },
 );
