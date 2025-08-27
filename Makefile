@@ -31,6 +31,9 @@ setup:
 	@echo "⚙️ Generating Cloudflare environment..."
 	npm run cloudflare:env
 	@echo ""
+	@echo "🔨 Building public scripts..."
+	npm run build:scripts
+	@echo ""
 	@echo "🗄️  Building database..."
 	@if [ ! -f ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/local.sqlite" ]; then \
 		rm -rf .wrangler/state/v3/d1/miniflare-D1DatabaseObject/local.sqlite; \
