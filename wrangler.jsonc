@@ -4,7 +4,6 @@
  */
 {
   "main": ".open-next/worker.js",
-  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ourchizukan",
   "compatibility_date": "2025-06-06",
   "compatibility_flags": ["nodejs_compat"],
@@ -12,6 +11,7 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  "minify": true,
   "observability": {
     "enabled": true
   },
