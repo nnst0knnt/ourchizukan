@@ -44,6 +44,7 @@ export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
 
     const classNames = cn(
       "flex cursor-pointer select-none items-center justify-between",
+      "hover:bg-primary/10 active:bg-primary/10 transition-all duration-200",
       sizeStyles[state.size],
       isSelected ? "bg-brand/10 text-primary" : "text-primary",
       disabled && "disabled",
