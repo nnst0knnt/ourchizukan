@@ -1,0 +1,24 @@
+@layer base {
+  /* スクロールバー非表示 */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* WebKit向けのスクロールバー非表示 */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* nextjs-toploaderの背景 */
+#nprogress::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-color: var(--color-track);
+  z-index: 1999;
+}

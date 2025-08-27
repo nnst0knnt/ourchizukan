@@ -19,6 +19,7 @@ const config: Config = {
         error: "var(--color-error)",
         focus: "var(--color-focus)",
         outline: "var(--color-outline)",
+        track: "var(--color-track)",
       },
     },
   },

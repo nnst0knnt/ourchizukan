@@ -5,17 +5,6 @@
     scroll-padding-top: 1rem;
   }
 
-  /* スクロールバー非表示 */
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  /* WebKit向けのスクロールバー非表示 */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
   /* 動きを減らす設定がある場合はスムーズスクロールを無効化 */
   @media (prefers-reduced-motion: reduce) {
     html {

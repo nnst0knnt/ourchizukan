@@ -17,7 +17,6 @@ export const TransitionProgress = memo(() => (
     showSpinner={false}
     easing="ease-out"
     speed={400}
-    shadow="none"
     crawlSpeed={200}
     zIndex={2000}
   />

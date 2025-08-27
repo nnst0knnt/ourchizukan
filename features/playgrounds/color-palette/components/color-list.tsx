@@ -17,7 +17,7 @@ const colors: Color[] = [
   {
     name: "ベースカラー",
     category: "背景色",
-    description: "目に優しく長時間見ても疲れにくくさせる",
+    description: "ページ全体のトーンを決定する",
     className: "bg-foundation",
     cssVar: "--color-foundation",
   },
@@ -74,16 +74,23 @@ const colors: Color[] = [
   {
     name: "フォーカスカラー",
     category: "区切り色",
-    description: "現在選んでいる項目や入力中の場所を示す",
+    description: "現在選んでいる項目や入力中の場所を強調する",
     className: "bg-focus",
     cssVar: "--color-focus",
   },
   {
     name: "アウトラインカラー",
     category: "区切り色",
-    description: "要素間の境界線や枠線を示す",
+    description: "要素間の境界線や枠線を強調する",
     className: "bg-outline",
     cssVar: "--color-outline",
+  },
+  {
+    name: "トラックカラー",
+    category: "区切り色",
+    description: "スライダーやプログレスバーの要素を強調する",
+    className: "bg-track",
+    cssVar: "--color-track",
   },
 ];
 
