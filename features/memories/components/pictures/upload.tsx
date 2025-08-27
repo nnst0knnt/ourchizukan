@@ -90,7 +90,7 @@ export const Upload = memo<UploadProps>(
     });
 
     return (
-      <div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
+      <div className="flex flex-col gap-4 pb-4 md:gap-6 lg:gap-8">
         <div className="flex flex-col gap-4">
           <Title as="h1">写真をアップロード</Title>
 

@@ -38,12 +38,7 @@ export const Album = ({ id }: Props) => {
   return !!album && pictures !== undefined ? (
     <PullToRefresh>
       <Container className="h-[calc(100%-4rem)] md:h-[calc(100%-4.5rem)]">
-        <div
-          className={cn(
-            "flex min-h-[115px] flex-col gap-4",
-            open ? "hidden" : "flex",
-          )}
-        >
+        <div className={cn("flex flex-col gap-4", open ? "hidden" : "flex")}>
           <Title as="h1">{album.title}</Title>
           <Description>
             <p className="flex items-center gap-x-1">
