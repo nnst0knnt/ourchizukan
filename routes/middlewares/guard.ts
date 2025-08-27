@@ -1,18 +1,17 @@
-import { getConnInfo } from "hono/cloudflare-workers";
 import { factory } from "../helpers";
 
 /**
  * ルートを保護するミドルウェア
  */
-export const guard = factory.createMiddleware(async (context, next) => {
-  /** TODO: 実装 */
-  console.log(
-    "middlewares/guard",
-    getConnInfo(context).remote.address,
-    await context.var.gatekeeper.session.get(
-      "102b422b-cd8b-42f1-9cae-1bce75f3e50f",
-    ),
-  );
+export const guard = () =>
+  factory.createMiddleware(async (context, next) => {
+    /** TODO: 後で実装 */
+    console.log(
+      "middlewares/guard",
+      await context.var.gatekeeper.session.get(
+        "3b2a1cb7-ee10-4bb9-bb97-307abdca1672",
+      ),
+    );
 
-  await next();
-});
+    await next();
+  });
