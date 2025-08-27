@@ -133,7 +133,7 @@ export const TriggerGallery = memo(() => {
           code={`<Mark size="large" value={checked ? Eye : EyeOff} onClick={toggle} aria-label="表示" />`}
         >
           {(() => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
+            /* eslint-disable-next-line react-hooks/rules-of-hooks */
             const [checked, setChecked] = useState(true);
 
             const toggle = () => setChecked(!checked);

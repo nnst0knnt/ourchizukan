@@ -4,6 +4,7 @@ import { globalIgnores } from "@eslint/config-helpers";
 import { FlatCompat } from "@eslint/eslintrc";
 import typescriptEslintPlugin from "@typescript-eslint/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
+import nodePlugin from "eslint-plugin-n";
 import unicornPlugin from "eslint-plugin-unicorn";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +22,7 @@ const eslintConfig = [
     plugins: {
       "@typescript-eslint": typescriptEslintPlugin,
       unicorn: unicornPlugin,
+      n: nodePlugin,
     },
     languageOptions: {
       parser: typescriptParser,
@@ -29,6 +31,7 @@ const eslintConfig = [
       },
     },
     rules: {
+      "n/no-process-env": ["error"],
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
