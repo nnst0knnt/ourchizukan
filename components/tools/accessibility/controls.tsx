@@ -39,10 +39,10 @@ export const AccessibilityControls = forwardRef<
         size="small"
         kind="ghost"
         onClick={theme.toggle}
+        role="button"
         aria-label={
           theme.isLight ? "ダークモードに変更する" : "ライトモードに変更する"
         }
-        role="switch"
       />
 
       <Mark
@@ -50,12 +50,12 @@ export const AccessibilityControls = forwardRef<
         size="small"
         kind="ghost"
         onClick={contrast.toggle}
+        role="button"
         aria-label={
           contrast.isNormal
             ? "高コントラストに変更する"
             : "通常コントラストに変更する"
         }
-        role="switch"
       />
 
       <Mark
@@ -65,8 +65,8 @@ export const AccessibilityControls = forwardRef<
         filled={size.isLarge}
         onClick={size.increase}
         disabled={size.isLarge}
-        aria-label="文字を大きくする"
         role="button"
+        aria-label="文字を大きくする"
       />
 
       <Mark
@@ -76,8 +76,8 @@ export const AccessibilityControls = forwardRef<
         filled={size.isSmall}
         onClick={size.decrease}
         disabled={size.isSmall}
-        aria-label="文字を小さくする"
         role="button"
+        aria-label="文字を小さくする"
       />
     </div>
   );
