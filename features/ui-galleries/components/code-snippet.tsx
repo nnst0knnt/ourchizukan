@@ -1,27 +1,19 @@
 "use client";
 
-import { type JSX, memo, useCallback, useEffect, useState } from "react";
-import { createHighlighterCore, type HighlighterCore } from "shiki/core";
+import { LoaderCircle } from "lucide-react";
+import { memo, useCallback, useEffect, useState } from "react";
+import { createHighlighterCore } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
-
 import { cn } from "@/styles/functions";
 
-let _highlighter: HighlighterCore | null = null;
-
-const highlighter = async () => {
-  if (!_highlighter) {
-    _highlighter = await createHighlighterCore({
-      themes: [
-        import("@shikijs/themes/github-light"),
-        import("@shikijs/themes/one-dark-pro"),
-      ],
-      langs: [import("@shikijs/langs/tsx")],
-      engine: createJavaScriptRegexEngine(),
-    });
-  }
-
-  return _highlighter;
-};
+const highlighter = createHighlighterCore({
+  themes: [
+    import("@shikijs/themes/github-light"),
+    import("@shikijs/themes/one-dark-pro"),
+  ],
+  langs: [import("@shikijs/langs/tsx")],
+  engine: createJavaScriptRegexEngine(),
+});
 
 type CodeSnippetProps = {
   code: string;
@@ -31,11 +23,15 @@ type CodeSnippetProps = {
 
 export const CodeSnippet = memo<CodeSnippetProps>(
   ({ code, language = "tsx", className }) => {
-    const [snippet, setSnippet] = useState<JSX.Element | null>(null);
+    const [snippet, setSnippet] = useState(
+      <div className="flex size-full items-center justify-center">
+        <LoaderCircle className="animate-spin" />
+      </div>,
+    );
 
     const toHtml = useCallback(async () => {
       try {
-        const out = (await highlighter()).codeToHtml(code, {
+        const out = (await highlighter).codeToHtml(code, {
           lang: language,
           themes: {
             light: "github-light",
@@ -65,6 +61,12 @@ export const CodeSnippet = memo<CodeSnippetProps>(
 
     useEffect(() => {
       toHtml();
+
+      return () => {
+        (async () => {
+          (await highlighter).dispose();
+        })();
+      };
     }, [toHtml]);
 
     return snippet;
