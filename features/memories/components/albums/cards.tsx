@@ -2,7 +2,6 @@ import { FolderOpen, FolderPlus } from "lucide-react";
 import { memo } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered } from "@/components/structures";
-import { useScrollToTop } from "@/hooks";
 import { cn } from "@/styles/functions";
 import type { AlbumCard } from "../../models/album";
 import { Card } from "./card";
@@ -18,8 +17,6 @@ type CardsProps = {
 
 export const Cards = memo<CardsProps>(
   ({ data, open, loading, toggle, refresh }) => {
-    useScrollToTop();
-
     return (
       <div className="flex flex-col">
         <div className={cn("flex flex-col gap-4", open ? "hidden" : "flex")}>

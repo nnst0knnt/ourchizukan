@@ -24,18 +24,19 @@ export const list = async ({
     );
   }
 
-  const { count, data } = await response.json();
+  const { data, meta } = await response.json();
 
-  return [
-    count,
-    data.map((picture) => ({
+  return {
+    data: data.map((picture) => ({
       id: picture.id,
       albumId: picture.albumId,
       originalUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.original}`,
       thumbnailUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.thumbnail}`,
       takenAt: date(picture.takenAt).format("YYYY-MM-DD"),
+      priority: !offset,
     })),
-  ] as const;
+    meta,
+  };
 };
 
 export const upload = async (body: UploadPicturesBody) => {

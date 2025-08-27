@@ -6,6 +6,7 @@ export type PictureCard = {
   originalUrl: string;
   thumbnailUrl: string;
   takenAt: string;
+  priority: boolean;
 };
 
 export const UploadPicturesFields = z.object({

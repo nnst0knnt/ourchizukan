@@ -23,6 +23,14 @@ export const Card = memo<CardProps>(
           fill
           sizes="(max-width: 768px) 50vw, 33vw"
           className="relative z-10 object-cover"
+          {...(datum.priority
+            ? {
+                priority: true,
+              }
+            : {
+                loading: "lazy",
+              })}
+          decoding="async"
         />
       </button>
     ),

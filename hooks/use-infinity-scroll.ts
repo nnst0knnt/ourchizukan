@@ -1,108 +1,139 @@
 "use client";
 
 import { uniqBy } from "es-toolkit/array";
+import { debounce } from "es-toolkit/function";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+type Meta = {
+  count: number;
+  next: {
+    more: boolean;
+    offset: number | null;
+  };
+};
+
 type InfinityScrollOptions<Datum> = {
-  fetch: (offset: number, limit: number) => Promise<Datum[]>;
+  fetch: (
+    offset: number,
+    limit: number,
+  ) => Promise<{ data: Datum[]; meta: Meta }>;
   limit?: number;
-  defaultData?: Datum[];
 };
 
 export const useInfinityScroll = <Datum extends { id: string | number }>({
   fetch,
   limit = 8,
-  defaultData = [],
 }: InfinityScrollOptions<Datum>) => {
-  const [data, setData] = useState<Datum[]>(defaultData);
-  const [more, setMore] = useState(true);
+  const [data, setData] = useState<Datum[]>([]);
+  const [starting, setStarting] = useState(true);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const offset = useRef(0);
+  const meta = useRef<Meta | null>(null);
   const observer = useRef<IntersectionObserver | null>(null);
   const trigger = useRef<HTMLDivElement | null>(null);
 
-  const load = useCallback(async () => {
-    if (!more || refreshing) return;
+  const load = useCallback(
+    async (force = false) => {
+      if (
+        (starting && !force) ||
+        refreshing ||
+        (meta.current && !meta.current.next.more) ||
+        (meta.current && meta.current.next.offset === null)
+      )
+        return;
 
-    try {
-      const fetched = await fetch(offset.current, limit);
+      try {
+        setLoading(true);
 
-      if (fetched.length === 0 || fetched.length < limit) {
-        setMore(false);
-      }
-
-      if (offset.current === 0) {
-        setData(fetched);
-        offset.current = fetched.length;
-      } else {
-        setData((previous) =>
-          uniqBy([...previous, ...fetched], ({ id }) => id),
+        const response = await fetch(
+          meta.current && meta.current.next.offset
+            ? meta.current.next.offset
+            : 0,
+          limit,
         );
 
-        offset.current += fetched.length;
+        setData((previous) =>
+          uniqBy([...previous, ...response.data], ({ id }) => id),
+        );
+
+        meta.current = response.meta;
+      } catch (e) {
+        console.error("🔥 データの読み込みに失敗しました", e);
+      } finally {
+        setLoading(false);
       }
-    } catch (e) {
-      console.error("🔥 データの読み込みに失敗しました", e);
+    },
+    [fetch, limit, meta, refreshing, starting],
+  );
 
-      setMore(false);
-    } finally {
-      setLoading(false);
-    }
-  }, [fetch, limit, more, refreshing]);
+  const detected = useCallback(
+    () =>
+      debounce(() => {
+        load();
+      }, 150)(),
+    [load],
+  );
 
-  const refresh = useCallback(() => {
-    if (refreshing || loading) return;
+  const refresh = useCallback(async () => {
+    if (starting || refreshing) return;
 
     setRefreshing(true);
-    setData([]);
-    setMore(true);
-    offset.current = 0;
-    setLoading(true);
 
-    setTimeout(() => {
-      setRefreshing(false);
-      load();
-    }, 0);
-  }, [refreshing, loading, load]);
+    setData([]);
+    meta.current = {
+      count: 0,
+      next: {
+        more: true,
+        offset: 0,
+      },
+    };
+
+    await load();
+
+    setRefreshing(false);
+  }, [starting, refreshing, load]);
+
+  const start = useCallback(async () => {
+    await load(true);
+
+    setStarting(false);
+  }, [load]);
 
   useEffect(() => {
-    const element = trigger.current;
-    if (!element || !more) return;
+    if (!trigger.current) return;
 
     observer.current = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !loading && !refreshing) {
-          load();
+        if (entries[0].isIntersecting) {
+          detected();
         }
       },
       {
         threshold: 0,
-        rootMargin: "20%",
+        rootMargin: "10%",
       },
     );
 
-    observer.current.observe(element);
+    observer.current.observe(trigger.current);
 
     return () => {
       if (observer.current) {
         observer.current.disconnect();
       }
     };
-  }, [more, loading, refreshing, load]);
+  }, [detected]);
 
   useEffect(() => {
-    if (data.length === 0 && more && !refreshing) {
-      load();
-    }
-  }, [data.length, more, refreshing, load]);
+    start();
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, []);
 
   return {
     data,
-    more,
+    meta: meta.current,
     loading,
     trigger,
-    load,
+    load: detected,
     refresh,
   };
 };

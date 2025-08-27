@@ -11,7 +11,7 @@ import {
 } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered, Footer } from "@/components/structures";
-import { usePullToRefresh, useScrollToTop } from "@/hooks";
+import { usePullToRefresh } from "@/hooks";
 import { cn } from "@/styles/functions";
 import type { PictureCard } from "../../models/picture";
 import { Card } from "./card";
@@ -27,14 +27,12 @@ type CardsProps = {
   loading: boolean;
   more: boolean;
   toggle: () => void;
-  load: () => Promise<void>;
+  load: () => void;
   refresh: () => void;
 };
 
 export const Cards = memo<CardsProps>(
   ({ albumId, data, open, loading, more, toggle, load, refresh }) => {
-    useScrollToTop();
-
     const [selected, setSelected] = useState<number | null>(null);
     const { on, off } = usePullToRefresh();
 

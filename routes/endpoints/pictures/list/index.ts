@@ -1,4 +1,4 @@
-import { and, count, desc, eq, type SQL } from "drizzle-orm";
+import { count as _count, and, desc, eq, type SQL } from "drizzle-orm";
 import { StatusCodes } from "http-status-codes";
 import { pictures } from "@/database/schema";
 import { validator } from "@/routes/middlewares";
@@ -16,14 +16,15 @@ export const list = factory.createHandlers(
         where.push(eq(pictures.albumId, albumId));
       }
 
+      const count = (
+        await context.var.database
+          .select({ count: _count(pictures.id) })
+          .from(pictures)
+          .where(and(...where))
+      )[0].count;
+
       return context.json(
         {
-          count: (
-            await context.var.database
-              .select({ count: count(pictures.id) })
-              .from(pictures)
-              .where(and(...where))
-          )[0].count,
           data: await context.var.database
             .select()
             .from(pictures)
@@ -31,6 +32,13 @@ export const list = factory.createHandlers(
             .orderBy(desc(pictures.takenAt))
             .limit(limit)
             .offset(offset),
+          meta: {
+            count,
+            next: {
+              offset: offset + limit > count ? null : offset + limit,
+              more: offset + limit < count,
+            },
+          },
         },
         StatusCodes.OK,
       );

@@ -27,17 +27,20 @@ export const list = async ({
     );
   }
 
-  const { data } = await response.json();
+  const { data, meta } = await response.json();
 
-  return data.map((album) => ({
-    id: album.id,
-    name: album.title,
-    thumbnailUrl: album.thumbnailId
-      ? `${env.APP_URL}/api/pictures/${album.thumbnailId}?kind=${ObjectKey.Picture.thumbnail}`
-      : "",
-    count: album.count,
-    createdAt: date(album.createdAt).format("YYYY-MM-DD"),
-  }));
+  return {
+    data: data.map((album) => ({
+      id: album.id,
+      name: album.title,
+      thumbnailUrl: album.thumbnailId
+        ? `${env.APP_URL}/api/pictures/${album.thumbnailId}?kind=${ObjectKey.Picture.thumbnail}`
+        : "",
+      count: album.count,
+      createdAt: date(album.createdAt).format("YYYY-MM-DD"),
+    })),
+    meta,
+  };
 };
 
 export const get = async (path: GetAlbumPathParameter) => {

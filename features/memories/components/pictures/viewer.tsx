@@ -48,7 +48,7 @@ export const Viewer = memo<ViewerProps>(
             <>
               <div
                 className={cn(
-                  "flex h-full w-full items-center justify-center transition-opacity duration-300 ease-in-out",
+                  "relative flex h-full w-full items-center justify-center transition-opacity duration-300 ease-in-out",
                   invisible ? "opacity-0" : "opacity-100",
                 )}
               >

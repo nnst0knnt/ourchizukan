@@ -20,7 +20,6 @@ export {
   useResponsive,
 } from "./use-responsive";
 export { useScroll } from "./use-scroll";
-export { useScrollToTop } from "./use-scroll-to-top";
 export {
   SizeDomAttributeName,
   SizeKind,

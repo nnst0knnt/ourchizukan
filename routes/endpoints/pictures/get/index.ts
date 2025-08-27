@@ -15,7 +15,11 @@ export const get = factory.createHandlers(
 
       const picture = (
         await context.var.database
-          .select()
+          .select({
+            id: pictures.id,
+            originalKey: pictures.originalKey,
+            thumbnailKey: pictures.thumbnailKey,
+          })
           .from(pictures)
           .where(eq(pictures.id, id))
           .limit(1)
@@ -44,6 +48,8 @@ export const get = factory.createHandlers(
 
       return context.newResponse(object.data, StatusCodes.OK, {
         "Content-Type": object.mime,
+        "Cache-Control": "public, max-age=3600",
+        "ETag": picture.id,
       });
     } catch (e) {
       console.error("⚠️ 写真の取得に失敗しました", e);
