@@ -44,9 +44,9 @@ export const SelectGroupState = createContext<{
 });
 
 /**
- * SelectProps
+ * SelectGroupProps
  */
-export type SelectProps = {
+export type SelectGroupProps = {
   /** グループのラベル */
   label?: string;
   /** セレクトのサイズ */
@@ -74,13 +74,13 @@ export type SelectProps = {
 } & Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "value">;
 
 /**
- * Select
+ * SelectGroup
  *
  * 複数の選択肢から一つを選択するセレクトボックスです。
  * ドロップダウンで選択肢を表示し、選択することができます。
  * セレクトボックスの状態を管理するために、SelectOptionと組み合わせて使用します。
  */
-export const SelectGroup = forwardRef<HTMLDivElement, SelectProps>(
+export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
   (
     {
       id,

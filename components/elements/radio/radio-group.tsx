@@ -13,7 +13,7 @@ import {
 
 import { cn } from "@/styles/functions";
 
-import type { RadioOptionStatus } from "./radio-option";
+import type { RadioStatus } from "./radio-option";
 
 /**
  * ラジオグループ内の選択状態
@@ -82,7 +82,7 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 
     const message = error || success || helperText;
 
-    const status: RadioOptionStatus = hasError
+    const status: RadioStatus = hasError
       ? "error"
       : hasSuccess
         ? "success"

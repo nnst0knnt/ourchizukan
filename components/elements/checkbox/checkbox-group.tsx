@@ -13,7 +13,7 @@ import {
 
 import { cn } from "@/styles/functions";
 
-import type { CheckboxStatus } from "./checkbox";
+import type { CheckboxStatus } from "./checkbox-option";
 
 /**
  * チェックボックスグループ内の選択状態

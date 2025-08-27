@@ -29,7 +29,7 @@ export type SelectOptionProps = {
  * SelectOption
  *
  * セレクトボックスの選択肢を表示するコンポーネントです。
- * Selectコンポーネントと組み合わせて使用します。
+ * SelectGroupと組み合わせて使用することでセレクトボックスを制御することができます。
  */
 export const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>(
   ({ value, label, disabled = false, className, children, ...props }, ref) => {

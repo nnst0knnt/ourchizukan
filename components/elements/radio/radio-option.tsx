@@ -7,27 +7,27 @@ import {
   useCallback,
   useContext,
   useId,
-  useState,
+  useRef,
 } from "react";
 
-import { Check } from "lucide-react";
+import { Circle } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
-import { CheckedValues } from "./checkbox-group";
+import { SelectedValue } from "./radio-group";
 
 /**
- * チェックボックスの状態
+ * ラジオボタンの状態
  */
-export type CheckboxStatus = "default" | "error" | "success";
+export type RadioStatus = "default" | "error" | "success";
 
 /**
- * CheckboxProps
+ * RadioOptionProps
  */
-export type CheckboxProps = {
-  /** チェックボックスのラベル */
+export type RadioOptionProps = {
+  /** ラジオボタンのラベル */
   label?: string;
-  /** チェックされているかどうか */
+  /** 選択されているかどうか */
   checked?: boolean;
   /** エラーメッセージ */
   error?: string;
@@ -45,12 +45,12 @@ export type CheckboxProps = {
 >;
 
 /**
- * Checkbox
+ * RadioOption
  *
- * 複数の選択肢やオプションを選択するためのチェックボックスです。
- * 単独で使用することも、CheckboxGroupと組み合わせて使用することもできます。
+ * 複数の選択肢から一つを選択するラジオボタンです。
+ * RadioGroupと組み合わせて使用することで複数の選択肢をグループ化できます。
  */
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
+export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
   (
     {
       id,
@@ -69,11 +69,12 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     },
     ref,
   ) => {
-    const checkedValues = useContext(CheckedValues);
+    const defaultRef = useRef<HTMLInputElement>(null);
 
-    const [isChecked, setIsChecked] = useState(
-      !!checked || (!!value && checkedValues.includes(value.toString())),
-    );
+    const selectedValue = useContext(SelectedValue);
+
+    const isChecked =
+      !!checked || (!!value && selectedValue === value.toString());
 
     const defaultId = useId();
 
@@ -87,7 +88,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     const message = error || success || helperText;
 
-    const status: CheckboxStatus = hasError
+    const status: RadioStatus = hasError
       ? "error"
       : hasSuccess
         ? "success"
@@ -112,21 +113,23 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         if (onChange) {
           onChange(e.target.checked);
         }
-
-        setIsChecked(e.target.checked);
       },
       [onChange],
     );
 
     const click = useCallback(() => {
-      const value = !isChecked;
+      if (isChecked) return;
 
-      if (onChange) {
-        onChange(value);
+      if (typeof ref !== "function" && ref && ref.current) {
+        ref.current.click();
+
+        return;
       }
 
-      setIsChecked(value);
-    }, [onChange, isChecked]);
+      if (defaultRef.current) {
+        defaultRef.current.click();
+      }
+    }, [isChecked, ref]);
 
     return (
       <div className="flex flex-col">
@@ -134,35 +137,35 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <div className="flex h-11 items-center">
             <div className="relative flex items-center">
               <input
-                ref={ref}
-                type="checkbox"
+                ref={ref || defaultRef}
+                type="radio"
                 id={inputId}
                 value={value}
                 checked={isChecked}
                 disabled={disabled}
                 required={required}
                 className={classNames}
-                aria-invalid={hasError}
                 aria-describedby={message ? messageId : ariaDescribedBy}
                 onChange={change}
                 {...props}
               />
               <div
                 className={cn(
-                  "flex h-6 w-6 cursor-pointer items-center justify-center rounded border bg-foundation",
+                  "flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border bg-foundation",
                   statusStyles[status],
-                  isChecked && "border-brand bg-brand",
+                  isChecked && "border-brand",
                   disabled && "disabled",
                 )}
                 onClick={disabled ? undefined : click}
                 onKeyDown={disabled ? undefined : click}
               >
-                <Check
+                <Circle
                   className={cn(
-                    "h-4 w-4 text-foreground opacity-0 transition-opacity",
+                    "h-4 w-4 text-brand opacity-0 transition-opacity",
                     isChecked && "opacity-100",
                   )}
                   aria-hidden="true"
+                  fill="currentColor"
                 />
               </div>
             </div>
@@ -196,4 +199,4 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   },
 );
 
-Checkbox.displayName = "Checkbox";
+RadioOption.displayName = "RadioOption";
