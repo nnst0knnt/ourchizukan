@@ -1,6 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+
+import { create } from "zustand";
 
 export const ThemeLocalStorageKey = "theme";
 
@@ -12,8 +14,20 @@ export const ThemeKind = {
 } as const;
 export type ThemeKind = (typeof ThemeKind)[keyof typeof ThemeKind];
 
+const useStore = create<{
+  value: ThemeKind | null;
+  set: (value: ThemeKind) => ThemeKind;
+}>()((_set, _get) => ({
+  value: null,
+  set: (value) => {
+    _set({ value });
+
+    return value;
+  },
+}));
+
 export const useTheme = () => {
-  const [value, setValue] = useState<ThemeKind>();
+  const { value, set } = useStore();
 
   /**
    * ライトモードか
@@ -38,15 +52,8 @@ export const useTheme = () => {
    */
   const toggle = useCallback(
     () =>
-      setValue((current) => {
-        const value: ThemeKind =
-          current === ThemeKind.Light ? ThemeKind.Dark : ThemeKind.Light;
-
-        update(value);
-
-        return value;
-      }),
-    [update],
+      update(set(value === ThemeKind.Light ? ThemeKind.Dark : ThemeKind.Light)),
+    [set, update, value],
   );
 
   /**
@@ -58,8 +65,8 @@ export const useTheme = () => {
 
     update(value);
 
-    setValue(value);
-  }, [update]);
+    set(value);
+  }, [set, update]);
 
   return {
     key: ThemeLocalStorageKey,

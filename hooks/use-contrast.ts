@@ -1,6 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+
+import { create } from "zustand";
 
 export const ContrastLocalStorageKey = "contrast";
 
@@ -12,8 +14,20 @@ export const ContrastKind = {
 } as const;
 export type ContrastKind = (typeof ContrastKind)[keyof typeof ContrastKind];
 
+const useStore = create<{
+  value: ContrastKind | null;
+  set: (value: ContrastKind) => ContrastKind;
+}>()((_set, _get) => ({
+  value: null,
+  set: (value) => {
+    _set({ value });
+
+    return value;
+  },
+}));
+
 export const useContrast = () => {
-  const [value, setValue] = useState<ContrastKind>();
+  const { value, set } = useStore();
 
   /**
    * コントラストが標準か
@@ -30,6 +44,7 @@ export const useContrast = () => {
    */
   const update = useCallback((value: ContrastKind) => {
     document.documentElement.setAttribute(ContrastDomAttributeName, value);
+
     localStorage.setItem(ContrastLocalStorageKey, value);
   }, []);
 
@@ -38,17 +53,14 @@ export const useContrast = () => {
    */
   const toggle = useCallback(
     () =>
-      setValue((current) => {
-        const value: ContrastKind =
-          current === ContrastKind.Normal
+      update(
+        set(
+          value === ContrastKind.Normal
             ? ContrastKind.High
-            : ContrastKind.Normal;
-
-        update(value);
-
-        return value;
-      }),
-    [update],
+            : ContrastKind.Normal,
+        ),
+      ),
+    [set, update, value],
   );
 
   /**
@@ -60,8 +72,8 @@ export const useContrast = () => {
 
     update(value);
 
-    setValue(value);
-  }, [update]);
+    set(value);
+  }, [set, update]);
 
   return {
     key: ContrastLocalStorageKey,

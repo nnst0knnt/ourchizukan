@@ -1,6 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+
+import { create } from "zustand";
 
 export const SizeLocalStorageKey = "size";
 
@@ -13,8 +15,20 @@ export const SizeKind = {
 } as const;
 export type SizeKind = (typeof SizeKind)[keyof typeof SizeKind];
 
+const useStore = create<{
+  value: SizeKind | null;
+  set: (value: SizeKind) => SizeKind;
+}>()((_set, _get) => ({
+  value: null,
+  set: (value) => {
+    _set({ value });
+
+    return value;
+  },
+}));
+
 export const useSize = () => {
-  const [value, setValue] = useState<SizeKind>();
+  const { value, set } = useStore();
 
   /**
    * 文字サイズが小さいか
@@ -44,17 +58,16 @@ export const useSize = () => {
    */
   const increase = useCallback(
     () =>
-      setValue((current) => {
-        if (current === SizeKind.Large) return current;
-
-        const value: SizeKind =
-          current === SizeKind.Small ? SizeKind.Normal : SizeKind.Large;
-
-        update(value);
-
-        return value;
-      }),
-    [update],
+      update(
+        set(
+          value === SizeKind.Small
+            ? SizeKind.Normal
+            : value === SizeKind.Normal
+              ? SizeKind.Large
+              : SizeKind.Large,
+        ),
+      ),
+    [set, update, value],
   );
 
   /**
@@ -62,17 +75,16 @@ export const useSize = () => {
    */
   const decrease = useCallback(
     () =>
-      setValue((current) => {
-        if (current === SizeKind.Small) return current;
-
-        const value: SizeKind =
-          current === SizeKind.Large ? SizeKind.Normal : SizeKind.Small;
-
-        update(value);
-
-        return value;
-      }),
-    [update],
+      update(
+        set(
+          value === SizeKind.Large
+            ? SizeKind.Normal
+            : value === SizeKind.Normal
+              ? SizeKind.Small
+              : SizeKind.Small,
+        ),
+      ),
+    [set, update, value],
   );
 
   /**
@@ -84,8 +96,8 @@ export const useSize = () => {
 
     update(value);
 
-    setValue(value);
-  }, [update]);
+    set(value);
+  }, [set, update]);
 
   return {
     key: SizeLocalStorageKey,
