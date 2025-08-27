@@ -1,6 +1,7 @@
 "use client";
 
 import { useForwardedRef } from "@/hooks";
+import { date } from "@/services/date";
 import { cn } from "@/styles/functions";
 import { ArrowDown, RotateCw } from "lucide-react";
 import {
@@ -48,6 +49,8 @@ type PullToRefreshProps = {
   threshold?: number;
   /** 誤動作防止の最小距離（ピクセル） */
   deadzone?: number;
+  /** リフレッシュ発動に必要な保持時間（ミリ秒） */
+  holdTime?: number;
   /** リフレッシュUIを適用する要素のセレクタ（relativeである必要がある） */
   selector?: string;
   /** リフレッシュしたときのハンドラー */
@@ -65,6 +68,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
     {
       threshold = 50,
       deadzone = 5,
+      holdTime = 500,
       onRefresh,
       selector = "main",
       className,
@@ -83,6 +87,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
 
     const startY = useRef(0);
     const moveY = useRef(0);
+    const startMs = useRef(0);
 
     const refresh = useCallback(async () => {
       if (status !== Status.Idle) return;
@@ -114,6 +119,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
       setStatus(Status.Idle);
       startY.current = 0;
       moveY.current = 0;
+      startMs.current = 0;
     }, []);
 
     const start = useCallback(
@@ -123,6 +129,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
         /** ページが最上部にあり、リフレッシュ中でない場合のみ開始位置を記録 */
         if (window.scrollY === 0 && status === Status.Idle) {
           startY.current = e.touches[0].clientY;
+          startMs.current = date().valueOf();
         }
       },
       [status],
@@ -132,7 +139,13 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
       (e: TouchEvent) => {
         e.stopPropagation();
 
-        if (startY.current === 0 || status !== Status.Idle) return;
+        /** プルダウン中でない場合は無視 */
+        if (
+          startY.current === 0 ||
+          status !== Status.Idle ||
+          date().valueOf() - startMs.current < holdTime
+        )
+          return;
 
         moveY.current = e.touches[0].clientY;
         let difference = moveY.current - startY.current;
@@ -165,18 +178,24 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
           e.preventDefault();
         }
       },
-      [status, deadzone, threshold],
+      [status, holdTime, deadzone, threshold],
     );
 
     const end = useCallback(() => {
       if (status !== Status.Idle) return;
+
+      /** 保持時間を満たさない場合はリセット */
+      if (date().valueOf() - startMs.current < holdTime) {
+        reset();
+        return;
+      }
 
       if (distance >= threshold) {
         refresh();
       } else {
         reset();
       }
-    }, [distance, refresh, reset, status, threshold]);
+    }, [distance, holdTime, refresh, reset, status, threshold]);
 
     useEffect(() => {
       const element = document.querySelector(selector) as HTMLElement;
