@@ -86,7 +86,7 @@ export const Footer = memo(() => {
   );
 
   return (
-    <footer className="fixed right-0 bottom-0 left-0 z-50 w-full border-outline border-t bg-foundation shadow-sm md:relative">
+    <footer className="sticky bottom-0 z-50 w-full border-outline border-t bg-foundation shadow-sm md:relative">
       <div className="mx-auto flex w-full max-w-7xl flex-row items-center justify-center px-4 md:px-6 lg:px-8">
         <div className="flex w-full justify-around pt-1 md:max-w-md md:justify-between">
           {Links}
