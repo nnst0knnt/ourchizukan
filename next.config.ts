@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 import { setupDevPlatform } from "@cloudflare/next-on-pages/next-dev";
+import { env } from "./services/env/client";
 
 /**
  * @see https://github.com/cloudflare/next-on-pages/blob/main/internal-packages/next-dev/README.md
@@ -8,7 +9,7 @@ import { setupDevPlatform } from "@cloudflare/next-on-pages/next-dev";
 setupDevPlatform().catch(console.error);
 
 const config: NextConfig = {
-  reactStrictMode: true,
+  env: env,
 };
 
 export default config;
