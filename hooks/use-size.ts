@@ -9,9 +9,9 @@ export const SizeLocalStorageKey = "size";
 export const SizeDomAttributeName = "data-size";
 
 export const SizeKind = {
-  Small: "small",
-  Normal: "normal",
-  Large: "large",
+  Small: "Small",
+  Normal: "Normal",
+  Large: "Large",
 } as const;
 
 type SizeKind = (typeof SizeKind)[keyof typeof SizeKind];

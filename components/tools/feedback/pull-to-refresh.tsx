@@ -15,22 +15,22 @@ import { date } from "@/services/date";
 import { sleep } from "@/services/timer";
 import { cn } from "@/styles/functions";
 
-const Dimensions = {
+const Dimension = {
   Break: 50,
   RefreshHeight: 60,
   MaxHeight: 100,
   HeightRatio: 1.5,
 } as const;
 
-const Resistances = {
+const Resistance = {
   Default: 0.85,
   Strong: 0.2,
 } as const;
 
 enum Status {
-  Idle = "idle",
-  Refreshing = "refreshing",
-  Refreshed = "refreshed",
+  Idle = "Idle",
+  Refreshing = "Refreshing",
+  Refreshed = "Refreshed",
 }
 
 type PullToRefreshProps = {
@@ -141,12 +141,12 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
           difference = difference - deadzone;
 
           let distance: number;
-          if (difference <= Dimensions.Break) {
-            distance = difference * Resistances.Default;
+          if (difference <= Dimension.Break) {
+            distance = difference * Resistance.Default;
           } else {
             distance =
-              Dimensions.Break * Resistances.Default +
-              (difference - Dimensions.Break) * Resistances.Strong;
+              Dimension.Break * Resistance.Default +
+              (difference - Dimension.Break) * Resistance.Strong;
           }
 
           setDistance(distance);
@@ -221,11 +221,11 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
               style={{
                 height:
                   status === Status.Refreshing
-                    ? `calc(${Dimensions.RefreshHeight}px + 1.5rem)`
+                    ? `calc(${Dimension.RefreshHeight}px + 1.5rem)`
                     : distance > 0
                       ? `${Math.min(
-                          distance * Dimensions.HeightRatio,
-                          Dimensions.MaxHeight,
+                          distance * Dimension.HeightRatio,
+                          Dimension.MaxHeight,
                         )}px`
                       : "0px",
                 opacity: distance > 0 || status === Status.Refreshing ? 1 : 0,

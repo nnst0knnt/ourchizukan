@@ -9,8 +9,8 @@ export const ContrastLocalStorageKey = "contrast";
 export const ContrastDomAttributeName = "data-contrast";
 
 export const ContrastKind = {
-  Normal: "normal",
-  High: "high",
+  Normal: "Normal",
+  High: "High",
 } as const;
 
 type ContrastKind = (typeof ContrastKind)[keyof typeof ContrastKind];

@@ -9,8 +9,8 @@ export const ThemeLocalStorageKey = "theme";
 export const ThemeDomAttributeName = "data-theme";
 
 export const ThemeKind = {
-  Light: "light",
-  Dark: "dark",
+  Light: "Light",
+  Dark: "Dark",
 } as const;
 
 type ThemeKind = (typeof ThemeKind)[keyof typeof ThemeKind];

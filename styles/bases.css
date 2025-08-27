@@ -114,13 +114,13 @@
   }
 
   /* 高コントラスト - フォーカス状態強化 */
-  [data-contrast="high"] a:focus-visible,
-  [data-contrast="high"] button:focus-visible,
-  [data-contrast="high"] input:focus-visible,
-  [data-contrast="high"] select:focus-visible,
-  [data-contrast="high"] textarea:focus-visible,
-  [data-contrast="high"] [role="button"]:focus-visible,
-  [data-contrast="high"] [tabindex]:focus-visible {
+  [data-contrast="High"] a:focus-visible,
+  [data-contrast="High"] button:focus-visible,
+  [data-contrast="High"] input:focus-visible,
+  [data-contrast="High"] select:focus-visible,
+  [data-contrast="High"] textarea:focus-visible,
+  [data-contrast="High"] [role="button"]:focus-visible,
+  [data-contrast="High"] [tabindex]:focus-visible {
     @apply ring-4 ring-offset-4;
   }
 
@@ -136,13 +136,13 @@
   }
 
   /* 高コントラスト - フィードバック */
-  [data-contrast="high"] .border-error,
-  [data-contrast="high"] .border-success {
+  [data-contrast="High"] .border-error,
+  [data-contrast="High"] .border-success {
     @apply border-3!;
   }
 
-  [data-contrast="high"] .text-error,
-  [data-contrast="high"] .text-success {
+  [data-contrast="High"] .text-error,
+  [data-contrast="High"] .text-success {
     @apply font-bold!;
   }
 

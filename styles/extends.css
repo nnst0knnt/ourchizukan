@@ -23,7 +23,7 @@
   }
 
   /* 高コントラストモード時のフォーカス状態強化 */
-  [data-contrast="high"] .focused {
+  [data-contrast="High"] .focused {
     @apply ring-4 ring-offset-4 transition-all duration-200;
   }
 
@@ -67,8 +67,8 @@
   height: 100%;
 }
 
-[data-theme="dark"] .shiki,
-[data-theme="dark"] .shiki span {
+[data-theme="Dark"] .shiki,
+[data-theme="Dark"] .shiki span {
   color: var(--shiki-dark) !important;
   background-color: var(--shiki-dark-bg) !important;
   font-style: var(--shiki-dark-font-style) !important;

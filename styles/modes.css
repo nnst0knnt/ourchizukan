@@ -1,20 +1,20 @@
 /* 文字サイズ小 */
-[data-size="small"] {
+[data-size="Small"] {
   --size-scale: 0.85;
 }
 
 /* 文字サイズ中 */
-[data-size="normal"] {
+[data-size="Normal"] {
   --size-scale: 1;
 }
 
 /* 文字サイズ大 */
-[data-size="large"] {
+[data-size="Large"] {
   --size-scale: 1.2;
 }
 
 /* ライトモード */
-[data-theme="light"] {
+[data-theme="Light"] {
   --color-foundation: #f5e9d9;
   --color-brand: #8a3822;
   --color-accent: #3d4aa2;
@@ -29,7 +29,7 @@
 }
 
 /* ダークモード */
-[data-theme="dark"] {
+[data-theme="Dark"] {
   --color-foundation: #211e1b;
   --color-brand: #8d381b;
   --color-accent: #4349a7;
@@ -44,7 +44,7 @@
 }
 
 /* ライトモード + 高コントラスト */
-[data-theme="light"][data-contrast="high"] {
+[data-theme="Light"][data-contrast="High"] {
   --color-foundation: #f0f0f0;
   --color-brand: #96371c;
   --color-accent: #3b4da0;
@@ -59,7 +59,7 @@
 }
 
 /* ダークモード + 高コントラスト */
-[data-theme="dark"][data-contrast="high"] {
+[data-theme="Dark"][data-contrast="High"] {
   --color-foundation: #1a1a1a;
   --color-brand: #963511;
   --color-accent: #464ca0;

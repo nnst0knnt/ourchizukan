@@ -5,10 +5,10 @@ import { useCallback } from "react";
 import { create } from "zustand";
 
 export const SourceStatus = {
-  Idle: "idle",
-  Loading: "loading",
-  Complete: "complete",
-  Error: "error",
+  Idle: "Idle",
+  Loading: "Loading",
+  Complete: "Complete",
+  Error: "Error",
 } as const;
 
 type SourceStatus = (typeof SourceStatus)[keyof typeof SourceStatus];

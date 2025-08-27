@@ -1,5 +1,5 @@
 export const AttemptKind = {
-  FailedEmail: "failed-email",
+  FailedEmail: "FailedEmail",
 } as const;
 
 export type AttemptKind = (typeof AttemptKind)[keyof typeof AttemptKind];

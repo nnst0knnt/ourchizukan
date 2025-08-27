@@ -17,10 +17,10 @@ type ButtonSize = "default" | "large";
 type ButtonMarkPosition = "left" | "right";
 
 export const ButtonStatus = {
-  Idle: "idle",
-  Loading: "loading",
-  Success: "success",
-  Error: "error",
+  Idle: "Idle",
+  Loading: "Loading",
+  Success: "Success",
+  Error: "Error",
 } as const;
 
 export type ButtonStatus = (typeof ButtonStatus)[keyof typeof ButtonStatus];
@@ -86,19 +86,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const statusStyles = {
-      idle: "",
-      loading: "cursor-wait",
-      success:
+      Idle: "",
+      Loading: "cursor-wait",
+      Success:
         "bg-success text-foreground hover:bg-success/90 active:bg-success/80",
-      error: "bg-error text-foreground hover:bg-error/90 active:bg-error/80",
+      Error: "bg-error text-foreground hover:bg-error/90 active:bg-error/80",
     };
 
     const statusMarks = {
-      loading: (
+      Loading: (
         <LoaderCircle className={cn("animate-spin", markStyles[size])} />
       ),
-      success: <CheckCircle2 className={markStyles[size]} />,
-      error: <XCircle className={markStyles[size]} />,
+      Success: <CheckCircle2 className={markStyles[size]} />,
+      Error: <XCircle className={markStyles[size]} />,
     };
 
     const classNames = cn(

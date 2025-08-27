@@ -15,8 +15,8 @@ export { useNoPullToRefresh } from "./use-no-pull-to-refresh";
 export { usePullToRefresh } from "./use-pull-to-refresh";
 export { useResize } from "./use-resize";
 export {
-  DeviceSizes,
-  UIDimensions,
+  DeviceSize,
+  UIDimension,
   useResponsive,
 } from "./use-responsive";
 export { useScroll } from "./use-scroll";

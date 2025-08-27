@@ -1,6 +1,6 @@
 export const AccessMethod = {
-  Ip: "ip",
-  Email: "email",
+  Ip: "Ip",
+  Email: "Email",
 } as const;
 
 export type AccessMethod = (typeof AccessMethod)[keyof typeof AccessMethod];

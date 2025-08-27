@@ -10,7 +10,7 @@ import {
   useState,
 } from "react";
 
-import { UIDimensions, useResize, useScroll } from "@/hooks";
+import { UIDimension, useResize, useScroll } from "@/hooks";
 import { cn } from "@/styles/functions";
 
 import type { SelectSize, SelectStatus } from "./select-group";
@@ -62,8 +62,8 @@ export const DesktopSelectGroup = ({
     const viewportHeight = window.innerHeight;
     const availableSpaceBelow = viewportHeight - elementBottom;
 
-    const dropdownHeight = UIDimensions.SelectDropdownMaxHeight;
-    const safetyMargin = UIDimensions.BottomSafetyMargin;
+    const dropdownHeight = UIDimension.SelectDropdownMaxHeight;
+    const safetyMargin = UIDimension.BottomSafetyMargin;
 
     setIsPositionedAbove(availableSpaceBelow < dropdownHeight + safetyMargin);
   }, []);
