@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const Key = "theme";
+export const ThemeLocalStorageKey = "theme";
+
+export const ThemeDomAttributeName = "data-theme";
 
 export const ThemeKind = {
   Light: "light",
@@ -27,8 +29,8 @@ export const useTheme = () => {
    * テーマを更新する
    */
   const update = useCallback((value: ThemeKind) => {
-    document.documentElement.setAttribute("data-theme", value);
-    localStorage.setItem(Key, value);
+    document.documentElement.setAttribute(ThemeDomAttributeName, value);
+    localStorage.setItem(ThemeLocalStorageKey, value);
   }, []);
 
   /**
@@ -51,7 +53,8 @@ export const useTheme = () => {
    * マウント時にローカルストレージからテーマを読み込む
    */
   useEffect(() => {
-    const value = (localStorage.getItem(Key) || ThemeKind.Light) as ThemeKind;
+    const value = (localStorage.getItem(ThemeLocalStorageKey) ||
+      ThemeKind.Light) as ThemeKind;
 
     update(value);
 
@@ -59,7 +62,7 @@ export const useTheme = () => {
   }, [update]);
 
   return {
-    key: Key,
+    key: ThemeLocalStorageKey,
     value,
     isLight,
     isDark,

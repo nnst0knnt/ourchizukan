@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const Key = "contrast";
+export const ContrastLocalStorageKey = "contrast";
+
+export const ContrastDomAttributeName = "data-contrast";
 
 export const ContrastKind = {
   Normal: "normal",
@@ -27,8 +29,8 @@ export const useContrast = () => {
    * コントラストを更新する
    */
   const update = useCallback((value: ContrastKind) => {
-    document.documentElement.setAttribute("data-contrast", value);
-    localStorage.setItem(Key, value);
+    document.documentElement.setAttribute(ContrastDomAttributeName, value);
+    localStorage.setItem(ContrastLocalStorageKey, value);
   }, []);
 
   /**
@@ -53,7 +55,7 @@ export const useContrast = () => {
    * マウント時にローカルストレージからコントラストを読み込む
    */
   useEffect(() => {
-    const value = (localStorage.getItem(Key) ||
+    const value = (localStorage.getItem(ContrastLocalStorageKey) ||
       ContrastKind.Normal) as ContrastKind;
 
     update(value);
@@ -62,7 +64,7 @@ export const useContrast = () => {
   }, [update]);
 
   return {
-    key: Key,
+    key: ContrastLocalStorageKey,
     value,
     isNormal,
     isHigh,

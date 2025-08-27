@@ -38,7 +38,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className="scroll-smooth" suppressHydrationWarning>
-      <head />
+      <head>
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script
+          /**
+           * FOUCを防ぐためのスクリプトを読み込む
+           *
+           * レンダリング前に適用させたい処理のため`defer`や`async`を使用していません。
+           */
+          src="/scripts/sync-accessibility.js"
+        />
+      </head>
       <body className="flex min-h-screen flex-col bg-foundation text-primary antialiased">
         <AccessibilityProvider>
           <Header />

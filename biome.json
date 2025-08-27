@@ -12,7 +12,8 @@
       ".next/**/*",
       ".vercel/**/*",
       ".wrangler/**/*",
-      "env.d.ts"
+      "env.d.ts",
+      "public/**/*"
     ]
   },
   "formatter": {

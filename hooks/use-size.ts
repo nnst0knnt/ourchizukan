@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const Key = "size";
+export const SizeLocalStorageKey = "size";
+
+export const SizeDomAttributeName = "data-size";
 
 export const SizeKind = {
   Small: "small",
@@ -33,8 +35,8 @@ export const useSize = () => {
    * 文字サイズを更新する
    */
   const update = useCallback((value: SizeKind) => {
-    document.documentElement.setAttribute("data-size", value);
-    localStorage.setItem(Key, value);
+    document.documentElement.setAttribute(SizeDomAttributeName, value);
+    localStorage.setItem(SizeLocalStorageKey, value);
   }, []);
 
   /**
@@ -77,7 +79,8 @@ export const useSize = () => {
    * マウント時にローカルストレージから文字サイズを読み込む
    */
   useEffect(() => {
-    const value = (localStorage.getItem(Key) || SizeKind.Normal) as SizeKind;
+    const value = (localStorage.getItem(SizeLocalStorageKey) ||
+      SizeKind.Normal) as SizeKind;
 
     update(value);
 
@@ -85,7 +88,7 @@ export const useSize = () => {
   }, [update]);
 
   return {
-    key: Key,
+    key: SizeLocalStorageKey,
     value,
     isSmall,
     isNormal,
