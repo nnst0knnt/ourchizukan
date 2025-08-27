@@ -13,14 +13,14 @@ import { cn } from "@/styles/functions";
 import type { LucideIcon, LucideProps } from "lucide-react";
 
 /**
- * アイコンボタンの種類
+ * 印の種類
  */
-type IconButtonKind = "primary" | "secondary" | "ghost";
+type MarkKind = "primary" | "secondary" | "ghost";
 
 /**
- * アイコンボタンのサイズ
+ * 印のサイズ
  */
-type IconButtonSize = "small" | "default" | "large";
+type MarkSize = "small" | "default" | "large";
 
 /**
  * ツールチップの表示位置
@@ -28,20 +28,20 @@ type IconButtonSize = "small" | "default" | "large";
 type TooltipPosition = "top" | "right" | "bottom" | "left";
 
 /**
- * IconButtonProps
+ * MarkProps
  */
-export type IconButtonProps = {
-  /** 表示するアイコン */
-  icon:
+export type MarkProps = {
+  /** 印 */
+  value:
     | LucideIcon
     | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>
     | null;
-  /** 表示するアイコンのプロパティ */
-  iconProps?: LucideProps;
-  /** ボタンのサイズ */
-  size?: IconButtonSize;
-  /** ボタンの種類 */
-  kind?: IconButtonKind;
+  /** 印のプロパティ */
+  valueProps?: LucideProps;
+  /** 印のサイズ */
+  size?: MarkSize;
+  /** 印の種類 */
+  kind?: MarkKind;
   /** 背景色を適用するかどうか */
   filled?: boolean;
   /** ツールチップのテキスト */
@@ -50,21 +50,21 @@ export type IconButtonProps = {
   tooltipPosition?: TooltipPosition;
   /** アクセシビリティのためのラベル */
   "aria-label": string;
-} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label">;
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "value" | "aria-label">;
 
 /**
- * IconButton
+ * Mark
  *
- * アイコンのみを表示するコンパクトなボタンです。
+ * 印のみを表示するコンパクトなボタンです。
  * 認識しやすいサイズとツールチップによる説明をサポートしています。
  * トグル機能も備えており、選択状態を視覚的に表示できます。
  * ツールチップの表示位置を上下左右に変更できます。
  */
-export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+export const Mark = forwardRef<HTMLButtonElement, MarkProps>(
   (
     {
-      icon: Icon,
-      iconProps,
+      value: Value,
+      valueProps,
       size = "default",
       kind = "primary",
       filled = false,
@@ -103,7 +103,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       large: "p-2.5 min-h-14 min-w-14",
     };
 
-    const iconSizes = {
+    const markSizes = {
       small: 16,
       default: 20,
       large: 24,
@@ -177,8 +177,8 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           onBlur={() => tooltip && setEnabledTooltip(false)}
           {...props}
         >
-          {Icon && (
-            <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
+          {Value && (
+            <Value size={markSizes[size]} aria-hidden="true" {...valueProps} />
           )}
 
           {tooltip && (
@@ -216,4 +216,4 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   },
 );
 
-IconButton.displayName = "IconButton";
+Mark.displayName = "Mark";

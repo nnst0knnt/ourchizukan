@@ -22,9 +22,9 @@ type LinkKind = "default" | "button" | "ghost";
 type LinkSize = "small" | "default" | "large";
 
 /**
- * アイコンの表示位置
+ * リンクを表す印の表示位置
  */
-type IconPosition = "left" | "right";
+type MarkPosition = "left" | "right";
 
 /**
  * 外部リンクかどうかを判定する
@@ -52,12 +52,12 @@ export type LinkProps = {
   kind?: LinkKind;
   /** リンクのサイズ */
   size?: LinkSize;
-  /** 表示するアイコン */
-  icon?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** 表示するアイコンのプロパティ */
-  iconProps?: LucideProps;
-  /** アイコンの表示位置 */
-  iconPosition?: IconPosition;
+  /** リンクを表す印 */
+  mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
+  /** リンクを表す印のプロパティ */
+  markProps?: LucideProps;
+  /** リンクを表す印の表示位置 */
+  markPosition?: MarkPosition;
   /** 下線を表示するかどうか */
   underline?: boolean;
   /** 新しいタブで開くかどうか */
@@ -78,9 +78,9 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       href,
       kind = "default",
       size = "default",
-      icon: Icon,
-      iconProps,
-      iconPosition = "left",
+      mark: Mark,
+      markProps,
+      markPosition = "left",
       underline = true,
       openInNewTab = false,
       external: isExternalProp,
@@ -93,7 +93,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
     const isExternal =
       isExternalProp !== undefined ? isExternalProp : isExternalUrl(href);
 
-    const enabledExternalIcon = isExternal && !Icon;
+    const enabledExternalMark = isExternal && !Mark;
 
     const targetProps = openInNewTab
       ? { target: "_blank", rel: "noopener noreferrer" }
@@ -127,7 +127,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       large: "text-lg",
     };
 
-    const iconSizes = {
+    const markSizes = {
       small: 14,
       default: 16,
       large: 20,
@@ -156,15 +156,15 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         {...accessibilityProps}
         {...props}
       >
-        {Icon && iconPosition === "left" && (
-          <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
+        {Mark && markPosition === "left" && (
+          <Mark size={markSizes[size]} aria-hidden="true" {...markProps} />
         )}
         <span>{children}</span>
-        {Icon && iconPosition === "right" && (
-          <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
+        {Mark && markPosition === "right" && (
+          <Mark size={markSizes[size]} aria-hidden="true" {...markProps} />
         )}
-        {enabledExternalIcon && (
-          <ExternalLink size={iconSizes[size]} aria-hidden="true" />
+        {enabledExternalMark && (
+          <ExternalLink size={markSizes[size]} aria-hidden="true" />
         )}
       </NextLink>
     );

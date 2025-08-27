@@ -16,7 +16,7 @@ import { cn } from "@/styles/functions";
 type NavigationLink = {
   name: string;
   href: string;
-  icon: LucideIcon;
+  mark: LucideIcon;
 };
 
 /**
@@ -26,12 +26,12 @@ const links: NavigationLink[] = [
   {
     name: "写真",
     href: "/pictures",
-    icon: Image,
+    mark: Image,
   },
   {
     name: "動画",
     href: "/movies",
-    icon: Film,
+    mark: Film,
   },
 ];
 
@@ -63,9 +63,9 @@ export const Footer = memo(() => {
                 ? "text-brand hover:text-brand"
                 : "text-secondary hover:text-primary",
             )}
-            icon={link.icon}
-            iconPosition="left"
-            iconProps={{
+            mark={link.mark}
+            markPosition="left"
+            markProps={{
               size: 24,
               className: cn(isActive && "fill-brand/10"),
             }}

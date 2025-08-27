@@ -13,8 +13,8 @@ import { Logo } from "./logo";
 export type LogoLinkProps = {
   /** リンクのサイズ */
   size?: LinkProps["size"];
-  /** アイコンのみ表示 */
-  iconOnly?: boolean;
+  /** 印のみ表示 */
+  markOnly?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 /**
@@ -24,8 +24,8 @@ export type LogoLinkProps = {
  * 押下時にルートへ遷移します。
  */
 export const LogoLink = forwardRef<HTMLDivElement, LogoLinkProps>(
-  ({ size = "default", iconOnly = false, className, ...props }, ref) => {
-    const textSizes = {
+  ({ size = "default", markOnly = false, className, ...props }, ref) => {
+    const sizeStyles = {
       small: "text-base",
       default: "text-lg",
       large: "text-xl",
@@ -36,17 +36,17 @@ export const LogoLink = forwardRef<HTMLDivElement, LogoLinkProps>(
         <Link
           href="/"
           kind="default"
-          icon={Logo}
+          mark={Logo}
           size={size}
           className="flex flex-row items-center gap-2"
           underline={false}
           aria-label="おうちずかんのトップページへ戻る"
         >
-          {!iconOnly && (
+          {!markOnly && (
             <span
               className={cn(
                 "hidden font-bold tracking-wider md:block",
-                textSizes[size],
+                sizeStyles[size],
                 "text-primary",
               )}
             >

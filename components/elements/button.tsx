@@ -23,9 +23,9 @@ type ButtonKind = "primary" | "secondary";
 type ButtonSize = "default" | "large";
 
 /**
- * ボタンのアイコンの表示位置
+ * ボタンを表す印の表示位置
  */
-type ButtonIconPosition = "left" | "right";
+type ButtonMarkPosition = "left" | "right";
 
 /**
  * ボタンの状態
@@ -46,12 +46,12 @@ export type ButtonProps = {
   kind?: ButtonKind;
   /** ボタンのサイズ */
   size?: ButtonSize;
-  /** 表示するアイコン */
-  icon?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
-  /** 表示するアイコンのプロパティ */
-  iconProps?: LucideProps;
-  /** アイコンの表示位置 */
-  iconPosition?: ButtonIconPosition;
+  /** ボタンを表す印 */
+  mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
+  /** ボタンを表す印のプロパティ */
+  markProps?: LucideProps;
+  /** ボタンを表す印の表示位置 */
+  markPosition?: ButtonMarkPosition;
   /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
   /** ボタンの状態 */
@@ -63,8 +63,8 @@ export type ButtonProps = {
 /**
  * Button
  *
- * アイコン付きサポートのシンプルなボタンです。
- * 状態によってアイコンが切り替わり、視覚的に進捗を表示します。
+ * 印付きサポートのシンプルなボタンです。
+ * ステータスを変更することで視覚的に進捗を表示します。
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -73,9 +73,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       kind = "primary",
       size = "default",
-      icon: Icon,
-      iconProps,
-      iconPosition = "left",
+      mark: Mark,
+      markProps,
+      markPosition = "left",
       status = ButtonStatus.Idle,
       fullWidth = false,
       disabled,
@@ -109,7 +109,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       large: "py-3 px-6 text-lg min-h-14",
     };
 
-    const iconSizes = {
+    const markSizes = {
       default: 20,
       large: 24,
     };
@@ -122,16 +122,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       error: "bg-error text-foreground hover:bg-error/90 active:bg-error/80",
     };
 
-    const statusIcons = {
+    const statusMarks = {
       loading: (
         <Loader2
           className="animate-spin"
-          size={iconSizes[size]}
+          size={markSizes[size]}
           strokeWidth={3.5}
         />
       ),
-      success: <CheckCircle2 size={iconSizes[size]} strokeWidth={3.5} />,
-      error: <XCircle size={iconSizes[size]} strokeWidth={3.5} />,
+      success: <CheckCircle2 size={markSizes[size]} strokeWidth={3.5} />,
+      error: <XCircle size={markSizes[size]} strokeWidth={3.5} />,
     };
 
     const classNames = cn(
@@ -158,20 +158,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             status !== ButtonStatus.Idle ? "opacity-50" : "",
           )}
         >
-          {Icon && iconPosition === "left" && (
-            <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
+          {Mark && markPosition === "left" && (
+            <Mark size={markSizes[size]} aria-hidden="true" {...markProps} />
           )}
 
           <span>{children}</span>
 
-          {Icon && iconPosition === "right" && (
-            <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
+          {Mark && markPosition === "right" && (
+            <Mark size={markSizes[size]} aria-hidden="true" {...markProps} />
           )}
         </div>
 
         {status !== ButtonStatus.Idle && (
           <div className="absolute inset-0 flex items-center justify-center">
-            {statusIcons[status]}
+            {statusMarks[status]}
           </div>
         )}
       </button>

@@ -4,7 +4,7 @@ import { type HTMLAttributes, forwardRef } from "react";
 
 import { Glasses, Moon, Sun, ZoomIn, ZoomOut } from "lucide-react";
 
-import { IconButton } from "@/components/elements";
+import { Mark } from "@/components/elements";
 import { useContrast, useSize, useTheme } from "@/hooks";
 import { cn } from "@/styles/functions";
 
@@ -33,8 +33,8 @@ export const AccessibilityControls = forwardRef<
       className={cn("flex items-center gap-1 md:gap-2", className)}
       {...props}
     >
-      <IconButton
-        icon={!theme.value ? null : theme.isLight ? Sun : Moon}
+      <Mark
+        value={!theme.value ? null : theme.isLight ? Sun : Moon}
         size="small"
         kind="ghost"
         onClick={theme.toggle}
@@ -44,9 +44,9 @@ export const AccessibilityControls = forwardRef<
         role="switch"
       />
 
-      <IconButton
-        icon={Glasses}
-        iconProps={contrast.isHigh ? { strokeWidth: 3 } : {}}
+      <Mark
+        value={Glasses}
+        valueProps={contrast.isHigh ? { strokeWidth: 3 } : {}}
         size="small"
         kind="ghost"
         onClick={contrast.toggle}
@@ -58,8 +58,8 @@ export const AccessibilityControls = forwardRef<
         role="switch"
       />
 
-      <IconButton
-        icon={ZoomIn}
+      <Mark
+        value={ZoomIn}
         size="small"
         kind="ghost"
         filled={size.isLarge}
@@ -69,8 +69,8 @@ export const AccessibilityControls = forwardRef<
         role="button"
       />
 
-      <IconButton
-        icon={ZoomOut}
+      <Mark
+        value={ZoomOut}
         size="small"
         kind="ghost"
         filled={size.isSmall}
