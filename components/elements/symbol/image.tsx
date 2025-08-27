@@ -7,6 +7,8 @@ import { useEnabledWindow } from "@/hooks";
 
 const Status = {
   Idle: "Idle",
+  Loading: "Loading",
+  Complete: "Complete",
   Error: "Error",
 } as const;
 
@@ -17,7 +19,7 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
 
   const enabled = useEnabledWindow();
 
-  if (!enabled && status === Status.Idle) {
+  if (!enabled && (status === Status.Idle || status === Status.Loading)) {
     return (
       <div className="flex h-full w-full animate-pulse items-center justify-center">
         <LoaderCircle className="h-8 w-8 animate-spin text-primary/40" />
@@ -34,7 +36,13 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
   }
 
   return (
-    <NextImage ref={ref} {...props} onError={() => setStatus(Status.Error)} />
+    <NextImage
+      ref={ref}
+      {...props}
+      onLoadStart={() => setStatus(Status.Loading)}
+      onLoadingComplete={() => setStatus(Status.Complete)}
+      onError={() => setStatus(Status.Error)}
+    />
   );
 });
 

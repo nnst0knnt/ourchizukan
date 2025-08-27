@@ -30,7 +30,9 @@ export const list = async ({
   return (await response.json()).map((album) => ({
     id: album.id,
     name: album.title,
-    thumbnailUrl: `${env.APP_URL}/api/pictures/${album.thumbnailKey}?kind=${ObjectKey.Picture.thumbnail}`,
+    thumbnailUrl: album.thumbnailId
+      ? `${env.APP_URL}/api/pictures/${album.thumbnailId}?kind=${ObjectKey.Picture.thumbnail}`
+      : "",
     count: album.count,
     updatedAt: date(album.updatedAt).format("YYYY-MM-DD"),
   }));

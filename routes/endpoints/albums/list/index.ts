@@ -19,8 +19,8 @@ export const list = factory.createHandlers(
             createdAt: albums.createdAt,
             count: sql<number>`coalesce(count(${pictures.id}), 0)`,
             updatedAt: sql<number>`coalesce(max(${pictures.takenAt}), ${albums.createdAt})`,
-            thumbnailKey: sql<string>`(
-        select ${pictures.thumbnailKey} 
+            thumbnailId: sql<string>`(
+        select ${pictures.id} 
         from ${pictures} 
         where ${pictures.albumId} = ${albums.id}
         order by ${pictures.takenAt} desc
