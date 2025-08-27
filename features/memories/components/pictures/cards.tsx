@@ -44,8 +44,8 @@ export const Cards = memo<CardsProps>(
     );
 
     const hasPrevious = useMemo(
-      () => data && selected !== null && selected > 0,
-      [data, selected],
+      () => selected !== null && selected > 0,
+      [selected],
     );
 
     const select = useCallback(
@@ -64,13 +64,24 @@ export const Cards = memo<CardsProps>(
     }, [on]);
 
     const next = useCallback(
-      () => hasNext && selected !== null && setSelected(selected + 1),
-      [hasNext, selected],
+      () =>
+        setSelected((current) => {
+          if (current === null || !data || current >= data.length - 1)
+            return current;
+
+          return current + 1;
+        }),
+      [data],
     );
 
     const previous = useCallback(
-      () => hasPrevious && selected !== null && setSelected(selected - 1),
-      [hasPrevious, selected],
+      () =>
+        setSelected((current) => {
+          if (current === null || current <= 0) return current;
+
+          return current - 1;
+        }),
+      [],
     );
 
     useEffect(() => {
@@ -98,8 +109,10 @@ export const Cards = memo<CardsProps>(
                       invisible={selected !== index}
                       datum={datum}
                       onClose={reset}
-                      onNext={hasNext ? next : undefined}
-                      onPrevious={hasPrevious ? previous : undefined}
+                      onNext={hasNext && selected === index ? next : undefined}
+                      onPrevious={
+                        hasPrevious && selected === index ? previous : undefined
+                      }
                     />
                   </Fragment>
                 ))

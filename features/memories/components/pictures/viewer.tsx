@@ -1,12 +1,12 @@
 import { AlertTriangle, Camera } from "lucide-react";
 import { memo } from "react";
-import { Image } from "@/components/elements/symbol";
 import { Button } from "@/components/elements/trigger";
 import { Footer, Header } from "@/components/structures";
 import { useKeyboard } from "@/hooks";
 import { date } from "@/services/date";
 import { cn } from "@/styles/functions";
 import type { PictureCard } from "../../models/picture";
+import { Picture } from "./picture";
 
 type ViewerProps = {
   invisible: boolean;
@@ -52,13 +52,7 @@ export const Viewer = memo<ViewerProps>(
                   invisible ? "opacity-0" : "opacity-100",
                 )}
               >
-                <Image
-                  src={datum.originalUrl}
-                  alt={`${datum.takenAt}の写真`}
-                  className="max-h-full max-w-full object-contain"
-                  fill
-                  priority={true}
-                />
+                <Picture url={datum.originalUrl} takenAt={datum.takenAt} />
               </div>
 
               <div
