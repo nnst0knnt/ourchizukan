@@ -2,12 +2,6 @@ import { type PropsWithChildren, memo } from "react";
 
 import { cn } from "@/styles/functions";
 
-/**
- * Outlet
- *
- * アプリケーション全体のコンテンツ部分です。
- * アプリケーションの中心部分に常時表示されます。
- */
 export const Outlet = memo<PropsWithChildren>(({ children }) => (
   <main
     className={cn(

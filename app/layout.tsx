@@ -3,7 +3,14 @@ import type { ReactNode } from "react";
 import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
-import { Footer, Header, Outlet, Unsupported } from "@/components/structures";
+import {
+  Body,
+  Footer,
+  Header,
+  Html,
+  Outlet,
+  Unsupported,
+} from "@/components/structures";
 import { MemberProvider, TransitionProgress } from "@/components/tools";
 
 export const metadata: Metadata = {
@@ -43,14 +50,14 @@ export default function Layout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="ja" className="h-full overflow-hidden" suppressHydrationWarning>
+    <Html lang="ja">
       <head>
         {/* eslint-disable @next/next/no-sync-scripts */}
         {/* レンダリング前に適用させたい処理のため`defer`や`async`を使用していません。 */}
         <script src="/scripts/sync-accessibility.js" />
         <script src="/scripts/sync-status-bar.js" />
       </head>
-      <body className="flex h-full flex-col bg-foundation text-primary antialiased">
+      <Body>
         <Unsupported />
         <MemberProvider>
           {(member) => (
@@ -58,11 +65,11 @@ export default function Layout({
               <TransitionProgress />
               <Header />
               <Outlet>{children}</Outlet>
-              <Footer member={member} />
+              <Footer member={member} links={false} />
             </>
           )}
         </MemberProvider>
-      </body>
-    </html>
+      </Body>
+    </Html>
   );
 }

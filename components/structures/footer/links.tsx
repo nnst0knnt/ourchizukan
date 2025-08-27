@@ -6,9 +6,6 @@ import { Film, Image, type LucideIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { type HTMLAttributes, memo } from "react";
 
-/**
- * ナビゲーションリンクの一覧
- */
 const links: {
   name: string;
   href: string;
@@ -26,19 +23,11 @@ const links: {
   },
 ];
 
-/**
- * LinksProps
- */
 type LinksProps = {
   /** プリフェッチするかどうか */
   prefetch?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
-/**
- * Links
- *
- * ナビゲーションリンクを提供します。
- */
 export const Links = memo<LinksProps>(({ prefetch = false, ...props }) => {
   const pathname = usePathname();
 

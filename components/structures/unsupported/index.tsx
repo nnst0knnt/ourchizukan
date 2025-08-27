@@ -1,12 +1,6 @@
 import { date } from "@/services/date";
 import { memo } from "react";
 
-/**
- * Unsupported
- *
- * JavaScriptが無効な場合に表示されるフォールバックです。
- * 必要最小限の静的なヘッダー、エラーメッセージ、フッターを提供します。
- */
 export const Unsupported = memo(() => (
   <noscript>
     <div

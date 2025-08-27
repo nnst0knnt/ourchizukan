@@ -5,14 +5,8 @@ import { cn } from "@/styles/functions";
 import { LogoLink } from "../../elements/anchor";
 import { AccessibilityControls } from "../../tools";
 
-/**
- * Header
- *
- * アプリケーション全体のヘッダーです。
- * アプリケーションの最上部に常時表示され、ロゴとアクセシビリティ設定を提供します。
- */
 export const Header = memo(() => (
-  <header className="w-full border-outline border-b bg-foundation shadow-sm">
+  <header className="sticky top-0 z-10 w-full border-outline border-b bg-foundation">
     <div
       className={cn(
         "mx-auto flex h-14 w-full max-w-7xl items-center justify-between md:h-16",
