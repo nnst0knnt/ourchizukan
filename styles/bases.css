@@ -124,8 +124,8 @@
 
   /* スクロールバー */
   ::-webkit-scrollbar {
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 0.5rem;
+    height: 0.5rem;
   }
 
   ::-webkit-scrollbar-thumb {
