@@ -43,7 +43,7 @@ export const EmailController = memo(() => {
       name="email"
       render={({ field: { onChange }, formState: { isValid } }) => {
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 md:gap-6">
             <Input
               label="メールアドレス"
               type="email"
@@ -51,7 +51,12 @@ export const EmailController = memo(() => {
               onChange={onChange}
               {...(errors.email
                 ? { error: errors.email.message }
-                : { helperText: "メールアドレスを入力してください" })}
+                : isValid
+                  ? { success: "おうちに入る準備ができました" }
+                  : {
+                      helperText:
+                        "メールアドレスを入力して、おうちに入りましょう",
+                    })}
               fullWidth
             />
             <AsyncButton onClick={submit} disabled={!isValid} fullWidth>
