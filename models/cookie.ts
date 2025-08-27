@@ -1,3 +1,5 @@
+import type { CookieOptions as Options } from "hono/utils/cookie";
+
 /**
  * クッキーオプション
  */
@@ -12,6 +14,18 @@ export const CookieOptions = {
   SameSite: "lax",
   /** クッキーの有効パス */
   Path: "/",
-  /** クッキーの有効期間（ミリ秒） */
-  MaxAge: 90 * 24 * 60 * 60 * 1000,
+  /** クッキーの有効期間（秒） */
+  MaxAge: 90 * 24 * 60 * 60,
 } as const;
+
+/**
+ * クッキーオプションを生成する
+ */
+export const toCookieOptions = (options?: Options): Options => ({
+  path: CookieOptions.Path,
+  httpOnly: CookieOptions.HttpOnly,
+  secure: CookieOptions.Secure,
+  sameSite: CookieOptions.SameSite,
+  maxAge: CookieOptions.MaxAge,
+  ...options,
+});

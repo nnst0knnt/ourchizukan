@@ -95,11 +95,15 @@ const session = (kv: KeyValueStorage) => {
     }
   };
 
+  const expired = (session: Session): boolean =>
+    session.expiredAt < date().unix();
+
   return {
     get,
     create,
     update,
     remove,
+    expired,
   };
 };
 
