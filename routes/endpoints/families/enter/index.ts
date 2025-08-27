@@ -1,48 +1,45 @@
 import { AccessMethod, AttemptKind } from "@/models";
-import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { factory, json } from "../../../helpers";
+import { validator } from "@/routes/middlewares";
+import { StatusCodes } from "http-status-codes";
+import { factory } from "../../../helpers";
 import { EnterFamily } from "./schema";
 
-export const enter = factory.createHandlers(async (context) => {
-  const body = await json(context, EnterFamily);
+export const enter = factory.createHandlers(
+  validator.body(EnterFamily, "json"),
+  async (context) => {
+    const body = context.req.valid("json");
 
-  if (!body) {
-    return context.json(
-      ReasonPhrases.UNPROCESSABLE_ENTITY,
-      StatusCodes.UNPROCESSABLE_ENTITY,
-    );
-  }
+    if (!(await context.var.keeper.attempts.verify(context.var.ip))) {
+      return context.json(
+        "ちょっと休憩してからもう一度お試しください",
+        StatusCodes.TOO_MANY_REQUESTS,
+      );
+    }
 
-  if (!(await context.var.keeper.attempts.verify(context.var.ip))) {
-    return context.json(
-      "ちょっと休憩してからもう一度お試しください",
-      StatusCodes.TOO_MANY_REQUESTS,
-    );
-  }
+    if (!(await context.var.keeper.whitelist.email(body.email))) {
+      await context.var.keeper.attempts.add(
+        context.var.ip,
+        AttemptKind.FailedEmail,
+      );
 
-  if (!(await context.var.keeper.whitelist.email(body.email))) {
-    await context.var.keeper.attempts.add(
+      return context.json(
+        "このメールアドレスは見覚えがないようです",
+        StatusCodes.UNAUTHORIZED,
+      );
+    }
+
+    const session = await context.var.keeper.session.create(
       context.var.ip,
-      AttemptKind.FailedEmail,
+      AccessMethod.Email,
     );
 
-    return context.json(
-      "このメールアドレスは見覚えがないようです",
-      StatusCodes.UNAUTHORIZED,
-    );
-  }
+    if (!session) {
+      return context.json(
+        "今はおうちに入ることができないようです",
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      );
+    }
 
-  const session = await context.var.keeper.session.create(
-    context.var.ip,
-    AccessMethod.Email,
-  );
-
-  if (!session) {
-    return context.json(
-      "今はおうちに入ることができないようです",
-      StatusCodes.INTERNAL_SERVER_ERROR,
-    );
-  }
-
-  return context.json("おうちずかんへようこそ！", StatusCodes.OK);
-});
+    return context.json("おうちずかんへようこそ！", StatusCodes.OK);
+  },
+);
