@@ -20,7 +20,7 @@ export type LogoLinkProps = {
 /**
  * LogoLink
  *
- * おうちずかんのロゴのリンクです。
+ * `おうちずかん`のロゴのリンクです。
  * 押下時にルートへ遷移します。
  */
 export const LogoLink = forwardRef<HTMLAnchorElement, LogoLinkProps>(

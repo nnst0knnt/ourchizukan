@@ -13,7 +13,7 @@ export type LogoProps = {
 /**
  * Logo
  *
- * おうちずかんのロゴです。
+ * `おうちずかん`のロゴです。
  * `size`を指定しない場合は`16px`となります。
  */
 export const Logo = forwardRef<SVGSVGElement, LogoProps>(

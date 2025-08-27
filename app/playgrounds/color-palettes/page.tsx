@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   title: "カラーパレット",
 };
 
+/**
+ * カラーパレット
+ *
+ * `おうちずかん`で使用している色を紹介するページです。
+ */
 export default function Page() {
   return <ColorPalettes />;
 }

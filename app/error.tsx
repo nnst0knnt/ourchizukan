@@ -8,31 +8,24 @@ import {
   UnknownError,
 } from "@/errors";
 
-/**
- * 補足するエラーの一覧
- */
-const Errors = {
+const Constructors = {
   NetworkError,
   ServerError,
   UnknownError,
 } as Record<string, new () => ApplicationError>;
 
-/**
- * ErrorProps
- */
 type ErrorProps = {
   error: Error;
   reset: () => void;
 };
 
 /**
- * Error
+ * エラー境界
  *
  * エラーが発生した場合に表示されるページです。
- * エラーの内容に応じて、適切なメッセージとアクションを表示します。
  */
 export default function Error({ error: e }: ErrorProps) {
-  const error = new (Errors[e.name] ?? UnknownError)();
+  const error = new (Constructors[e.name] ?? UnknownError)();
 
   return (
     <div className="flex flex-col gap-4">
