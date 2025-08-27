@@ -31,7 +31,6 @@ const isExternalUrl = (url: string): boolean => {
 };
 
 export type LinkProps = {
-  href: string;
   kind?: LinkKind;
   size?: LinkSize;
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
@@ -61,7 +60,9 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
     },
     ref,
   ) => {
-    const isExternal = external !== undefined ? external : isExternalUrl(href);
+    const url = typeof href === "string" ? href : href.href || "";
+
+    const isExternal = external !== undefined ? external : isExternalUrl(url);
 
     const enabledExternalMark = isExternal && !Mark;
 
@@ -73,10 +74,10 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
 
     const accessibilityProps = {
       "aria-label": openInNewTab
-        ? `${props["aria-label"] || href || "リンク"}（新しいタブで開きます)`
+        ? `${props["aria-label"] || url || "リンク"}（新しいタブで開きます)`
         : isExternal
-          ? `${props["aria-label"] || href || "リンク"}（外部サイト）`
-          : props["aria-label"] || href || "リンク",
+          ? `${props["aria-label"] || url || "リンク"}（外部サイト）`
+          : props["aria-label"] || url || "リンク",
     };
 
     const baseStyles =
