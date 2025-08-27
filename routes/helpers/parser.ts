@@ -14,8 +14,8 @@ export const toBody = async <Schema extends z.ZodType>(
       body[key] = [value];
     } else if (Array.isArray(value)) {
       body[key] = [];
-      for (const [index, item] of value.entries()) {
-        body[key][index] = parse(item);
+      for (const [index, values] of value.entries()) {
+        body[key][index] = parse(values);
       }
     } else {
       try {
