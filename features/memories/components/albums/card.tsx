@@ -58,7 +58,9 @@ export const Card = memo<CardProps>(({ datum = null }) => {
             />
           </div>
           <div className="bg-foundation p-4">
-            <h3 className="font-medium text-lg text-primary">{datum.name}</h3>
+            <h3 className="truncate font-medium text-lg text-primary">
+              {datum.name}
+            </h3>
             <p className="text-base text-secondary">{datum.count}枚の写真</p>
           </div>
         </div>
