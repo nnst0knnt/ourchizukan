@@ -1,7 +1,7 @@
 "use client";
 
 import { ImageOff, LoaderCircle, Upload as UploadIcon } from "lucide-react";
-import { Fragment, memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered, Footer } from "@/components/structures";
 import { usePullToRefresh, useScrollToTop } from "@/hooks";
@@ -36,6 +36,11 @@ export const Cards = memo<CardsProps>(
       [data, selected],
     );
 
+    const viewed = useMemo(
+      () => (data && selected !== null ? data[selected] : null),
+      [data, selected],
+    );
+
     const select = useCallback(
       (index: number) => {
         setSelected(index);
@@ -52,13 +57,12 @@ export const Cards = memo<CardsProps>(
     }, [on]);
 
     const next = useCallback(
-      () => (hasNext && selected !== null ? setSelected(selected + 1) : null),
+      () => hasNext && selected !== null && setSelected(selected + 1),
       [hasNext, selected],
     );
 
     const previous = useCallback(
-      () =>
-        hasPrevious && selected !== null ? setSelected(selected - 1) : null,
+      () => hasPrevious && selected !== null && setSelected(selected - 1),
       [hasPrevious, selected],
     );
 
@@ -76,16 +80,11 @@ export const Cards = memo<CardsProps>(
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
               {data && data.length > 0 ? (
                 data.map((datum, index) => (
-                  <Fragment key={datum.id}>
-                    <Card datum={datum} onClick={() => select(index)} />
-                    <Viewer
-                      invisible={index !== selected}
-                      datum={datum}
-                      onClose={reset}
-                      onNext={hasNext ? next : undefined}
-                      onPrevious={hasPrevious ? previous : undefined}
-                    />
-                  </Fragment>
+                  <Card
+                    key={datum.id}
+                    datum={datum}
+                    onClick={() => select(index)}
+                  />
                 ))
               ) : (
                 <div
@@ -98,6 +97,16 @@ export const Cards = memo<CardsProps>(
                 </div>
               )}
             </div>
+          )}
+
+          {viewed && (
+            <Viewer
+              invisible={false}
+              datum={viewed}
+              onClose={reset}
+              onNext={hasNext ? next : undefined}
+              onPrevious={hasPrevious ? previous : undefined}
+            />
           )}
           <Footer to="/albums" fixed />
         </div>
