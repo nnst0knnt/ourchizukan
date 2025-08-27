@@ -7,6 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/elements/text-field";
 import { AsyncButton } from "@/components/elements/trigger";
 import { EnterFamilyBody } from "@/routes/endpoints/families/enter/schema";
+import { cn } from "@/styles/functions";
 import repositories from "../repositories";
 
 export const EmailController = memo(() => {
@@ -39,33 +40,39 @@ export const EmailController = memo(() => {
     <Controller
       control={control}
       name="email"
-      disabled={isSubmitting}
-      render={({ field: { value, onChange }, formState: { isValid } }) => {
-        return (
-          <div className="flex flex-col gap-4 md:gap-6">
-            <Input
-              label="メールアドレス"
-              type="email"
-              placeholder="ourchizukan@example.com"
-              value={value}
-              onChange={onChange}
-              {...(errors.email
-                ? { error: errors.email.message }
-                : isValid
-                  ? { success: "おうちに入る準備ができました" }
-                  : {
-                      helperText:
-                        "メールアドレスを入力して、おうちに入りましょう",
-                    })}
-              required
-              fullWidth
-            />
-            <AsyncButton onClick={submit} disabled={!isValid} fullWidth>
-              おうちに入る
-            </AsyncButton>
-          </div>
-        );
-      }}
+      render={({ field: { value, onChange }, formState: { isValid } }) => (
+        <div
+          className={cn(
+            "flex flex-col gap-4 md:gap-6",
+            isSubmitting && "pointer-events-none",
+          )}
+        >
+          <Input
+            label="メールアドレス"
+            type="email"
+            placeholder="ourchizukan@example.com"
+            value={value}
+            onChange={onChange}
+            {...(errors.email
+              ? { error: errors.email.message }
+              : isValid
+                ? { success: "おうちに入る準備ができました" }
+                : {
+                    helperText:
+                      "メールアドレスを入力して、おうちに入りましょう",
+                  })}
+            required
+            fullWidth
+          />
+          <AsyncButton
+            onClick={submit}
+            disabled={!isValid || isSubmitting}
+            fullWidth
+          >
+            おうちに入る
+          </AsyncButton>
+        </div>
+      )}
     />
   );
 });
