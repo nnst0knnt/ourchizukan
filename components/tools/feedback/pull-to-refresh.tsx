@@ -53,10 +53,10 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
       children,
       ...props
     },
-    ref,
+    _ref,
   ) => {
     const { enabled } = usePullToRefresh();
-    const containerRef = useForwardedRef(ref);
+    const ref = useForwardedRef(_ref);
     const selectorRef = useRef<HTMLElement | null>(null);
 
     const [distance, setDistance] = useState(0);
@@ -212,7 +212,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
           selectorRef.current &&
           createPortal(
             <div
-              ref={containerRef}
+              ref={ref}
               className={cn(
                 "absolute top-0 right-0 left-0 z-cover flex flex-col items-center justify-center bg-foundation/95",
                 "overflow-hidden transition-all duration-200",

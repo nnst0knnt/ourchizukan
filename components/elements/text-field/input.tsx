@@ -44,11 +44,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       "aria-describedby": ariaDescribedBy,
       ...props
     },
-    ref,
+    _ref,
   ) => {
-    const inputRef = useForwardedRef(ref);
+    const ref = useForwardedRef(_ref);
 
-    useLockOnFocus(inputRef);
+    useLockOnFocus(ref);
 
     const defaultId = useId();
 
@@ -133,7 +133,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
 
           <input
-            ref={inputRef}
+            ref={ref}
             id={inputId}
             type={type}
             placeholder={placeholder}

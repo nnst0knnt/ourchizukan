@@ -56,28 +56,28 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       "aria-describedby": ariaDescribedBy,
       ...props
     },
-    ref,
+    _ref,
   ) => {
     const counterRef = useRef<HTMLDivElement>(null);
 
-    const textareaRef = useForwardedRef(ref);
+    const ref = useForwardedRef(_ref);
 
-    useLockOnFocus(textareaRef);
+    useLockOnFocus(ref);
 
     const resize = useCallback(() => {
-      if (!autoResize || !textareaRef.current) return;
+      if (!autoResize || !ref.current) return;
 
-      textareaRef.current.style.height = "auto";
+      ref.current.style.height = "auto";
 
       const lineHeight =
-        Number.parseFloat(getComputedStyle(textareaRef.current).lineHeight) ||
-        Number.parseFloat(getComputedStyle(textareaRef.current).fontSize) * 1.2;
+        Number.parseFloat(getComputedStyle(ref.current).lineHeight) ||
+        Number.parseFloat(getComputedStyle(ref.current).fontSize) * 1.2;
 
       const paddingTop = Number.parseFloat(
-        getComputedStyle(textareaRef.current).paddingTop,
+        getComputedStyle(ref.current).paddingTop,
       );
       const paddingBottom = Number.parseFloat(
-        getComputedStyle(textareaRef.current).paddingBottom,
+        getComputedStyle(ref.current).paddingBottom,
       );
       const totalPadding = paddingTop + paddingBottom;
 
@@ -86,26 +86,24 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         ? maxRows * lineHeight + totalPadding
         : Number.POSITIVE_INFINITY;
 
-      const scrollHeight = textareaRef.current.scrollHeight;
+      const scrollHeight = ref.current.scrollHeight;
 
-      textareaRef.current.style.height = `${Math.min(Math.max(scrollHeight, minHeight), maxHeight)}px`;
-    }, [autoResize, textareaRef, minRows, maxRows]);
+      ref.current.style.height = `${Math.min(Math.max(scrollHeight, minHeight), maxHeight)}px`;
+    }, [autoResize, ref, minRows, maxRows]);
 
     const count = useCallback(() => {
-      if (!counter || !textareaRef.current || !counterRef.current) return;
+      if (!counter || !ref.current || !counterRef.current) return;
 
-      const currentLength = textareaRef.current.value.length;
+      const currentLength = ref.current.value.length;
       const maxLength =
-        textareaRef.current.maxLength > 0
-          ? textareaRef.current.maxLength
-          : null;
+        ref.current.maxLength > 0 ? ref.current.maxLength : null;
 
       if (maxLength) {
         counterRef.current.textContent = `${currentLength} / ${maxLength}`;
       } else {
         counterRef.current.textContent = `${currentLength} 文字`;
       }
-    }, [counter, textareaRef]);
+    }, [counter, ref]);
 
     const input = useCallback(() => {
       resize();
@@ -113,10 +111,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     }, [resize, count]);
 
     useEffect(() => {
-      if (textareaRef.current) {
+      if (ref.current) {
         input();
       }
-    }, [input, textareaRef]);
+    }, [input, ref]);
 
     const defaultId = useId();
 
@@ -202,7 +200,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
 
           <textarea
-            ref={textareaRef}
+            ref={ref}
             id={inputId}
             placeholder={placeholder}
             disabled={disabled}

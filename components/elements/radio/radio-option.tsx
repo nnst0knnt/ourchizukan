@@ -48,9 +48,9 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
       "aria-describedby": ariaDescribedBy,
       ...props
     },
-    ref,
+    _ref,
   ) => {
-    const radioRef = useForwardedRef(ref);
+    const ref = useForwardedRef(_ref);
 
     const state = useContext(RadioGroupState);
 
@@ -69,10 +69,10 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
     const click = useCallback(() => {
       if (isChecked) return;
 
-      if (radioRef.current) {
-        radioRef.current.click();
+      if (ref.current) {
+        ref.current.click();
       }
-    }, [isChecked, radioRef]);
+    }, [isChecked, ref]);
 
     const { keydown } = useKeyboard({
       Enter: click,
@@ -126,7 +126,7 @@ export const RadioOption = forwardRef<HTMLInputElement, RadioOptionProps>(
           <div className="flex h-11 items-center">
             <div className="relative flex items-center">
               <input
-                ref={radioRef}
+                ref={ref}
                 type="radio"
                 id={inputId}
                 value={value}
