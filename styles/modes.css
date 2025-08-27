@@ -72,7 +72,3 @@
   --color-outline: #4d4d4d;
   --color-track: #ffffff33;
 }
-
-html {
-  font-size: calc(18px * var(--size-scale, 1));
-}

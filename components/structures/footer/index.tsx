@@ -25,7 +25,7 @@ export const Footer = memo<FooterProps>(async ({ member }) => (
         className="flex w-full justify-around pt-1 md:max-w-md md:justify-between"
       />
     </div>
-    <div className="flex items-center justify-center gap-1 pb-3 text-center text-secondary text-xs">
+    <div className="flex items-center justify-center gap-1 text-center text-secondary text-xs">
       <span>© {date().format("YYYY")}</span>
       <span>おうちずかん</span>
     </div>

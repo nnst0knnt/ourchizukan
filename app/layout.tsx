@@ -45,15 +45,10 @@ export default function Layout({
   return (
     <html lang="ja" className="h-full overflow-hidden" suppressHydrationWarning>
       <head>
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script
-          /**
-           * FOUCを防ぐためのスクリプトを読み込む
-           *
-           * レンダリング前に適用させたい処理のため`defer`や`async`を使用していません。
-           */
-          src="/scripts/sync-accessibility.js"
-        />
+        {/* eslint-disable @next/next/no-sync-scripts */}
+        {/* レンダリング前に適用させたい処理のため`defer`や`async`を使用していません。 */}
+        <script src="/scripts/sync-accessibility.js" />
+        <script src="/scripts/sync-status-bar.js" />
       </head>
       <body className="flex h-full flex-col bg-foundation text-primary antialiased">
         <MemberProvider>
