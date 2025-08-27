@@ -8,20 +8,29 @@ import { ListPicturesQueryParameter } from "./schema";
 export const list = factory.createHandlers(
   validator.query(ListPicturesQueryParameter),
   async (context) => {
-    const { albumId } = context.req.valid("query");
+    try {
+      const { albumId } = context.req.valid("query");
 
-    const where: SQL[] = [];
-    if (albumId) {
-      where.push(eq(pictures.albumId, albumId));
+      const where: SQL[] = [];
+      if (albumId) {
+        where.push(eq(pictures.albumId, albumId));
+      }
+
+      return context.json(
+        await context.var.database
+          .select()
+          .from(pictures)
+          .where(and(...where))
+          .orderBy(desc(pictures.takenAt)),
+        StatusCodes.OK,
+      );
+    } catch (e) {
+      console.error("⚠️ 写真一覧の取得に失敗しました", e);
+
+      return context.json(
+        { message: "写真一覧の取得に失敗しました" },
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      );
     }
-
-    return context.json(
-      await context.var.database
-        .select()
-        .from(pictures)
-        .where(and(...where))
-        .orderBy(desc(pictures.takenAt)),
-      StatusCodes.OK,
-    );
   },
 );

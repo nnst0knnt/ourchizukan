@@ -9,6 +9,12 @@ export const list = async (queries: ListPicturesQueryParameter) => {
     query: queries,
   });
 
+  if (!response.ok) {
+    throw new Error(
+      (await response.json()).message || "写真一覧の取得に失敗しました",
+    );
+  }
+
   return (await response.json()).map((picture) => ({
     id: picture.id,
     albumId: picture.albumId,

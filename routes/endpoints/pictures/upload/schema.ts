@@ -5,9 +5,15 @@ export const UploadPicturesBody = z.object({
   files: z
     .array(z.instanceof(File))
     .min(1, "写真を1枚以上選択してください")
+    .max(20, "一度にアップロードできる写真は20枚までです")
     .refine(
-      (files) => files.every((file) => file.type.startsWith("image/")),
-      "画像ファイルのみアップロードできます",
+      (files) => files.every((file) => file.size <= 10 * 1024 * 1024),
+      "ファイルサイズは10MB以下にしてください",
+    )
+    .refine(
+      (files) =>
+        files.reduce((sum, file) => sum + file.size, 0) <= 10 * 1024 * 1024 * 5,
+      "ファイルサイズは合計50MB以下にしてください",
     ),
 });
 

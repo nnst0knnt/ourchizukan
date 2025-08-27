@@ -7,6 +7,12 @@ import { http } from "@/services/http";
 export const list = async () => {
   const response = await http.albums.$get();
 
+  if (!response.ok) {
+    throw new Error(
+      (await response.json()).message || "アルバム一覧の取得に失敗しました",
+    );
+  }
+
   return (await response.json()).map((album) => ({
     id: album.id,
     name: album.title,
@@ -42,6 +48,12 @@ export const create = async (body: CreateAlbumBody) => {
   const response = await http.albums.$post({
     json: body,
   });
+
+  if (!response.ok) {
+    throw new Error(
+      (await response.json()).message || "アルバムの作成に失敗しました",
+    );
+  }
 
   const album = await response.json();
 

@@ -8,37 +8,46 @@ import { GetAlbumPathParameter } from "./schema";
 export const get = factory.createHandlers(
   validator.path(GetAlbumPathParameter),
   async (context) => {
-    const { id } = context.req.valid("param");
+    try {
+      const { id } = context.req.valid("param");
 
-    if (!id) {
+      if (!id) {
+        return context.json(
+          { message: "そのアルバムは見覚えがないようです" },
+          StatusCodes.BAD_REQUEST,
+        );
+      }
+
+      const album = (
+        await context.var.database
+          .select()
+          .from(albums)
+          .where(eq(albums.id, id))
+          .limit(1)
+      )[0];
+
+      if (!album) {
+        return context.json(
+          { message: "そのアルバムは見覚えがないようです" },
+          StatusCodes.NOT_FOUND,
+        );
+      }
+
       return context.json(
-        { message: "そのアルバムは見覚えがないようです" },
-        StatusCodes.BAD_REQUEST,
+        {
+          id: album.id,
+          title: album.title,
+          createdAt: album.createdAt,
+        },
+        StatusCodes.OK,
+      );
+    } catch (e) {
+      console.error("⚠️ アルバムの取得に失敗しました", e);
+
+      return context.json(
+        { message: "アルバムの取得に失敗しました" },
+        StatusCodes.INTERNAL_SERVER_ERROR,
       );
     }
-
-    const album = (
-      await context.var.database
-        .select()
-        .from(albums)
-        .where(eq(albums.id, id))
-        .limit(1)
-    )[0];
-
-    if (!album) {
-      return context.json(
-        { message: "そのアルバムは見覚えがないようです" },
-        StatusCodes.NOT_FOUND,
-      );
-    }
-
-    return context.json(
-      {
-        id: album.id,
-        title: album.title,
-        createdAt: album.createdAt,
-      },
-      StatusCodes.OK,
-    );
   },
 );

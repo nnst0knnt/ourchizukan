@@ -9,23 +9,32 @@ import { CreateAlbumBody } from "./schema";
 export const create = factory.createHandlers(
   validator.json(CreateAlbumBody),
   async (context) => {
-    const body = context.req.valid("json");
-    const id = uuid();
-    const now = date().unix();
+    try {
+      const body = context.req.valid("json");
+      const id = uuid();
+      const now = date().unix();
 
-    await context.var.database.insert(albums).values({
-      id,
-      title: body.title,
-      createdAt: now,
-    });
-
-    return context.json(
-      {
+      await context.var.database.insert(albums).values({
         id,
         title: body.title,
         createdAt: now,
-      },
-      StatusCodes.CREATED,
-    );
+      });
+
+      return context.json(
+        {
+          id,
+          title: body.title,
+          createdAt: now,
+        },
+        StatusCodes.CREATED,
+      );
+    } catch (e) {
+      console.error("🔥 アルバムの作成に失敗しました", e);
+
+      return context.json(
+        { message: "アルバムの作成に失敗しました" },
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      );
+    }
   },
 );
