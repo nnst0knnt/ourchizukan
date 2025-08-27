@@ -1,8 +1,12 @@
-import { cn } from "@/styles/functions";
-import { ExternalLink } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { type AnchorHTMLAttributes, forwardRef } from "react";
+
 import NextLink from "next/link";
-import { forwardRef } from "react";
+
+import { ExternalLink } from "lucide-react";
+
+import { cn } from "@/styles/functions";
+
+import type { LucideIcon } from "lucide-react";
 
 /**
  * リンクの種類
@@ -55,10 +59,7 @@ export type LinkProps = {
   openInNewTab?: boolean;
   /** 外部リンクとして扱うかどうか */
   external?: boolean;
-} & Omit<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  "href" | "target" | "rel"
->;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "target" | "rel">;
 
 /**
  * Link

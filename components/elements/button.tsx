@@ -1,7 +1,10 @@
-import { cn } from "@/styles/functions";
+import { type ButtonHTMLAttributes, Children, forwardRef } from "react";
+
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
+
+import { cn } from "@/styles/functions";
+
 import type { LucideIcon } from "lucide-react";
-import { Children, forwardRef } from "react";
 
 /**
  * ボタンの種類
@@ -47,7 +50,7 @@ export type ButtonProps = {
   status?: ButtonStatus;
   /** アクセシビリティのためのラベル（テキストがない場合や説明が必要な場合） */
   "aria-label"?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 /**
  * Button

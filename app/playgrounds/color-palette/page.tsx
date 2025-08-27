@@ -1,24 +1,25 @@
 "use client";
 
+import { Glasses, Moon, Palette, Sun } from "lucide-react";
+
 import { useContrast, useTheme } from "@/hooks";
 import { evaluateContrast, varsToHex } from "@/styles/functions";
 import { cn } from "@/styles/functions";
-import { Glasses, Moon, Palette, Sun } from "lucide-react";
 
-type Color = {
+interface Color {
   name: string;
   category: string;
   description: string;
   className: string;
   cssVar: string;
-};
+}
 
-type Evaluation = {
+interface Evaluation {
   name: string;
   description: string;
   background: string;
   foreground: string;
-};
+}
 
 const colors: Color[] = [
   {

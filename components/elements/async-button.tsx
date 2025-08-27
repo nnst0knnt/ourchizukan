@@ -1,4 +1,5 @@
-import { forwardRef, useState } from "react";
+import { type MouseEvent, forwardRef, useState } from "react";
+
 import { Button, type ButtonProps, ButtonStatus } from "./button";
 
 /**
@@ -6,7 +7,7 @@ import { Button, type ButtonProps, ButtonStatus } from "./button";
  */
 export type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
   /** クリック時の非同期処理 */
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => Promise<void>;
   /** 成功時の処理 */
   onSuccess?: () => void;
   /** エラー時の処理 */
@@ -39,7 +40,7 @@ export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
     let timeout: NodeJS.Timeout | null = null;
     const [status, setStatus] = useState<ButtonStatus>(ButtonStatus.Idle);
 
-    const click = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const click = async (event: MouseEvent<HTMLButtonElement>) => {
       if (status === ButtonStatus.Loading) return;
 
       if (timeout) {

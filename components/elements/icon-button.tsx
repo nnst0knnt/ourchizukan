@@ -1,6 +1,8 @@
+import { type ButtonHTMLAttributes, forwardRef, useState } from "react";
+
 import { cn } from "@/styles/functions";
+
 import type { LucideIcon } from "lucide-react";
-import { forwardRef, useState } from "react";
 
 /**
  * アイコンボタンの種類
@@ -28,7 +30,7 @@ export type IconButtonProps = {
   tooltip?: string;
   /** アクセシビリティのためのラベル */
   "aria-label": string;
-} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "aria-label">;
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label">;
 
 /**
  * IconButton
