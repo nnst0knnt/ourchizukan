@@ -1,3 +1,3 @@
 export { bind } from "./bind";
 export { factory } from "./factory";
-export { url } from "./url";
+export { unauthenticated, unexpected, url } from "./url";

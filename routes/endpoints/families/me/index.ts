@@ -1,7 +1,13 @@
 import { factory } from "../../../helpers";
 
 export const me = factory.createHandlers(async (context) => {
-  return context.json({
-    message: "families/me",
-  });
+  const session = await context.var.keeper.session.get(context);
+
+  return context.json(
+    session
+      ? {
+          method: session.method,
+        }
+      : null,
+  );
 });

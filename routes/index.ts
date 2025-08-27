@@ -1,7 +1,5 @@
-import { logger } from "hono/logger";
-import { secureHeaders } from "hono/secure-headers";
 import { families } from "./endpoints/families";
-import { factory } from "./helpers";
+import { url, factory, unexpected } from "./helpers";
 import { environment, guard } from "./middlewares";
 
 /**
@@ -13,8 +11,14 @@ import { environment, guard } from "./middlewares";
 export const app = factory
   .createApp()
   .basePath("/api")
-  .use(secureHeaders())
-  .use(logger())
   .use(environment())
-  .use(guard())
-  .route("/families", families);
+  .use(
+    guard({
+      guests: ["/api/families/me"],
+      failure: {
+        message: "おうちに入ることができませんでした",
+      },
+    }),
+  )
+  .route("/families", families)
+  .onError((_, context) => context.redirect(url(context, unexpected)));

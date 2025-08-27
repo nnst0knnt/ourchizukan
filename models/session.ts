@@ -14,8 +14,6 @@ export type Session = {
   createdAt: number;
   /** 有効期限 */
   expiredAt: number;
-  /** 最終アクセス時間 */
-  lastAccessedAt: number;
 };
 
 /**

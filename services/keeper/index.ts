@@ -4,11 +4,14 @@ import {
   type AccessMethod,
   type Attempt,
   type AttemptKind,
+  CookieOptions,
   type KeyValueStorage,
   RateLimitOptions,
   type Session,
   SessionOptions,
 } from "@/models";
+import type { Context } from "hono";
+import { getCookie } from "hono/cookie";
 import { date } from "../date";
 
 const session = (kv: KeyValueStorage) => {
@@ -16,9 +19,11 @@ const session = (kv: KeyValueStorage) => {
 
   const generateKey = (id: string) => `${prefix}:${id}`;
 
-  const get = async (id: string): Promise<Session | null> => {
+  const get = async (context: Context): Promise<Session | null> => {
     try {
-      const found = await kv.get(generateKey(id));
+      const found = await kv.get(
+        generateKey(getCookie(context, CookieOptions.Name) || ""),
+      );
 
       return found ? (JSON.parse(found) as Session) : null;
     } catch (e) {
@@ -38,7 +43,6 @@ const session = (kv: KeyValueStorage) => {
       method,
       ip,
       createdAt: now,
-      lastAccessedAt: now,
       expiredAt: now + SessionOptions.Lifetime,
     };
 
@@ -50,33 +54,6 @@ const session = (kv: KeyValueStorage) => {
       );
 
       return created;
-    } catch (e) {
-      console.error(e);
-
-      return null;
-    }
-  };
-
-  const update = async (id: string): Promise<Session | null> => {
-    const found = await get(id);
-
-    if (!found) {
-      return null;
-    }
-
-    const updated: Session = {
-      ...found,
-      lastAccessedAt: date().unix(),
-    };
-
-    try {
-      await kv.set(
-        generateKey(id),
-        JSON.stringify(updated),
-        SessionOptions.Lifetime,
-      );
-
-      return updated;
     } catch (e) {
       console.error(e);
 
@@ -100,7 +77,6 @@ const session = (kv: KeyValueStorage) => {
   return {
     get,
     create,
-    update,
     remove,
     expired,
   };
