@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@config '../tailwind.config.ts';
+
+/* デフォルト */
+:root {
+  --color-base: #f5e9d9;
+  --color-brand: #b25d45;
+  --color-accent: #5b68c0;
+  --color-foreground: #fdf8f3;
+  --color-primary: #372218;
+  --color-secondary: #66503c;
+  --color-success: #698b22;
+  --color-error: #c13515;
+  --color-focus: #e28d70;
+  --color-outline: #e5d2ba;
+  --size-scale: 1;
+}
+
+/* 文字サイズ小 */
+[data-size="small"] {
+  --size-scale: 0.85;
+}
+
+/* 文字サイズ中 */
+[data-size="normal"] {
+  --size-scale: 1;
+}
+
+/* 文字サイズ大 */
+[data-size="large"] {
+  --size-scale: 1.2;
+}
+
+/* ライトモード */
+[data-theme="light"] {
+  --color-base: #f5e9d9;
+  --color-brand: #b25d45;
+  --color-accent: #5b68c0;
+  --color-foreground: #fdf8f3;
+  --color-primary: #372218;
+  --color-secondary: #66503c;
+  --color-success: #698b22;
+  --color-error: #c13515;
+  --color-focus: #e28d70;
+  --color-outline: #e5d2ba;
+}
+
+/* ダークモード */
+[data-theme="dark"] {
+  --color-base: #211e1b;
+  --color-brand: #e28d70;
+  --color-accent: #8e94f2;
+  --color-foreground: #f8f5f0;
+  --color-primary: #f5edd8;
+  --color-secondary: #d5c6a9;
+  --color-success: #a3c86c;
+  --color-error: #f87d65;
+  --color-focus: #f5b799;
+  --color-outline: #3d3630;
+}
+
+/* ライトモード + 高コントラスト */
+[data-theme="light"][data-contrast="high"] {
+  --color-base: #f0f0f0;
+  --color-brand: #9b3c21;
+  --color-accent: #3b4da0;
+  --color-foreground: #ffffff;
+  --color-primary: #000000;
+  --color-secondary: #333333;
+  --color-success: #4d7200;
+  --color-error: #b30000;
+  --color-focus: #c25b3a;
+  --color-outline: #cccccc;
+}
+
+/* ダークモード + 高コントラスト */
+[data-theme="dark"][data-contrast="high"] {
+  --color-base: #1a1a1a;
+  --color-brand: #ff9e7a;
+  --color-accent: #a5abff;
+  --color-foreground: #ffffff;
+  --color-primary: #ffffff;
+  --color-secondary: #e0e0e0;
+  --color-success: #b8e986;
+  --color-error: #ff897a;
+  --color-focus: #ffbfaa;
+  --color-outline: #4d4d4d;
+}
+
+html {
+  font-size: calc(18px * var(--size-scale, 1));
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
