@@ -4,7 +4,7 @@ import type { PictureCard } from "../../models/picture";
 
 type CardProps = {
   datum: PictureCard;
-  onClick?: () => void;
+  onClick: () => void;
 };
 
 export const Card = memo<CardProps>(

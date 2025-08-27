@@ -14,7 +14,7 @@ import repositories from "../../repositories";
 
 type CreateProps = {
   onClose: () => void;
-  onSuccess?: () => void;
+  onSuccess: () => void;
 };
 
 export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
@@ -65,10 +65,7 @@ export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
       <Controller
         control={control}
         name="title"
-        render={({
-          field: { value, onChange },
-          formState: { isSubmitting, isValid },
-        }) => (
+        render={({ field: { value, onChange }, formState: { isValid } }) => (
           <div className="flex flex-col gap-4 md:gap-6">
             <Input
               label="アルバム名"

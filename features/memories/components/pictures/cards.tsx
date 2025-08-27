@@ -17,7 +17,7 @@ type CardsProps = {
   open: boolean;
   loading: boolean;
   toggle: () => void;
-  onRefresh?: () => void;
+  onRefresh: () => void;
 };
 
 export const Cards = memo<CardsProps>(

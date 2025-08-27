@@ -16,9 +16,9 @@ import { cn } from "@/styles/functions";
 import repositories from "../../repositories";
 
 type UploadProps = {
-  albumId?: string | null;
+  albumId: string | null;
   onClose: () => void;
-  onSuccess?: () => void;
+  onSuccess: () => void;
 };
 
 export const Upload = memo<UploadProps>(
