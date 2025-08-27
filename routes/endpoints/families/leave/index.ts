@@ -1,6 +1,6 @@
 import { factory } from "../../../helpers";
 
-export default factory.createHandlers((context) => {
+export const leave = factory.createHandlers((context) => {
   return context.json({
     message: "families/leave",
   });

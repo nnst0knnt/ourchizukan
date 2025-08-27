@@ -1,5 +1,5 @@
-import { type Gatekeeper, gatekeeper } from "@/clients/gatekeeper";
-import kv from "@/clients/kv";
+import { type Keeper, keeper } from "@/services/keeper";
+import { kv } from "@/services/kv";
 import type { Context } from "hono";
 import { getConnInfo } from "hono/cloudflare-workers";
 import { factory } from "../helpers";
@@ -11,7 +11,7 @@ export type Environment = {
   Bindings: Cloudflare.Env;
   Variables: {
     ip: string;
-    gatekeeper: Gatekeeper;
+    keeper: Keeper;
   };
 };
 
@@ -37,7 +37,7 @@ export const environment = () =>
     /**
      * 認証クライアント
      */
-    context.set("gatekeeper", gatekeeper(kv(_context.env.Families)));
+    context.set("keeper", keeper(kv(_context.env.Families)));
 
     await next();
   });

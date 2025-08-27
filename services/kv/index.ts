@@ -9,4 +9,4 @@ const createFactory = (): CreateKeyValueStorage => {
   return createInMemory;
 };
 
-export default createFactory();
+export const kv = createFactory();

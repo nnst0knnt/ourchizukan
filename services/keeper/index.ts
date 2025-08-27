@@ -9,8 +9,7 @@ import {
   type Session,
   SessionOptions,
 } from "@/models";
-
-import { date } from "./date";
+import { date } from "../date";
 
 const session = (kv: KeyValueStorage) => {
   const prefix = "sessions";
@@ -202,10 +201,10 @@ const attempts = (kv: KeyValueStorage) => {
   };
 };
 
-export const gatekeeper = (kv: KeyValueStorage) => ({
+export const keeper = (kv: KeyValueStorage) => ({
   session: session(kv),
   whitelist: whitelist(kv),
   attempts: attempts(kv),
 });
 
-export type Gatekeeper = ReturnType<typeof gatekeeper>;
+export type Keeper = ReturnType<typeof keeper>;

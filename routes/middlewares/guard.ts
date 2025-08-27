@@ -1,47 +1,64 @@
 import { NetworkError, ServerError } from "@/errors";
 import { AccessMethod, CookieOptions, toCookieOptions } from "@/models";
+import { has } from "@/services/assertion/property";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { url, factory } from "../helpers";
 
 /**
- * 保護が不要なルート
+ * GuardOptions
  */
-const GuestRoutes = {
-  Enter: "/house-entries/enter",
-} as const;
-
-/**
- * 保護が不要なルートかどうかを判定する
- */
-const isGuest = (pathname: string): boolean =>
-  Object.values(GuestRoutes as Record<string, string>).includes(pathname);
+type GuardOptions = {
+  /**
+   * 保護が不要なルート
+   */
+  guests: string[];
+  /**
+   * 認証に失敗した場合の処理
+   */
+  failure:
+    | {
+        /** リダイレクト先 */
+        redirect: string;
+      }
+    | {
+        /** エラーメッセージ */
+        message: string;
+      };
+};
 
 /**
  * ルートを保護するミドルウェア
  */
-export const guard = () =>
+export const guard = (
+  options: GuardOptions = {
+    guests: [],
+    failure: {
+      message: "おうちに入ることができませんでした",
+    },
+  },
+) =>
   factory.createMiddleware(async (context, next) => {
     /**
      * 保護が不要な場合
      */
-    if (isGuest(context.req.path)) {
+    if (options.guests.includes(context.req.path)) {
       await next();
 
       return;
     }
 
     try {
-      const session = await context.var.gatekeeper.session.get(
+      const session = await context.var.keeper.session.get(
         getCookie(context, CookieOptions.Name) || "",
       );
-      const expired =
-        session && context.var.gatekeeper.session.expired(session);
+      const expired = session && context.var.keeper.session.expired(session);
 
       /**
        * 有効期限内のセッションが存在する場合
        */
       if (session && !expired) {
-        await context.var.gatekeeper.session.update(session.id);
+        await context.var.keeper.session.update(session.id);
 
         await next();
 
@@ -52,7 +69,7 @@ export const guard = () =>
        * セッションが有効期限を過ぎている場合
        */
       if (session && expired) {
-        await context.var.gatekeeper.session.remove(session.id);
+        await context.var.keeper.session.remove(session.id);
 
         deleteCookie(context, CookieOptions.Name);
       }
@@ -60,11 +77,11 @@ export const guard = () =>
       /**
        * IPアドレスがホワイトリストに含まれている場合
        */
-      const isWhitelisted = await context.var.gatekeeper.whitelist.ip(
+      const isWhitelisted = await context.var.keeper.whitelist.ip(
         context.var.ip,
       );
       if (isWhitelisted) {
-        const session = await context.var.gatekeeper.session.create(
+        const session = await context.var.keeper.session.create(
           context.var.ip,
           AccessMethod.Ip,
         );
@@ -81,7 +98,14 @@ export const guard = () =>
       /**
        * 認証に失敗した場合
        */
-      return context.redirect(url(context, GuestRoutes.Enter));
+      return has(options.failure, "message")
+        ? context.json(
+            { message: options.failure.message },
+            StatusCodes.UNAUTHORIZED,
+          )
+        : has(options.failure, "redirect")
+          ? context.redirect(url(context, options.failure.redirect))
+          : context.text(ReasonPhrases.UNAUTHORIZED, StatusCodes.UNAUTHORIZED);
     } catch (e) {
       console.error(e);
 
