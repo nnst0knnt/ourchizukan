@@ -24,9 +24,9 @@
     "tsc": "tsc --noEmit",
     "ci": "run-s cloudflare:env && run-p lint:fix format:fix tsc",
     "db:generate": "drizzle-kit generate --name",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:migrate": "drizzle-kit migrate --config ./drizzle.config.ts",
+    "db:push": "drizzle-kit push --config ./drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config ./drizzle.config.ts"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.7.2",

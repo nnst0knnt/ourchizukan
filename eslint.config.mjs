@@ -52,7 +52,7 @@ const eslintConfig = [
     },
   },
   {
-    files: ["services/env/*.ts", "drizzle.config.ts"],
+    files: ["services/env/*.ts"],
     rules: {
       "n/no-process-env": ["off"],
     },
