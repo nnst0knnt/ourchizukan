@@ -12,7 +12,7 @@ import repositories from "../repositories";
 
 export const Albums = () => {
   const [open, toggle] = useToggle(false);
-  const [albums, setAlbums] = useState<AlbumCard[]>([]);
+  const [albums, setAlbums] = useState<AlbumCard[]>();
 
   const fetch = useCallback(async () => {
     setAlbums(await repositories.albums.list());

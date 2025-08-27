@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageOff, Upload as UploadIcon } from "lucide-react";
+import { ImageOff, Loader2, Upload as UploadIcon } from "lucide-react";
 import { Fragment, memo, useCallback, useMemo, useState } from "react";
 import { Button } from "@/components/elements/trigger";
 import { Covered, Footer } from "@/components/structures";
@@ -13,7 +13,7 @@ import { Viewer } from "./viewer";
 
 type CardsProps = {
   albumId: string;
-  data: PictureCard[];
+  data: PictureCard[] | undefined;
   open: boolean;
   toggle: () => void;
   onRefresh?: () => void;
@@ -72,7 +72,9 @@ export const Cards = memo<CardsProps>(
           </div>
 
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {data && data.length > 0 ? (
+            {data === undefined ? (
+              <Loader2 className="h-12 w-12 animate-spin" />
+            ) : data && data.length > 0 ? (
               data.map((datum, index) => (
                 <Fragment key={datum.id}>
                   <Card datum={datum} onClick={() => select(index)} />
