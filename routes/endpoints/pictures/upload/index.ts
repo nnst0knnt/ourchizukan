@@ -40,8 +40,8 @@ export const upload = factory.createHandlers(
     const uploaded: (typeof pictures.$inferSelect)[] = [];
     for (const file of body.files) {
       const id = uuid();
-      const originalKey = `${ObjectKey.Picture.original}/${uuid()}`;
-      const thumbnailKey = `${ObjectKey.Picture.thumbnail}/${uuid()}`;
+      const originalKey = `${ObjectKey.Picture.original}/${id}`;
+      const thumbnailKey = `${ObjectKey.Picture.thumbnail}/${id}`;
       const now = date().unix();
 
       const buffer = await file.arrayBuffer();

@@ -27,7 +27,7 @@ export const get = factory.createHandlers(
       );
     }
 
-    const kind = context.req.query("kind");
+    const kind = context.req.query("kind") || ObjectKey.Picture.original;
     const object = await context.var.buckets.pictures.get(
       kind === ObjectKey.Picture.original
         ? picture.originalKey

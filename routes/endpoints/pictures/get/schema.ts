@@ -11,7 +11,7 @@ export const GetPicturePathParameter = z.object({
 export type GetPicturePathParameter = z.infer<typeof GetPicturePathParameter>;
 
 export const GetPictureQueryParameter = z.object({
-  kind: z.enum(ObjectKey.Picture),
+  kind: z.enum(ObjectKey.Picture).optional(),
 });
 
 export type GetPictureQueryParameter = z.infer<typeof GetPictureQueryParameter>;
