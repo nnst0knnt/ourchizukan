@@ -1,21 +1,48 @@
+import { eq } from "drizzle-orm";
 import { StatusCodes } from "http-status-codes";
+import { pictures } from "@/database/schema";
+import { ObjectKey } from "@/models";
 import { validator } from "@/routes/middlewares";
 import { factory } from "../../../helpers";
-import { GetPicture } from "./schema";
+import { GetPicturePathParameter, GetPictureQueryParameter } from "./schema";
 
 export const get = factory.createHandlers(
-  validator.path(GetPicture),
+  validator.path(GetPicturePathParameter),
+  validator.query(GetPictureQueryParameter),
   async (context) => {
     const { id } = context.req.valid("param");
 
-    const picture = await context.var.buckets.pictures.get(id);
+    const picture = (
+      await context.var.database
+        .select()
+        .from(pictures)
+        .where(eq(pictures.id, id))
+        .limit(1)
+    )[0];
 
     if (!picture) {
-      return context.newResponse(null, StatusCodes.OK);
+      return context.json(
+        { message: "その写真は見覚えがないようです" },
+        StatusCodes.NOT_FOUND,
+      );
     }
 
-    return context.newResponse(picture.data, StatusCodes.OK, {
-      "Content-Type": picture.mime,
+    const kind = context.req.query("kind");
+    const object = await context.var.buckets.pictures.get(
+      kind === ObjectKey.Picture.original
+        ? picture.originalKey
+        : picture.thumbnailKey,
+    );
+
+    if (!object) {
+      return context.json(
+        { message: "その写真は見覚えがないようです" },
+        StatusCodes.NOT_FOUND,
+      );
+    }
+
+    return context.newResponse(object.data, StatusCodes.OK, {
+      "Content-Type": object.mime,
     });
   },
 );
