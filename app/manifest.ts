@@ -18,6 +18,18 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/png",
         sizes: "512x512",
       },
+      {
+        src: "/favicon-192x192-maskable.png",
+        type: "image/png",
+        sizes: "192x192",
+        purpose: "maskable",
+      },
+      {
+        src: "/favicon-512x512-maskable.png",
+        type: "image/png",
+        sizes: "512x512",
+        purpose: "maskable",
+      },
     ],
     shortcuts: [
       {
@@ -31,9 +43,10 @@ export default function manifest(): MetadataRoute.Manifest {
             sizes: "192x192",
           },
           {
-            src: "/favicon-512x512.png",
+            src: "/favicon-192x192-maskable.png",
             type: "image/png",
-            sizes: "512x512",
+            sizes: "192x192",
+            purpose: "maskable",
           },
         ],
       },
