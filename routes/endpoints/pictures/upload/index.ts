@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { albums, pictures } from "@/database/schema";
 import { ObjectKey } from "@/models";
 import { validator } from "@/routes/middlewares";
+import { date } from "@/services/date";
 import { uuid } from "@/services/uuid";
 import { factory, toBody } from "../../../helpers";
 import { UploadPicturesBody } from "./schema";
@@ -41,7 +42,7 @@ export const upload = factory.createHandlers(
       const id = uuid();
       const originalKey = `${ObjectKey.Picture.original}/${uuid()}`;
       const thumbnailKey = `${ObjectKey.Picture.thumbnail}/${uuid()}`;
-      const now = Date.now();
+      const now = date().unix();
 
       const buffer = await file.arrayBuffer();
 
