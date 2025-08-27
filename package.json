@@ -22,7 +22,7 @@
     "format": "biome check",
     "format:fix": "biome check --write",
     "tsc": "tsc --noEmit",
-    "ci": "run-p lint:fix format:fix tsc cloudflare:env",
+    "ci": "run-s cloudflare:env && run-p lint:fix format:fix tsc",
     "db:generate": "drizzle-kit generate --name",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
