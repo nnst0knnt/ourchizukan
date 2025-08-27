@@ -7,7 +7,7 @@ CREATE TABLE `albums` (
 CREATE INDEX `albums_created_at` ON `albums` (`created_at`);--> statement-breakpoint
 CREATE TABLE `pictures` (
 	`id` text PRIMARY KEY NOT NULL,
-	`album_id` text NOT NULL,
+	`album_id` text,
 	`original_key` text NOT NULL,
 	`thumbnail_key` text NOT NULL,
 	`taken_at` integer NOT NULL,
