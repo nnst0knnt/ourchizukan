@@ -4,17 +4,18 @@ import { Button } from "@/components/elements/trigger";
 import { Covered } from "@/components/structures";
 import { useScrollToTop } from "@/hooks";
 import { cn } from "@/styles/functions";
-import type { AlbumCard } from "../../models/card";
+import type { AlbumCard } from "../../models/album";
 import { Card } from "./card";
 import { Create } from "./create";
 
 type CardsProps = {
-  cards: AlbumCard[];
+  data: AlbumCard[];
   open: boolean;
   toggle: () => void;
+  onRefresh?: () => void;
 };
 
-export const Cards = memo<CardsProps>(({ cards, open, toggle }) => {
+export const Cards = memo<CardsProps>(({ data, open, toggle, onRefresh }) => {
   useScrollToTop();
 
   return (
@@ -27,8 +28,8 @@ export const Cards = memo<CardsProps>(({ cards, open, toggle }) => {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {cards && cards.length > 0 ? (
-            cards.map((card) => <Card key={card.id} album={card} />)
+          {data && data.length > 0 ? (
+            data.map((datum) => <Card key={datum.id} datum={datum} />)
           ) : (
             <div className="col-span-full flex flex-col items-center justify-center gap-2 py-8 text-center text-secondary">
               <FolderOpen className="h-12 w-12" />
@@ -40,7 +41,7 @@ export const Cards = memo<CardsProps>(({ cards, open, toggle }) => {
 
       {open && (
         <Covered>
-          <Create onClose={toggle} />
+          <Create onClose={toggle} onSuccess={onRefresh} />
         </Covered>
       )}
     </div>

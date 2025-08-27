@@ -1,12 +1,14 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
 import { useToggle } from "react-use";
 import { Description, Title } from "@/components/elements/typography";
 import { Container } from "@/components/structures";
 import { PullToRefresh } from "@/components/tools";
 import { cn } from "@/styles/functions";
 import { Cards } from "../components/albums/cards";
-import { albums } from "../mock";
+import type { AlbumCard } from "../models/album";
+import repositories from "../repositories";
 
 /**
  * Albums
@@ -15,6 +17,18 @@ import { albums } from "../mock";
  */
 export const Albums = () => {
   const [open, toggle] = useToggle(false);
+  const [albums, setAlbums] = useState<AlbumCard[]>([]);
+
+  /**
+   * アルバム一覧を取得
+   */
+  const fetch = useCallback(async () => {
+    setAlbums(await repositories.albums.list());
+  }, []);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
 
   return (
     <PullToRefresh>
@@ -27,7 +41,7 @@ export const Albums = () => {
           </Description>
         </div>
 
-        <Cards cards={albums} open={open} toggle={toggle} />
+        <Cards data={albums} open={open} toggle={toggle} onRefresh={fetch} />
       </Container>
     </PullToRefresh>
   );

@@ -4,18 +4,18 @@ import { useRouter } from "next/navigation";
 import { memo, useCallback, useEffect } from "react";
 import { useKeyboard } from "@/hooks";
 import { cn } from "@/styles/functions";
-import type { AlbumCard } from "../../models/card";
+import type { AlbumCard } from "../../models/album";
 
 type CardProps = {
-  album: AlbumCard;
+  datum: AlbumCard;
 };
 
-export const Card = memo<CardProps>(({ album = null }) => {
+export const Card = memo<CardProps>(({ datum = null }) => {
   const router = useRouter();
 
   const click = useCallback(
-    () => (album ? router.replace(`/albums/${album.id}`) : null),
-    [album, router],
+    () => (datum ? router.replace(`/albums/${datum.id}`) : null),
+    [datum, router],
   );
 
   const { keydown } = useKeyboard({
@@ -23,13 +23,13 @@ export const Card = memo<CardProps>(({ album = null }) => {
   });
 
   useEffect(() => {
-    if (album) {
-      router.prefetch(`/albums/${album.id}`);
+    if (datum) {
+      router.prefetch(`/albums/${datum.id}`);
     }
-  }, [album, router]);
+  }, [datum, router]);
 
   return (
-    album && (
+    datum && (
       <div
         className={cn(
           "relative flex w-full cursor-pointer flex-col overflow-hidden rounded-lg",
@@ -39,7 +39,7 @@ export const Card = memo<CardProps>(({ album = null }) => {
         onClick={click}
         onKeyDown={keydown}
         tabIndex={0}
-        aria-label={`${album.name || "アルバム"}を開く`}
+        aria-label={`${datum.name || "アルバム"}を開く`}
       >
         <div className="absolute inset-0 z-skeleton w-full overflow-hidden rounded-lg">
           <div className="aspect-square animate-pulse bg-primary/20" />
@@ -50,10 +50,10 @@ export const Card = memo<CardProps>(({ album = null }) => {
         </div>
         <div className="relative z-content">
           <div className="relative aspect-square">
-            {album.thumbnail ? (
+            {datum.thumbnail ? (
               <Image
-                src={album.thumbnail}
-                alt={album.name || "アルバム"}
+                src={datum.thumbnail}
+                alt={datum.name || "アルバム"}
                 fill
                 sizes="(max-width: 768px) 50vw, 33vw"
                 className="object-cover"
@@ -65,8 +65,8 @@ export const Card = memo<CardProps>(({ album = null }) => {
             )}
           </div>
           <div className="bg-foundation p-4">
-            <h3 className="font-medium text-lg text-primary">{album.name}</h3>
-            <p className="text-base text-secondary">{album.count}枚の写真</p>
+            <h3 className="font-medium text-lg text-primary">{datum.name}</h3>
+            <p className="text-base text-secondary">{datum.count}枚の写真</p>
           </div>
         </div>
       </div>

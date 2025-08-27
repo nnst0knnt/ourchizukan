@@ -6,18 +6,18 @@ import { Footer, Header } from "@/components/structures";
 import { useKeyboard } from "@/hooks";
 import { date } from "@/services/date";
 import { cn } from "@/styles/functions";
-import type { PictureCard } from "../../models/card";
+import type { PictureCard } from "../../models/picture";
 
 type ViewerProps = {
   invisible: boolean;
-  picture: PictureCard;
+  datum: PictureCard;
   onClose: () => void;
   onNext?: () => void;
   onPrevious?: () => void;
 };
 
 export const Viewer = memo<ViewerProps>(
-  ({ invisible = false, picture, onClose, onNext, onPrevious }) => {
+  ({ invisible = false, datum, onClose, onNext, onPrevious }) => {
     const { keydown } = useKeyboard(
       {
         Escape: onClose,
@@ -39,12 +39,12 @@ export const Viewer = memo<ViewerProps>(
         <Header className="relative">
           <p className="flex items-center gap-2 text-sm">
             <Camera className="inline-block h-4 w-4" />
-            <span>{date(picture.takenAt).format("YYYY年M月D日")}</span>
+            <span>{date(datum.takenAt).format("YYYY年M月D日")}</span>
           </p>
         </Header>
 
         <div className="relative flex flex-1 items-center justify-center p-4">
-          {picture ? (
+          {datum ? (
             <>
               <div
                 className={cn(
@@ -54,8 +54,8 @@ export const Viewer = memo<ViewerProps>(
               >
                 <LoaderCircle className="h-10 w-10 animate-spin text-primary/20" />
                 <Image
-                  src={picture.url}
-                  alt={picture.name || "写真"}
+                  src={datum.url}
+                  alt={`${datum.takenAt}の写真`}
                   className="max-h-full max-w-full object-contain"
                   fill
                   priority={true}

@@ -9,13 +9,14 @@ import { Description, Title } from "@/components/elements/typography";
 import { Footer } from "@/components/structures";
 import { useNoPullToRefresh } from "@/hooks";
 import { CreateAlbum } from "@/routes/endpoints/albums/create/schema";
-import { http } from "@/services/http";
+import repositories from "../../repositories";
 
 type CreateProps = {
   onClose: () => void;
+  onSuccess?: () => void;
 };
 
-export const Create = memo<CreateProps>(({ onClose }) => {
+export const Create = memo<CreateProps>(({ onClose, onSuccess }) => {
   useNoPullToRefresh();
 
   const {
@@ -31,14 +32,17 @@ export const Create = memo<CreateProps>(({ onClose }) => {
   });
 
   const submit = handleSubmit(async (data) => {
-    const response = await http.albums.$post({
-      json: data,
-    });
+    try {
+      await repositories.albums.create(data);
 
-    if (!response.ok) {
-      setError("title", { message: await response.text() });
-
-      throw new Error();
+      /**
+       * 成功時に写真一覧を更新
+       */
+      onSuccess?.();
+    } catch (e: any) {
+      setError("title", {
+        message: e.message || "アルバムの作成に失敗しました",
+      });
     }
   });
 

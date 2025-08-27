@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/elements/text-field";
 import { AsyncButton } from "@/components/elements/trigger";
 import { EnterFamily } from "@/routes/endpoints/families/enter/schema";
-import { http } from "@/services/http";
+import repositories from "../repositories";
 
 export const EmailController = memo(() => {
   const router = useRouter();
@@ -24,17 +24,13 @@ export const EmailController = memo(() => {
   });
 
   const submit = handleSubmit(async (data) => {
-    const response = await http.families.enter.$post({
-      json: data,
-    });
+    try {
+      await repositories.families.enter(data);
 
-    if (!response.ok) {
-      setError("email", { message: await response.text() });
-
-      throw new Error();
+      router.replace("/");
+    } catch (e: any) {
+      setError("email", { message: e.message || "おうちに入れませんでした" });
     }
-
-    router.replace("/");
   });
 
   return (

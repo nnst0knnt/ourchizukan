@@ -1,25 +1,25 @@
 import Image from "next/image";
 import { memo } from "react";
-import type { PictureCard } from "../../models/card";
+import type { PictureCard } from "../../models/picture";
 
 type CardProps = {
-  picture?: PictureCard;
+  datum: PictureCard;
   onClick?: () => void;
 };
 
 export const Card = memo<CardProps>(
-  ({ picture = null, onClick }) =>
-    !!picture && (
+  ({ datum = null, onClick }) =>
+    !!datum && (
       <button
         type="button"
         onClick={onClick}
         className="relative aspect-square w-full overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-focus"
-        aria-label={picture.name || "写真を表示"}
+        aria-label={`${datum.takenAt}の写真を開く`}
       >
         <div className="absolute inset-0 z-0 animate-pulse rounded-lg bg-primary/20" />
         <Image
-          src={picture.url}
-          alt={picture.name || "写真"}
+          src={datum.url}
+          alt={`${datum.takenAt}の写真`}
           fill
           sizes="(max-width: 768px) 50vw, 33vw"
           className="relative z-10 object-cover"
