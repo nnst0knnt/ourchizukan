@@ -37,7 +37,7 @@ export const Album = ({ id }: Props) => {
 
   return (
     <PullToRefresh>
-      <Container className="h-[calc(100%-4rem)] md:h-[calc(100%-4.5rem)]">
+      <Container>
         <div className={cn("flex flex-col gap-4", open ? "hidden" : "flex")}>
           <Title as="h1">{album ? album.title : "アルバム"}</Title>
           {album && pictures !== undefined ? (
