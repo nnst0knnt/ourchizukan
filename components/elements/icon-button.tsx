@@ -32,7 +32,10 @@ type TooltipPosition = "top" | "right" | "bottom" | "left";
  */
 export type IconButtonProps = {
   /** 表示するアイコン */
-  icon: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
+  icon:
+    | LucideIcon
+    | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>
+    | null;
   /** 表示するアイコンのプロパティ */
   iconProps?: LucideProps;
   /** ボタンのサイズ */
@@ -174,7 +177,9 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           onBlur={() => tooltip && setEnabledTooltip(false)}
           {...props}
         >
-          <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
+          {Icon && (
+            <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
+          )}
 
           {tooltip && (
             <div

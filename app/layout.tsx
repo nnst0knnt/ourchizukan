@@ -4,7 +4,6 @@ import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
 import { Content, Footer, Header } from "@/components/structures";
-import { AccessibilityProvider } from "@/components/tools";
 
 export const metadata: Metadata = {
   title: {
@@ -50,11 +49,9 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-screen flex-col bg-foundation text-primary antialiased">
-        <AccessibilityProvider>
-          <Header />
-          <Content>{children}</Content>
-          <Footer />
-        </AccessibilityProvider>
+        <Header />
+        <Content>{children}</Content>
+        <Footer />
       </body>
     </html>
   );

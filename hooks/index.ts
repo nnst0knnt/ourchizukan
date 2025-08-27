@@ -16,3 +16,4 @@ export {
   ThemeLocalStorageKey,
   ThemeDomAttributeName,
 } from "./use-theme";
+export { useWindow } from "./use-window";

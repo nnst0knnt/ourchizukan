@@ -6,7 +6,7 @@ export type Rgb = { r: number; g: number; b: number };
 /**
  * 16進数カラーコードをRGB値に変換する
  */
-export const hexToRgb = (hex: string): Rgb | null => {
+export const hexToRgb = (hex: string): Rgb => {
   const replaced = hex.startsWith("#") ? hex.slice(1) : hex;
 
   if (replaced.length === 3) {
@@ -23,5 +23,5 @@ export const hexToRgb = (hex: string): Rgb | null => {
     return { r, g, b };
   }
 
-  return null;
+  throw new Error();
 };

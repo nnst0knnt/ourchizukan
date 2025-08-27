@@ -85,8 +85,6 @@ export const evaluateContrast = (
 } => {
   const ratio = getRatio(foreground, background);
 
-  if (!ratio) throw new Error("コントラスト比を計算できません");
-
   const isElderlyFriendly = ratio >= WcagContrastRatios.ElderlyFriendly;
   const isAAANormal = ratio >= WcagContrastRatios.AAANormal;
   const isAANormal = ratio >= WcagContrastRatios.AANormal;
@@ -138,11 +136,9 @@ const getLuminance = (color: Rgb): number => {
 /**
  * 2色間のコントラスト比を計算する
  */
-const getRatio = (color1: string, color2: string): number | null => {
+const getRatio = (color1: string, color2: string): number => {
   const rgb1 = hexToRgb(color1);
   const rgb2 = hexToRgb(color2);
-
-  if (!rgb1 || !rgb2) return null;
 
   const luminance1 = getLuminance(rgb1);
   const luminance2 = getLuminance(rgb2);

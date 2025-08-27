@@ -103,10 +103,10 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
 
     const accessibilityProps = {
       "aria-label": openInNewTab
-        ? `${props["aria-label"] || children?.toString() || "リンク"}（新しいタブで開きます)`
+        ? `${props["aria-label"] || href || "リンク"}（新しいタブで開きます)`
         : isExternal
-          ? `${props["aria-label"] || children?.toString() || "リンク"}（外部サイト）`
-          : props["aria-label"] || children?.toString() || "リンク",
+          ? `${props["aria-label"] || href || "リンク"}（外部サイト）`
+          : props["aria-label"] || href || "リンク",
     };
 
     const baseStyles =
@@ -161,7 +161,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         )}
         <span>{children}</span>
         {Icon && iconPosition === "right" && (
-          <Icon size={iconSizes[size]} aria-hidden="true" />
+          <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
         )}
         {enabledExternalIcon && (
           <ExternalLink size={iconSizes[size]} aria-hidden="true" />

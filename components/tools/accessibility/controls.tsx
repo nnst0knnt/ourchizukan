@@ -2,19 +2,11 @@
 
 import { type HTMLAttributes, forwardRef } from "react";
 
-import {
-  CircleDashed,
-  Glasses,
-  Moon,
-  Sun,
-  ZoomIn,
-  ZoomOut,
-} from "lucide-react";
+import { Glasses, Moon, Sun, ZoomIn, ZoomOut } from "lucide-react";
 
 import { IconButton } from "@/components/elements";
+import { useContrast, useSize, useTheme } from "@/hooks";
 import { cn } from "@/styles/functions";
-
-import { useAccessibility } from "./provider";
 
 /**
  * AccessibilityControlsProps
@@ -31,7 +23,9 @@ export const AccessibilityControls = forwardRef<
   HTMLDivElement,
   AccessibilityControlsProps
 >(({ className, ...props }, ref) => {
-  const { theme, contrast, size } = useAccessibility();
+  const theme = useTheme();
+  const contrast = useContrast();
+  const size = useSize();
 
   return (
     <div
@@ -40,7 +34,7 @@ export const AccessibilityControls = forwardRef<
       {...props}
     >
       <IconButton
-        icon={!theme.value ? CircleDashed : theme.isLight ? Sun : Moon}
+        icon={!theme.value ? null : theme.isLight ? Sun : Moon}
         size="small"
         kind="ghost"
         onClick={theme.toggle}
