@@ -38,6 +38,9 @@
       },
       "suspicious": {
         "noShadowRestrictedNames": "off"
+      },
+      "a11y": {
+        "useSemanticElements": "off"
       }
     }
   },

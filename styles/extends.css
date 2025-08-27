@@ -10,10 +10,21 @@
     display: none;
   }
 
+  /* 非活性状態 */
   .disabled {
     cursor: not-allowed !important;
     opacity: 0.4 !important;
     box-shadow: none !important;
+  }
+
+  /* フォーカス状態強化 */
+  .focused {
+    @apply outline-none ring-3 ring-focus ring-offset-2 transition-all duration-200;
+  }
+
+  /* 高コントラストモード時のフォーカス状態強化 */
+  [data-contrast="high"] .focused {
+    @apply ring-4 ring-offset-4 transition-all duration-200;
   }
 }
 

@@ -10,5 +10,7 @@ export { Logo } from "./logo";
 export { Mark } from "./mark";
 export { RadioGroup } from "./radio-group";
 export { RadioOption } from "./radio-option";
+export { SelectGroup } from "./select-group";
+export { SelectOption } from "./select-option";
 export { Textarea } from "./textarea";
 export { Title } from "./title";
