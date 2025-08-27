@@ -22,7 +22,7 @@ type InfinityScrollOptions<Datum> = {
 
 export const useInfinityScroll = <Datum extends { id: string | number }>({
   fetch,
-  limit = 8,
+  limit = 4,
 }: InfinityScrollOptions<Datum>) => {
   const [data, setData] = useState<Datum[]>([]);
   const [starting, setStarting] = useState(true);

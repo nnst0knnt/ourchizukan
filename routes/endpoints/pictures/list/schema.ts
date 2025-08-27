@@ -9,7 +9,7 @@ export const ListPicturesQueryParameter = z.object({
       message: "IDの形式が正しくありません",
     }),
   offset: z.coerce.number().min(0).default(0),
-  limit: z.coerce.number().min(0).max(50).default(8),
+  limit: z.coerce.number().min(0).max(50).default(4),
 });
 
 export type ListPicturesQueryParameter = z.infer<
