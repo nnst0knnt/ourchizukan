@@ -1,5 +1,6 @@
 "use client";
 
+import { LoaderCircle } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useToggle } from "react-use";
 import { Description, Title } from "@/components/elements/typography";
@@ -34,20 +35,22 @@ export const Album = ({ id }: Props) => {
     fetch();
   }, [fetch]);
 
-  return (
+  return !!album && pictures !== undefined ? (
     <PullToRefresh>
       <Container className="h-[calc(100%-4rem)] md:h-[calc(100%-4.5rem)]">
-        <div className={cn("flex flex-col gap-4", open ? "hidden" : "flex")}>
-          <Title as="h1">{album ? album.title : ""}</Title>
-          {album && pictures !== undefined && (
-            <Description>
-              <p>
-                {pictures.length}
-                枚の写真があります。
-              </p>
-              <p>写真をタップすると大きく表示されます。</p>
-            </Description>
+        <div
+          className={cn(
+            "flex min-h-[115px] flex-col gap-4",
+            open ? "hidden" : "flex",
           )}
+        >
+          <Title as="h1">{album.title}</Title>
+          <Description>
+            <p className="flex items-center gap-x-1">
+              {pictures.length}枚の写真があります。
+            </p>
+            <p>写真をタップすると大きく表示されます。</p>
+          </Description>
         </div>
 
         <div className="pb-20 md:pb-24 lg:pb-28">
@@ -61,5 +64,9 @@ export const Album = ({ id }: Props) => {
         </div>
       </Container>
     </PullToRefresh>
+  ) : (
+    <Container>
+      <LoaderCircle className="h-12 w-12 animate-spin self-center" />
+    </Container>
   );
 };

@@ -37,7 +37,7 @@ export const Viewer = memo<ViewerProps>(
         onKeyDown={keydown}
       >
         <Header className="relative">
-          <p className="flex items-center gap-2 text-sm">
+          <p className="flex items-center gap-2 font-bold">
             <Camera className="inline-block h-4 w-4" />
             <span>{date(datum.takenAt).format("YYYY年M月D日")}</span>
           </p>
