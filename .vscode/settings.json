@@ -166,14 +166,6 @@
       "semver": null
     },
     {
-      "emoji": "🔥",
-      "entity": "🔥",
-      "code": ":fire:",
-      "description": "不要なコードやファイルを削除した際に使用します",
-      "name": "fire",
-      "semver": null
-    },
-    {
       "emoji": "🚚",
       "entity": "🚚",
       "code": ":truck:",
