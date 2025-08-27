@@ -2,7 +2,7 @@ import { except } from "hono/combine";
 import type { MiddlewareConfigInput as Config } from "next/dist/build/segment-config/middleware/middleware-config";
 import { NextResponse } from "next/server";
 import { url, bind, factory, redirect } from "./routes/helpers";
-import { environment, guard } from "./routes/middlewares";
+import { guard } from "./routes/middlewares";
 
 export const config: Config = {
   matcher: [
@@ -25,7 +25,6 @@ export const config: Config = {
 export const middleware = bind(
   factory
     .createApp()
-    .use(environment())
     .use(
       except(
         [redirect.unexpected],

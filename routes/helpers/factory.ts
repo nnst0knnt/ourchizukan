@@ -2,7 +2,7 @@ import { createFactory } from "hono/factory";
 
 import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
-import type { Environment } from "../middlewares";
+import { type Environment, environment } from "../middlewares";
 
 /**
  * Honoのファクトリ
@@ -12,5 +12,5 @@ import type { Environment } from "../middlewares";
 export const factory = createFactory<{
   Variables: Environment["Variables"];
 }>({
-  initApp: (app) => app.use(secureHeaders()).use(logger()),
+  initApp: (app) => app.use(secureHeaders()).use(logger()).use(environment()),
 });

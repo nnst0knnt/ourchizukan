@@ -1,8 +1,8 @@
 import { except } from "hono/combine";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { families } from "./endpoints/families";
-import { url, factory, redirect } from "./helpers";
-import { environment, guard } from "./middlewares";
+import { factory } from "./helpers";
+import { guard } from "./middlewares";
 
 /**
  * ルートのHonoインスタンス
@@ -13,7 +13,6 @@ import { environment, guard } from "./middlewares";
 export const app = factory
   .createApp()
   .basePath("/api")
-  .use(environment())
   .use(
     except(
       ["/api/families/me"],
@@ -34,4 +33,11 @@ export const app = factory
   .notFound((context) =>
     context.json(ReasonPhrases.NOT_FOUND, StatusCodes.NOT_FOUND),
   )
-  .onError((_, context) => context.redirect(url(context, redirect.unexpected)));
+  .onError((e, context) => {
+    console.error(`🚨 予期せぬエラーが発生しました\n`, e);
+
+    return context.json(
+      ReasonPhrases.INTERNAL_SERVER_ERROR,
+      StatusCodes.INTERNAL_SERVER_ERROR,
+    );
+  });

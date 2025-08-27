@@ -11,7 +11,7 @@ const store = new Map<string, Entry>();
 export const createInMemory: CreateKeyValueStorage = () => {
   if (!store.has("whitelist:ips")) {
     store.set("whitelist:ips", {
-      value: JSON.stringify(["127.0.0.1", "::1"]),
+      value: JSON.stringify(["127.0.0.1", "::1", "::ffff:127.0.0.1"]),
     });
   }
 
