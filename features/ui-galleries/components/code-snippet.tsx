@@ -51,7 +51,7 @@ export const CodeSnippet = memo<CodeSnippetProps>(
           />,
         );
       } catch (e) {
-        console.error(e);
+        console.error("⚠️ HTMLへの変換に失敗しました", e);
 
         setSnippet(
           <pre

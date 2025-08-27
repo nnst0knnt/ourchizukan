@@ -22,14 +22,14 @@ const session = (kv: KeyValueStorage) => {
 
       return found ? (JSON.parse(found) as Session) : null;
     } catch (e) {
-      console.error(e);
+      console.error("🔥 セッションの取得に失敗しました", e);
 
       return null;
     }
   };
 
   const create = async (ip: string, method: AccessMethod) => {
-    const now = date().unix();
+    const now = date().valueOf();
     const created: Session = {
       id: uuid(),
       method,
@@ -47,7 +47,7 @@ const session = (kv: KeyValueStorage) => {
 
       return created;
     } catch (e) {
-      console.error(e);
+      console.error("🔥 セッションの作成に失敗しました", e);
 
       return null;
     }
@@ -57,13 +57,13 @@ const session = (kv: KeyValueStorage) => {
     try {
       return await kv.delete(generateKey(ip));
     } catch (e) {
-      console.error(e);
+      console.error("🔥 セッションの削除に失敗しました", e);
 
       return false;
     }
   };
 
-  const expired = (session: Session) => session.expiredAt < date().unix();
+  const expired = (session: Session) => session.expiredAt < date().valueOf();
 
   return {
     get,
@@ -88,7 +88,7 @@ const whitelist = (kv: KeyValueStorage) => {
 
       return (JSON.parse(found) as string[]).includes(ip);
     } catch (e) {
-      console.error(e);
+      console.error("🔥 IPアドレスの認証に失敗しました", e);
 
       return false;
     }
@@ -104,7 +104,7 @@ const whitelist = (kv: KeyValueStorage) => {
 
       return (JSON.parse(found) as string[]).includes(email);
     } catch (e) {
-      console.error(e);
+      console.error("🔥 メールアドレスの認証に失敗しました", e);
 
       return false;
     }
@@ -124,7 +124,7 @@ const attempts = (kv: KeyValueStorage) => {
   const add = async (ip: string, kind: AttemptKind) => {
     try {
       const key = generateKey(ip);
-      const now = date().unix();
+      const now = date().valueOf();
       const found = await kv.get(key);
 
       let attempts: Attempt[] = found ? JSON.parse(found) : [];
@@ -139,7 +139,7 @@ const attempts = (kv: KeyValueStorage) => {
         RateLimitOptions.LockoutDuration,
       );
     } catch (e) {
-      console.error(e);
+      console.error("🔥 試行回数の追加に失敗しました", e);
     }
   };
 
@@ -151,12 +151,12 @@ const attempts = (kv: KeyValueStorage) => {
       if (!found) return true;
 
       const attempts = (JSON.parse(found) as Attempt[]).filter(
-        ({ at }) => date().unix() - at < RateLimitOptions.CountingPeriod,
+        ({ at }) => date().valueOf() - at < RateLimitOptions.CountingPeriod,
       );
 
       return attempts.length < RateLimitOptions.MaxAttempts;
     } catch (e) {
-      console.error(e);
+      console.error("🔥 試行回数の検証に失敗しました", e);
 
       return true;
     }

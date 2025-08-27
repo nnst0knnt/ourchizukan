@@ -12,7 +12,7 @@ export const create = factory.createHandlers(
     try {
       const body = context.req.valid("json");
       const id = uuid();
-      const now = date().unix();
+      const now = date().valueOf();
 
       await context.var.database.insert(albums).values({
         id,

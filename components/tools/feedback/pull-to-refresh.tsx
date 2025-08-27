@@ -82,7 +82,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
           window.location.reload();
         }
       } catch (e) {
-        console.error(e);
+        console.error("⚠️ 再読込に失敗しました", e);
       } finally {
         setStatus(Status.Refreshed);
         setDistance(0);

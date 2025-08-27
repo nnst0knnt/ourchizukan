@@ -11,6 +11,7 @@ import { Description, Title } from "@/components/elements/typography";
 import { Footer } from "@/components/structures";
 import { useNoPullToRefresh } from "@/hooks";
 import { UploadPicturesBody } from "@/routes/endpoints/pictures/upload/schema";
+import { toThumbnail } from "@/services/converter/file";
 import { cn } from "@/styles/functions";
 import repositories from "../../repositories";
 
@@ -33,34 +34,56 @@ export const Upload = memo<UploadProps>(
     } = useForm<UploadPicturesBody>({
       defaultValues: {
         albumId,
-        files: [],
+        originals: [],
+        thumbnails: [],
       },
       resolver: zodResolver(UploadPicturesBody),
       mode: "onChange",
     });
 
-    const files = watch("files");
+    const originals = watch("originals");
+
+    const thumbnails = watch("thumbnails");
 
     const previews = useMemo(
       () =>
-        files.map((file) => ({
+        originals.map((file) => ({
           name: file.name,
           url: URL.createObjectURL(file),
         })),
-      [files],
+      [originals],
     );
 
     const drop = useCallback(
-      (acceptedFiles: File[]) =>
-        setValue(
-          "files",
-          [
-            ...files,
-            ...acceptedFiles.filter((file) => file.type.startsWith("image/")),
-          ],
-          { shouldValidate: true },
-        ),
-      [files, setValue],
+      async (acceptedFiles: File[]) => {
+        const _originals: File[] = [];
+        const _thumbnails: File[] = [];
+
+        for (const _original of acceptedFiles.filter((file) =>
+          file.type.startsWith("image/"),
+        )) {
+          _originals.push(_original);
+
+          try {
+            _thumbnails.push(
+              new File([await toThumbnail(_original)], _original.name, {
+                type: _original.type,
+              }),
+            );
+          } catch (e) {
+            console.error("⚠️ サムネイルの作成に失敗しました", e);
+          }
+        }
+
+        setValue("originals", [...originals, ..._originals], {
+          shouldValidate: true,
+        });
+
+        setValue("thumbnails", [...thumbnails, ..._thumbnails], {
+          shouldValidate: true,
+        });
+      },
+      [originals, thumbnails, setValue],
     );
 
     const dropzone = useDropzone({
@@ -75,12 +98,18 @@ export const Upload = memo<UploadProps>(
         e.stopPropagation();
 
         setValue(
-          "files",
-          files.filter((_, index) => index !== selected),
+          "originals",
+          originals.filter((_, index) => index !== selected),
+          { shouldValidate: true },
+        );
+
+        setValue(
+          "thumbnails",
+          thumbnails.filter((_, index) => index !== selected),
           { shouldValidate: true },
         );
       },
-      [files, setValue],
+      [originals, thumbnails, setValue],
     );
 
     const submit = handleSubmit(async (data) => {
@@ -89,7 +118,7 @@ export const Upload = memo<UploadProps>(
 
         onSuccess?.();
       } catch (e: any) {
-        setError("files", {
+        setError("root", {
           message: e.message || "写真のアップロードに失敗しました",
         });
 
@@ -129,12 +158,12 @@ export const Upload = memo<UploadProps>(
               </div>
             </div>
 
-            {files.length > 0 && (
+            {previews.length > 0 && (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 text-sm">
-                  <p>選択された写真（{files.length}枚）</p>
-                  {errors.files && (
-                    <p className="text-error">{errors.files.message}</p>
+                  <p>選択された写真（{previews.length}枚）</p>
+                  {errors.root && (
+                    <p className="text-error">{errors.root.message}</p>
                   )}
                 </div>
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
@@ -171,7 +200,7 @@ export const Upload = memo<UploadProps>(
           <AsyncButton
             onClick={submit}
             onSuccess={onClose}
-            disabled={files.length === 0 || !!errors.files || isSubmitting}
+            disabled={previews.length === 0 || !!errors.root || isSubmitting}
             fullWidth
           >
             アップロードする

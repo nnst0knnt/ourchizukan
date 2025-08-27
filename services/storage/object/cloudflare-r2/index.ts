@@ -14,7 +14,7 @@ export const createCloudflareR2: ObjectStorageFactory<R2Bucket> = (bucket) => ({
           : "application/octet-stream",
       };
     } catch (e) {
-      console.error(e);
+      console.error("🔥 CloudflareR2からの取得に失敗しました", e);
 
       return null;
     }
@@ -25,7 +25,7 @@ export const createCloudflareR2: ObjectStorageFactory<R2Bucket> = (bucket) => ({
         httpMetadata: options ? { contentType: options.mime } : undefined,
       });
     } catch (e) {
-      console.error(e);
+      console.error("🔥 CloudflareR2への書き込みに失敗しました", e);
     }
   },
   async delete(key) {
@@ -34,7 +34,7 @@ export const createCloudflareR2: ObjectStorageFactory<R2Bucket> = (bucket) => ({
 
       return true;
     } catch (e) {
-      console.error(e);
+      console.error("🔥 CloudflareR2からの削除に失敗しました", e);
 
       return false;
     }

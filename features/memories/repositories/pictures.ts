@@ -1,4 +1,3 @@
-import { serialize } from "object-to-formdata";
 import { ObjectKey } from "@/models";
 import type { ListPicturesQueryParameter } from "@/routes/endpoints/pictures/list/schema";
 import type { UploadPicturesBody } from "@/routes/endpoints/pictures/upload/schema";
@@ -36,10 +35,7 @@ export const list = async ({
 
 export const upload = async (body: UploadPicturesBody) => {
   const response = await http.pictures.$post({
-    form: serialize(body, {
-      indices: true,
-      dotsForObjectNotation: true,
-    }),
+    form: body,
   });
 
   if (!response.ok) {

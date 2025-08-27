@@ -19,7 +19,8 @@ export const createInMemory: ObjectStorageFactory = () => ({
         mime: object.mime,
       };
     } catch (e) {
-      console.error(e);
+      console.error("🔥 インメモリからの取得に失敗しました", e);
+
       return null;
     }
   },
@@ -35,14 +36,15 @@ export const createInMemory: ObjectStorageFactory = () => ({
         mime: options?.mime || "application/octet-stream",
       });
     } catch (e) {
-      console.error(e);
+      console.error("🔥 インメモリへの書き込みに失敗しました", e);
     }
   },
   async delete(key) {
     try {
       return store.delete(key);
     } catch (e) {
-      console.error(e);
+      console.error("🔥 インメモリからの削除に失敗しました", e);
+
       return false;
     }
   },

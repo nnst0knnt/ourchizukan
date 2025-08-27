@@ -27,7 +27,7 @@ export const createInMemory: KeyValueStorageFactory = () => {
 
       if (!entry) return null;
 
-      if (entry.expiry && entry.expiry < date().unix()) {
+      if (entry.expiry && entry.expiry < date().valueOf()) {
         store.delete(key);
 
         return null;
@@ -38,14 +38,14 @@ export const createInMemory: KeyValueStorageFactory = () => {
     set: async (key, value, expirySeconds) => {
       store.set(key, {
         value,
-        expiry: expirySeconds ? date().unix() + expirySeconds : undefined,
+        expiry: expirySeconds ? date().valueOf() + expirySeconds : undefined,
       });
     },
     delete: async (key) => {
       return store.delete(key);
     },
     list: async (prefix) => {
-      const now = date().unix();
+      const now = date().valueOf();
       const keys: string[] = [];
 
       for (const [key, entry] of store.entries()) {

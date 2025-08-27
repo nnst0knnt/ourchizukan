@@ -23,7 +23,8 @@ export const toThumbnail = async (
 
     image.onerror = () => {
       URL.revokeObjectURL(url);
-      reject(new Error("🔥 画像の読み込みに失敗しました"));
+
+      reject(new Error("🔥 ファイルの読み込みに失敗しました"));
     };
 
     image.src = url;

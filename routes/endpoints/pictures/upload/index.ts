@@ -42,27 +42,32 @@ export const upload = factory.createHandlers(
     const uploaded: string[] = [];
 
     try {
-      for (const file of body.files) {
-        const id = uuid();
-        const originalKey = `${ObjectKey.Picture.original}/${id}`;
-        const thumbnailKey = `${ObjectKey.Picture.thumbnail}/${id}`;
-        const now = date().unix();
+      for (let i = 0; i < body.originals.length; i++) {
+        const originalKey = `${ObjectKey.Picture.original}/${uuid()}`;
+        const thumbnailKey = `${ObjectKey.Picture.thumbnail}/${uuid()}`;
+        const now = date().valueOf();
 
         try {
-          const buffer = await file.arrayBuffer();
-
-          await context.var.buckets.pictures.put(originalKey, buffer, {
-            mime: file.type,
-          });
+          await context.var.buckets.pictures.put(
+            originalKey,
+            await body.originals[i].arrayBuffer(),
+            {
+              mime: body.originals[i].type,
+            },
+          );
           uploaded.push(originalKey);
 
-          await context.var.buckets.pictures.put(thumbnailKey, buffer, {
-            mime: file.type,
-          });
+          await context.var.buckets.pictures.put(
+            thumbnailKey,
+            await body.thumbnails[i].arrayBuffer(),
+            {
+              mime: body.thumbnails[i].type,
+            },
+          );
           uploaded.push(thumbnailKey);
 
           data.push({
-            id,
+            id: uuid(),
             albumId: body.albumId,
             originalKey,
             thumbnailKey,
@@ -70,7 +75,10 @@ export const upload = factory.createHandlers(
             createdAt: now,
           });
         } catch (e) {
-          console.error(`⚠️ ${file.name}のアップロードに失敗しました`, e);
+          console.error(
+            `⚠️ ${body.originals[i].name}のアップロードに失敗しました`,
+            e,
+          );
 
           throw e;
         }
