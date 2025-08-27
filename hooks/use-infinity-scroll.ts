@@ -28,7 +28,7 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
     try {
       const fetched = await fetch(offset.current, limit);
 
-      if (fetched.length === 0) {
+      if (fetched.length === 0 || fetched.length < limit) {
         setMore(false);
       }
 
@@ -101,8 +101,8 @@ export const useInfinityScroll = <Datum extends { id: string | number }>({
     data,
     more,
     loading,
+    trigger,
     load,
     refresh,
-    trigger,
   };
 };
