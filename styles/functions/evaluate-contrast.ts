@@ -22,25 +22,25 @@ const WcagContrastRatios = {
  * コントラスト評価のレベル
  */
 const ContrastLevels = {
-  Perfect: "Perfect",
-  VeryGood: "VeryGood",
-  Good: "Good",
-  Normal: "Normal",
-  Bad: "Bad",
-  VeryBad: "VeryBad",
+  Perfect: "perfect",
+  VeryGood: "very-good",
+  Good: "good",
+  Normal: "normal",
+  Bad: "bad",
+  VeryBad: "very-bad",
 } as const;
-type ContrastLevel = keyof typeof ContrastLevels;
+type ContrastLevel = (typeof ContrastLevels)[keyof typeof ContrastLevels];
 
 /**
  * コントラスト評価のバッジ
  */
 const ContrastBadges = {
-  Perfect: "最高",
-  VeryGood: "非常に良い",
-  Good: "良い",
-  Normal: "普通",
-  Bad: "低い",
-  VeryBad: "非常に低い",
+  "perfect": "最高",
+  "very-good": "非常に良い",
+  "good": "良い",
+  "normal": "普通",
+  "bad": "低い",
+  "very-bad": "非常に低い",
 } as const satisfies Record<ContrastLevel, string>;
 type ContrastBadge = (typeof ContrastBadges)[keyof typeof ContrastBadges];
 
@@ -48,12 +48,12 @@ type ContrastBadge = (typeof ContrastBadges)[keyof typeof ContrastBadges];
  * コントラスト評価の説明
  */
 const ContrastDescriptions = {
-  Perfect: "高齢者向けにも適した視認性",
-  VeryGood: "すべてのWCAG基準を満たす",
-  Good: "通常サイズのテキストに適した視認性",
-  Normal: "大きなテキストに適した視認性",
-  Bad: "大きなテキストのみ基準を満たす",
-  VeryBad: "WCAG基準を満たしていない",
+  "perfect": "高齢者向けにも適した視認性",
+  "very-good": "すべてのWCAG基準を満たす",
+  "good": "通常サイズのテキストに適した視認性",
+  "normal": "大きなテキストに適した視認性",
+  "bad": "大きなテキストのみ基準を満たす",
+  "very-bad": "WCAG基準を満たしていない",
 } as const satisfies Record<ContrastLevel, string>;
 type ContrastDescription =
   (typeof ContrastDescriptions)[keyof typeof ContrastDescriptions];
@@ -62,12 +62,12 @@ type ContrastDescription =
  * コントラスト評価のカラー
  */
 const ContrastColors = {
-  Perfect: "#00796B",
-  VeryGood: "#388E3C",
-  Good: "#1976D2",
-  Normal: "#FBC02D",
-  Bad: "#F57C00",
-  VeryBad: "#D32F2F",
+  "perfect": "#00796B",
+  "very-good": "#388E3C",
+  "good": "#1976D2",
+  "normal": "#FBC02D",
+  "bad": "#F57C00",
+  "very-bad": "#D32F2F",
 } as const satisfies Record<ContrastLevel, string>;
 type ContrastColor = (typeof ContrastColors)[keyof typeof ContrastColors];
 
