@@ -49,6 +49,7 @@ export const AccessibilityControls = forwardRef<
         value={Glasses}
         size="small"
         kind="ghost"
+        className={cn(contrast.isHigh && "strong-stroke")}
         onClick={contrast.toggle}
         role="button"
         aria-label={

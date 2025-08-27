@@ -26,6 +26,12 @@
   [data-contrast="high"] .focused {
     @apply ring-4 ring-offset-4 transition-all duration-200;
   }
+
+  /* SVG要素の強調 */
+  .strong-stroke,
+  .strong-stroke svg {
+    stroke-width: 3 !important;
+  }
 }
 
 /* nextjs-toploader */
