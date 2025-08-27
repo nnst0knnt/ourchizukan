@@ -85,13 +85,13 @@ export const CheckboxGallery = memo(() => {
           title="大きなチェックボックス"
           description="見やすく押しやすい大きめサイズのチェックボックスグループです。"
           code={`<CheckboxGroup label="表示オプション" size="large" fullWidth>
-  <CheckboxOption label="写真を表示" value="show_photos" />
-  <CheckboxOption label="コメントを表示" value="show_comments" />
+  <CheckboxOption label="写真を表示" value="pictures" />
+  <CheckboxOption label="コメントを表示" value="comments" />
 </CheckboxGroup>`}
         >
           <CheckboxGroup label="表示オプション" size="large" fullWidth>
-            <CheckboxOption label="写真を表示" value="show_photos" />
-            <CheckboxOption label="コメントを表示" value="show_comments" />
+            <CheckboxOption label="写真を表示" value="pictures" />
+            <CheckboxOption label="コメントを表示" value="comments" />
           </CheckboxGroup>
         </ComponentCard>
       </div>

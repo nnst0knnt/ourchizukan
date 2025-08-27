@@ -16,7 +16,7 @@ const links: {
 }[] = [
   {
     name: "写真",
-    href: "/pictures",
+    href: "/albums",
     mark: Image,
   },
   {

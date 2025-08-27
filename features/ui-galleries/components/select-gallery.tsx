@@ -146,14 +146,14 @@ export const SelectGallery = memo(() => {
           title="大きなプルダウン"
           description="見やすく押しやすい大きめサイズのプルダウンメニューです。"
           code={`<SelectGroup label="カテゴリ" size="large" fullWidth>
-  <SelectOption label="写真" value="photos" />
-  <SelectOption label="動画" value="videos" />
+  <SelectOption label="写真" value="pictures" />
+  <SelectOption label="動画" value="movies" />
   <SelectOption label="音声" value="audio" />
 </SelectGroup>`}
         >
           <SelectGroup label="カテゴリ" size="large" fullWidth>
-            <SelectOption label="写真" value="photos" />
-            <SelectOption label="動画" value="videos" />
+            <SelectOption label="写真" value="pictures" />
+            <SelectOption label="動画" value="movies" />
             <SelectOption label="音声" value="audio" />
           </SelectGroup>
         </ComponentCard>

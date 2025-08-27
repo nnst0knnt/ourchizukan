@@ -1,7 +1,7 @@
 /**
  * 写真
  */
-export type Photo = {
+export type Picture = {
   /** 写真ID */
   id: string;
   /** アルバムID */

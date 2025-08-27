@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "おうちの大切な瞬間を記録する家族のずかん",
   applicationName: "おうちずかん",
   authors: [{ name: "nnst0knnt" }],
-  keywords: ["家族", "写真", "動画", "思い出"],
+  keywords: ["家族", "写真", "動画", "アルバム"],
   creator: "nnst0knnt",
   formatDetection: {
     telephone: true,
