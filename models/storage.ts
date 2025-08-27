@@ -1,8 +1,18 @@
 import type { DrizzleD1Database } from "drizzle-orm/d1";
 
 export type KeyValueStorage = {
-  get: (key: string) => Promise<string | null>;
-  set: (key: string, value: string, expiry?: number) => Promise<void>;
+  get: (
+    key: string,
+    kind?: "text" | "json" | "arrayBuffer" | "stream",
+  ) => Promise<{ value: string | ArrayBuffer | null; metadata?: any } | null>;
+  set: (
+    key: string,
+    value: string | ArrayBuffer,
+    options?: {
+      expiry?: number;
+      metadata?: any;
+    },
+  ) => Promise<void>;
   delete: (key: string) => Promise<boolean>;
   list: (prefix: string) => Promise<string[]>;
 };

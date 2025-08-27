@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { StatusCodes } from "http-status-codes";
 import { pictures } from "@/database/schema";
-import { ObjectKey } from "@/models";
+import { CacheKey, ObjectKey } from "@/models";
 import { validator } from "@/routes/middlewares";
 import { factory } from "../../../helpers";
 import { GetPicturePathParameter, GetPictureQueryParameter } from "./schema";
@@ -12,6 +12,26 @@ export const get = factory.createHandlers(
   async (context) => {
     try {
       const { id } = context.req.valid("param");
+      const kind = context.req.query("kind") || ObjectKey.Picture.original;
+
+      if (!id) {
+        return context.json(
+          { message: "その写真は見覚えがないようです" },
+          StatusCodes.BAD_REQUEST,
+        );
+      }
+
+      const cached = await context.var.cache.albums.get(
+        `${CacheKey.Pictures}:${id}:${kind}`,
+        "arrayBuffer",
+      );
+
+      if (cached && cached.value && cached.metadata && cached.metadata.mime) {
+        return context.newResponse(cached.value, StatusCodes.OK, {
+          "Content-Type": cached.metadata.mime,
+          "Cache-Control": "public, max-age=3600",
+        });
+      }
 
       const picture = (
         await context.var.database
@@ -32,7 +52,6 @@ export const get = factory.createHandlers(
         );
       }
 
-      const kind = context.req.query("kind") || ObjectKey.Picture.original;
       const object = await context.var.buckets.pictures.get(
         kind === ObjectKey.Picture.original
           ? picture.originalKey
@@ -45,6 +64,14 @@ export const get = factory.createHandlers(
           StatusCodes.NOT_FOUND,
         );
       }
+
+      await context.var.cache.albums.set(
+        `${CacheKey.Pictures}:${picture.id}:${kind}`,
+        object.data,
+        {
+          metadata: { mime: object.mime },
+        },
+      );
 
       return context.newResponse(object.data, StatusCodes.OK, {
         "Content-Type": object.mime,

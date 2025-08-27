@@ -29,6 +29,10 @@
     {
       "binding": "Families",
       "id": "2676152f3a5240c499cfe251eb0e0cb4"
+    },
+    {
+      "binding": "Albums",
+      "id": "bd836841490144899afbebe20318c16e"
     }
   ],
   "r2_buckets": [

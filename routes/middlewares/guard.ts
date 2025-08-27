@@ -26,10 +26,10 @@ export const guard = (_options: GuardOptions) =>
       guests: [],
       ..._options,
     } as Required<GuardOptions>;
-    let session = await context.var.keeper.session.get(context.var.ip);
+    let session = await context.var.keeper.sessions.get(context.var.ip);
 
-    if (session && context.var.keeper.session.expired(session)) {
-      await context.var.keeper.session.remove(context.var.ip);
+    if (session && context.var.keeper.sessions.expired(session)) {
+      await context.var.keeper.sessions.remove(context.var.ip);
 
       session = null;
     }
@@ -38,9 +38,11 @@ export const guard = (_options: GuardOptions) =>
       return authenticated(context, options, next);
     }
 
-    const isWhitelisted = await context.var.keeper.whitelist.ip(context.var.ip);
+    const isWhitelisted = await context.var.keeper.whitelists.ip(
+      context.var.ip,
+    );
     if (isWhitelisted) {
-      await context.var.keeper.session.create(context.var.ip, AccessMethod.Ip);
+      await context.var.keeper.sessions.create(context.var.ip, AccessMethod.Ip);
 
       return authenticated(context, options, next);
     }

@@ -17,7 +17,7 @@ export const enter = factory.createHandlers(
         );
       }
 
-      if (!(await context.var.keeper.whitelist.email(body.email))) {
+      if (!(await context.var.keeper.whitelists.email(body.email))) {
         await context.var.keeper.attempts.add(
           context.var.ip,
           AttemptKind.FailedEmail,
@@ -29,7 +29,7 @@ export const enter = factory.createHandlers(
         );
       }
 
-      const session = await context.var.keeper.session.create(
+      const session = await context.var.keeper.sessions.create(
         context.var.ip,
         AccessMethod.Email,
       );

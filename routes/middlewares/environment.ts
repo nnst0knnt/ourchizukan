@@ -13,6 +13,9 @@ export type Environment = {
   Variables: {
     ip: string;
     keeper: ReturnType<typeof keeper>;
+    cache: {
+      albums: ReturnType<typeof createKeyValueStorage>;
+    };
     buckets: {
       pictures: ReturnType<typeof createObjectStorage>;
     };
@@ -34,6 +37,10 @@ export const environment = () =>
     );
 
     context.set("keeper", keeper(createKeyValueStorage(_context.env.Families)));
+
+    context.set("cache", {
+      albums: createKeyValueStorage(_context.env.Albums),
+    });
 
     context.set("buckets", {
       pictures: createObjectStorage(_context.env.Pictures),

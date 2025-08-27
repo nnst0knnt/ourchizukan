@@ -4,6 +4,7 @@ import {
   type AccessMethod,
   type Attempt,
   type AttemptKind,
+  CacheKey,
   type KeyValueStorage,
   RateLimitOptions,
   type Session,
@@ -11,16 +12,14 @@ import {
 } from "@/models";
 import { date } from "../date";
 
-const session = (kv: KeyValueStorage) => {
-  const prefix = "sessions";
-
-  const generateKey = (ip: string) => `${prefix}:${ip}`;
+const sessions = (kv: KeyValueStorage) => {
+  const generateKey = (ip: string) => `${CacheKey.Sessions}:${ip}`;
 
   const get = async (ip: string) => {
     try {
       const found = await kv.get(generateKey(ip));
 
-      return found ? (JSON.parse(found) as Session) : null;
+      return found ? (JSON.parse(found.value as string) as Session) : null;
     } catch (e) {
       console.error("🔥 セッションの取得に失敗しました", e);
 
@@ -39,11 +38,9 @@ const session = (kv: KeyValueStorage) => {
     };
 
     try {
-      await kv.set(
-        generateKey(ip),
-        JSON.stringify(created),
-        SessionOptions.LifetimeMilliseconds / 1000,
-      );
+      await kv.set(generateKey(ip), JSON.stringify(created), {
+        expiry: SessionOptions.LifetimeMilliseconds / 1000,
+      });
 
       return created;
     } catch (e) {
@@ -73,10 +70,9 @@ const session = (kv: KeyValueStorage) => {
   };
 };
 
-const whitelist = (kv: KeyValueStorage) => {
-  const prefix = "whitelist";
-
-  const generateKey = (kind: "ips" | "emails") => `${prefix}:${kind}`;
+const whitelists = (kv: KeyValueStorage) => {
+  const generateKey = (kind: "ips" | "emails") =>
+    `${CacheKey.Whitelists}:${kind}`;
 
   const ip = async (ip: string) => {
     try {
@@ -86,7 +82,7 @@ const whitelist = (kv: KeyValueStorage) => {
         return false;
       }
 
-      return (JSON.parse(found) as string[]).includes(ip);
+      return (JSON.parse(found.value as string) as string[]).includes(ip);
     } catch (e) {
       console.error("🔥 IPアドレスの認証に失敗しました", e);
 
@@ -102,7 +98,7 @@ const whitelist = (kv: KeyValueStorage) => {
         return false;
       }
 
-      return (JSON.parse(found) as string[]).includes(email);
+      return (JSON.parse(found.value as string) as string[]).includes(email);
     } catch (e) {
       console.error("🔥 メールアドレスの認証に失敗しました", e);
 
@@ -117,9 +113,7 @@ const whitelist = (kv: KeyValueStorage) => {
 };
 
 const attempts = (kv: KeyValueStorage) => {
-  const prefix = "attempts";
-
-  const generateKey = (ip: string) => `${prefix}:${ip}`;
+  const generateKey = (ip: string) => `${CacheKey.Attempts}:${ip}`;
 
   const add = async (ip: string, kind: AttemptKind) => {
     try {
@@ -127,17 +121,15 @@ const attempts = (kv: KeyValueStorage) => {
       const now = date().valueOf();
       const found = await kv.get(key);
 
-      let attempts: Attempt[] = found ? JSON.parse(found) : [];
+      let attempts: Attempt[] = found ? JSON.parse(found.value as string) : [];
       attempts = attempts.filter(
         ({ at }) => now - at < RateLimitOptions.CountingPeriodMilliseconds,
       );
       attempts.push({ ip, kind, at: now });
 
-      await kv.set(
-        key,
-        JSON.stringify(attempts),
-        RateLimitOptions.LockoutDurationSeconds,
-      );
+      await kv.set(key, JSON.stringify(attempts), {
+        expiry: RateLimitOptions.LockoutDurationSeconds,
+      });
     } catch (e) {
       console.error("🔥 試行回数の追加に失敗しました", e);
     }
@@ -150,7 +142,7 @@ const attempts = (kv: KeyValueStorage) => {
 
       if (!found) return true;
 
-      const attempts = (JSON.parse(found) as Attempt[]).filter(
+      const attempts = (JSON.parse(found.value as string) as Attempt[]).filter(
         ({ at }) =>
           date().valueOf() - at < RateLimitOptions.CountingPeriodMilliseconds,
       );
@@ -170,7 +162,7 @@ const attempts = (kv: KeyValueStorage) => {
 };
 
 export const keeper = (kv: KeyValueStorage) => ({
-  session: session(kv),
-  whitelist: whitelist(kv),
+  sessions: sessions(kv),
+  whitelists: whitelists(kv),
   attempts: attempts(kv),
 });

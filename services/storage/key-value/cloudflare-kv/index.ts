@@ -3,22 +3,21 @@ import type { KeyValueStorageFactory } from "@/models";
 export const createCloudflareKV: KeyValueStorageFactory<KVNamespace> = (
   namespace,
 ) => ({
-  get: async (key) => {
+  get: async (key, kind = "text") => {
     try {
-      return namespace.get(key);
+      return namespace.getWithMetadata(key, kind as any);
     } catch (e) {
       console.error("🔥 CloudflareKVからの取得に失敗しました", e);
 
       return null;
     }
   },
-  set: async (key, value, expiry) => {
+  set: async (key, value, options = {}) => {
     try {
-      await namespace.put(
-        key,
-        value,
-        expiry ? { expirationTtl: expiry } : undefined,
-      );
+      await namespace.put(key, value, {
+        expirationTtl: options.expiry,
+        ...(options.metadata ? { metadata: options.metadata } : {}),
+      });
     } catch (e) {
       console.error("🔥 CloudflareKVへの書き込みに失敗しました", e);
     }
