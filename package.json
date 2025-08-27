@@ -6,9 +6,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build:scripts": "esbuild styles/scripts/*.ts --outdir=public/scripts --bundle --minify",
-    "build:dry-run": "npm run cloudflare:env && npm run build:scripts && next build --experimental-build-mode compile",
     "build": "npm run cloudflare:env && npm run build:scripts && next build",
-    "deploy:dry-run": "npm run build:dry-run && opennextjs-cloudflare deploy --dry-run",
+    "deploy:dry-run": "opennextjs-cloudflare build && opennextjs-cloudflare deploy --dry-run",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
@@ -54,7 +53,7 @@
     "zustand": "^5.0.7"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.1.4",
+    "@biomejs/biome": "2.2.0",
     "@eslint/eslintrc": "^3",
     "@next/bundle-analyzer": "^15.4.6",
     "@tailwindcss/postcss": "^4",

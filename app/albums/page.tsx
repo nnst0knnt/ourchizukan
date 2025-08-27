@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Albums } from "@/features/memories";
 import repositories from "@/features/memories/repositories";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "アルバム一覧",
 };
