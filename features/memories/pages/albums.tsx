@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useToggle } from "react-use";
 import { Description, Title } from "@/components/elements/typography";
 import { Container } from "@/components/structures";
@@ -10,17 +10,14 @@ import { Cards } from "../components/albums/cards";
 import type { AlbumCard } from "../models/album";
 import repositories from "../repositories";
 
-export const Albums = () => {
+type Props = {
+  data: AlbumCard[];
+};
+
+export const Albums = ({ data }: Props) => {
   const [open, toggle] = useToggle(false);
-  const [albums, setAlbums] = useState<AlbumCard[]>();
 
-  const fetch = useCallback(async () => {
-    setAlbums(await repositories.albums.list());
-  }, []);
-
-  useEffect(() => {
-    fetch();
-  }, [fetch]);
+  const refresh = useCallback(async () => await repositories.albums.list(), []);
 
   return (
     <PullToRefresh>
@@ -33,7 +30,7 @@ export const Albums = () => {
           </Description>
         </div>
 
-        <Cards data={albums} open={open} toggle={toggle} onRefresh={fetch} />
+        <Cards data={data} open={open} toggle={toggle} onRefresh={refresh} />
       </Container>
     </PullToRefresh>
   );

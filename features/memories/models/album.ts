@@ -1,3 +1,5 @@
+import type { PictureCard } from "./picture";
+
 export type AlbumCard = {
   id: string;
   name: string;
@@ -6,8 +8,9 @@ export type AlbumCard = {
   updatedAt: string;
 };
 
-export type AlbumDescription = {
+export type AlbumPictures = {
   id: string;
   title: string;
   createdAt: string;
+  cards: PictureCard[];
 };
