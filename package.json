@@ -28,7 +28,7 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
-    "lucide-react": "^0.486.0",
+    "lucide-react": "^0.487.0",
     "next": "15.2.4",
     "nextjs-toploader": "^3.8.16",
     "react": "^19.1.0",
@@ -41,8 +41,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@cloudflare/next-on-pages": "^1.13.11",
-    "@cloudflare/workers-types": "^4.20250327.0",
+    "@cloudflare/next-on-pages": "^1.13.12",
+    "@cloudflare/workers-types": "^4.20250404.0",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^22",
@@ -60,6 +60,6 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vercel": "^41.4.1",
-    "wrangler": "^4.6.0"
+    "wrangler": "^4.7.0"
   }
 }
