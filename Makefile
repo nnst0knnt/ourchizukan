@@ -37,8 +37,7 @@ setup:
 	@echo "🗄️  Building database..."
 	@if [ ! -f ".wrangler/state/v3/d1/miniflare-D1DatabaseObject/local.sqlite" ]; then \
 		rm -rf .wrangler/state/v3/d1/miniflare-D1DatabaseObject/local.sqlite; \
-    npx wrangler d1 migrations apply Database --local; \
-		echo "📝 Created local database file"; \
+    	npx wrangler d1 migrations apply Database --local; \
 	fi
 	@echo ""
 	@echo "🎉 Setup complete!"
