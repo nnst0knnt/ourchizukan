@@ -66,7 +66,7 @@ export const Footer = memo(() => {
                 kind="default"
                 underline={false}
                 className={cn(
-                  "flex min-h-14 min-w-14 flex-col items-center justify-center p-3",
+                  "flex min-h-14 min-w-14 select-none flex-col items-center justify-center p-3",
                   "md:flex-row md:gap-2 md:p-3",
                   isActive
                     ? "text-brand hover:text-brand"

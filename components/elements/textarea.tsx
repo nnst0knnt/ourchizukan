@@ -262,7 +262,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {message && (
             <p
               id={messageId}
-              className={cn("mt-1 text-sm", statusTextStyles[status])}
+              className={cn(
+                "mt-1 select-none text-sm",
+                statusTextStyles[status],
+              )}
             >
               {message}
             </p>

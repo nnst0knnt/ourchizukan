@@ -116,4 +116,9 @@
   strong {
     font-weight: 800;
   }
+
+  /* ユーザー選択無効 */
+  label {
+    user-select: none;
+  }
 }
