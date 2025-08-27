@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { enter } from "./enter";
-import { leave } from "./leave";
 import { member } from "./member";
 
 /**
@@ -10,5 +9,4 @@ import { member } from "./member";
  */
 export const families = new Hono()
   .post("/enter", ...enter)
-  .post("/leave", ...leave)
   .get("/member", ...member);

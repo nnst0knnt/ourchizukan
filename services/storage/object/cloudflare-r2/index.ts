@@ -1,13 +1,18 @@
 import type { ObjectStorageFactory } from "@/models";
 
-export const createObjectStorage: ObjectStorageFactory<R2Bucket> = (
-  bucket,
-) => ({
+export const createCloudflareR2: ObjectStorageFactory<R2Bucket> = (bucket) => ({
   async get(key) {
     try {
       const object = await bucket.get(key);
 
-      return object ? object.arrayBuffer() : null;
+      if (!object) return null;
+
+      return {
+        data: await object.arrayBuffer(),
+        mime: object.httpMetadata?.contentType
+          ? object.httpMetadata.contentType
+          : "application/octet-stream",
+      };
     } catch (e) {
       console.error(e);
 

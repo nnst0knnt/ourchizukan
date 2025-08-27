@@ -1,5 +1,5 @@
 import { keeper } from "@/services/keeper";
-import { createKeyValueStorage } from "@/services/storage";
+import { createKeyValueStorage, createObjectStorage } from "@/services/storage";
 import type { Context } from "hono";
 import { getConnInfo } from "hono/cloudflare-workers";
 import { factory } from "../helpers";
@@ -12,6 +12,9 @@ export type Environment = {
   Variables: {
     ip: string;
     keeper: ReturnType<typeof keeper>;
+    storage: {
+      pictures: ReturnType<typeof createObjectStorage>;
+    };
   };
 };
 
@@ -38,6 +41,13 @@ export const environment = () =>
      * 認証クライアント
      */
     context.set("keeper", keeper(createKeyValueStorage(_context.env.Families)));
+
+    /**
+     * ストレージ
+     */
+    context.set("storage", {
+      pictures: createObjectStorage(_context.env.Pictures),
+    });
 
     await next();
   });

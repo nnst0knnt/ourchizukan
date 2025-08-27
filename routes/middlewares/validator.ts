@@ -46,8 +46,36 @@ const body = <
 };
 
 /**
+ * パスパラメータのバリデーションを行うミドルウェア
+ */
+const path = <Schema extends ZodSchema>(schema: Schema) =>
+  zValidator("param", schema, ({ success }, context) => {
+    if (!success) {
+      return context.json(
+        ReasonPhrases.UNPROCESSABLE_ENTITY,
+        StatusCodes.UNPROCESSABLE_ENTITY,
+      );
+    }
+  });
+
+/**
+ * クエリパラメータのバリデーションを行うミドルウェア
+ */
+const query = <Schema extends ZodSchema>(schema: Schema) =>
+  zValidator("query", schema, ({ success }, context) => {
+    if (!success) {
+      return context.json(
+        ReasonPhrases.UNPROCESSABLE_ENTITY,
+        StatusCodes.UNPROCESSABLE_ENTITY,
+      );
+    }
+  });
+
+/**
  * リクエストをバリデーションするミドルウェア
  */
 export const validator = {
   body,
+  path,
+  query,
 };

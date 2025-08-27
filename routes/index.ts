@@ -1,6 +1,7 @@
 import { except } from "hono/combine";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { families } from "./endpoints/families";
+import { pictures } from "./endpoints/pictures";
 import { factory } from "./helpers";
 import { guard } from "./middlewares";
 
@@ -30,6 +31,7 @@ export const app = factory
     ),
   )
   .route("/families", families)
+  .route("/pictures", pictures)
   .notFound((context) =>
     context.json(ReasonPhrases.NOT_FOUND, StatusCodes.NOT_FOUND),
   )

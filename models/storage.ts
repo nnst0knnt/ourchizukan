@@ -24,7 +24,7 @@ export type KeyValueStorageFactory<Store = any> = (
  */
 export type ObjectStorage = {
   /** オブジェクトを取得する */
-  get: (key: string) => Promise<ArrayBuffer | null>;
+  get: (key: string) => Promise<{ data: ArrayBuffer; mime: string } | null>;
   /** オブジェクトを保存する */
   put: (
     key: string,
