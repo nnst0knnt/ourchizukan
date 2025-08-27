@@ -1,19 +1,25 @@
+"use client";
+
 import {
   type ChangeEvent,
   type InputHTMLAttributes,
   forwardRef,
   useCallback,
+  useContext,
   useId,
+  useState,
 } from "react";
 
 import { Check } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
+import { CheckedValues } from "./checkbox-group";
+
 /**
- * 入力欄の状態
+ * チェックボックスの状態
  */
-type InputStatus = "default" | "error" | "success";
+export type CheckboxStatus = "default" | "error" | "success";
 
 /**
  * CheckboxProps
@@ -49,6 +55,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     {
       id,
       label,
+      value,
       className,
       checked,
       error,
@@ -62,6 +69,12 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     },
     ref,
   ) => {
+    const checkedValues = useContext(CheckedValues);
+
+    const [isChecked, setIsChecked] = useState(
+      !!checked || (!!value && checkedValues.includes(value.toString())),
+    );
+
     const defaultId = useId();
 
     const inputId = id || defaultId;
@@ -74,7 +87,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     const message = error || success || helperText;
 
-    const status: InputStatus = hasError
+    const status: CheckboxStatus = hasError
       ? "error"
       : hasSuccess
         ? "success"
@@ -99,15 +112,19 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         if (onChange) {
           onChange(e.target.checked);
         }
+
+        setIsChecked(e.target.checked);
       },
       [onChange],
     );
 
     const click = useCallback(() => {
       if (onChange) {
-        onChange(!checked);
+        onChange(!isChecked);
       }
-    }, [onChange, checked]);
+
+      setIsChecked(!isChecked);
+    }, [onChange, isChecked]);
 
     return (
       <div className="flex flex-col">
@@ -118,7 +135,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                 ref={ref}
                 type="checkbox"
                 id={inputId}
-                checked={checked}
+                value={value}
+                checked={isChecked}
                 disabled={disabled}
                 required={required}
                 className={classNames}
@@ -132,7 +150,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                   "flex h-6 w-6 cursor-pointer items-center justify-center rounded border bg-foundation",
                   "transition-colors duration-200",
                   statusStyles[status],
-                  checked && "border-brand bg-brand",
+                  isChecked && "border-brand bg-brand",
                 )}
                 onClick={click}
                 onKeyDown={click}
@@ -140,7 +158,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
                 <Check
                   className={cn(
                     "h-4 w-4 text-foreground opacity-0 transition-opacity",
-                    checked && "opacity-100",
+                    isChecked && "opacity-100",
                   )}
                   aria-hidden="true"
                 />
@@ -165,7 +183,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         {message && (
           <p
             id={messageId}
-            className={cn("select-none pl-8 text-sm", statusTextStyles[status])}
+            className={cn("select-none text-sm", statusTextStyles[status])}
           >
             {message}
           </p>

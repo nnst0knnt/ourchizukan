@@ -1,5 +1,6 @@
 export { AsyncButton } from "./async-button";
 export { Button } from "./button";
+export { CheckboxGroup } from "./checkbox-group";
 export { Checkbox } from "./checkbox";
 export { Description } from "./description";
 export { Input } from "./input";

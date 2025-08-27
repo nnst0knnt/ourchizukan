@@ -16,30 +16,30 @@ import { cn } from "@/styles/functions";
 import type { LucideIcon } from "lucide-react";
 
 /**
- * 入力欄のサイズ
+ * テキストエリアのサイズ
  */
-type InputSize = "default" | "large";
+type TextareaSize = "default" | "large";
 
 /**
- * 入力欄の状態
+ * テキストエリアの状態
  */
-type InputStatus = "default" | "error" | "success";
+type TextareaStatus = "default" | "error" | "success";
 
 /**
  * TextareaProps
  */
 export type TextareaProps = {
-  /** 入力欄のラベル */
+  /** テキストエリアのラベル */
   label?: string;
-  /** 入力欄のサイズ */
-  size?: InputSize;
+  /** テキストエリアのサイズ */
+  size?: TextareaSize;
   /** 通常のヘルプテキスト */
   helperText?: string;
   /** エラーメッセージ */
   error?: string;
   /** 成功メッセージ */
   success?: string;
-  /** 入力欄を表す印 */
+  /** テキストエリアを表す印 */
   mark?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
   /** 横幅いっぱいに広げるかどうか */
   fullWidth?: boolean;
@@ -101,7 +101,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const message = error || success || helperText;
 
-    const status: InputStatus = hasError
+    const status: TextareaStatus = hasError
       ? "error"
       : hasSuccess
         ? "success"
