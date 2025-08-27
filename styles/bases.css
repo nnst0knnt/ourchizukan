@@ -118,6 +118,28 @@
     @apply ring-4 ring-offset-4;
   }
 
+  /* フィードバック */
+  .border-error,
+  .border-success {
+    @apply border-2!;
+  }
+
+  .text-error,
+  .text-success {
+    @apply font-semibold!;
+  }
+
+  /* 高コントラスト - フィードバック */
+  [data-contrast="high"] .border-error,
+  [data-contrast="high"] .border-success {
+    @apply border-3!;
+  }
+
+  [data-contrast="high"] .text-error,
+  [data-contrast="high"] .text-success {
+    @apply font-bold!;
+  }
+
   /* 動きを減らす設定がある場合はスムーズスクロールを無効化 */
   @media (prefers-reduced-motion: reduce) {
     html {
