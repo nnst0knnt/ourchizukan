@@ -1,4 +1,4 @@
-import { type Keeper, keeper } from "@/services/keeper";
+import { keeper } from "@/services/keeper";
 import { kv } from "@/services/kv";
 import type { Context } from "hono";
 import { getConnInfo } from "hono/cloudflare-workers";
@@ -11,7 +11,7 @@ export type Environment = {
   Bindings: Cloudflare.Env;
   Variables: {
     ip: string;
-    keeper: Keeper;
+    keeper: ReturnType<typeof keeper>;
   };
 };
 

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { enter } from "./enter";
 import { leave } from "./leave";
-import { me } from "./me";
+import { member } from "./member";
 
 /**
  * /api/families
@@ -11,4 +11,4 @@ import { me } from "./me";
 export const families = new Hono()
   .post("/enter", ...enter)
   .post("/leave", ...leave)
-  .get("/me", ...me);
+  .get("/member", ...member);

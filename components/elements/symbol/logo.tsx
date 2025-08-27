@@ -3,7 +3,7 @@ import { type HTMLAttributes, forwardRef } from "react";
 /**
  * LogoProps
  */
-export type LogoProps = {
+type LogoProps = {
   /** ロゴの色 */
   color?: string;
 } & HTMLAttributes<

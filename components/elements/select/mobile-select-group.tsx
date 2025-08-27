@@ -15,7 +15,7 @@ import type { SelectSize, SelectStatus } from "./select-group";
 /**
  * MobileSelectGroupProps
  */
-export type MobileSelectGroupProps = {
+type MobileSelectGroupProps = {
   /** 開閉状態 */
   open: boolean;
   /** ID */

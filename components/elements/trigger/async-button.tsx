@@ -7,7 +7,7 @@ import { Button, type ButtonProps, ButtonStatus } from "./button";
 /**
  * AsyncButtonProps
  */
-export type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
+type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
   /** クリック時の非同期処理 */
   onClick?: (e: MouseEvent<HTMLButtonElement>) => Promise<void>;
   /** 成功時の処理 */

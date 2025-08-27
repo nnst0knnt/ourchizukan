@@ -9,14 +9,22 @@ import { cn } from "@/styles/functions";
 const light = "github-light";
 const dark = "one-dark-pro";
 
+/**
+ * CodeSnippetProps
+ */
 type CodeSnippetProps = {
   code: string;
   language: BundledLanguage;
   className?: string;
 };
 
-export const CodeSnippet = memo(
-  ({ code, language = "tsx", className }: CodeSnippetProps) => {
+/**
+ * CodeSnippet
+ *
+ * コンポーネント使用例のコードを展示します。
+ */
+export const CodeSnippet = memo<CodeSnippetProps>(
+  ({ code, language = "tsx", className }) => {
     const [snippet, setSnippet] = useState<JSX.Element | null>(null);
 
     const toHtml = useCallback(async () => {

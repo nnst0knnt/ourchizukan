@@ -29,14 +29,17 @@ const links: {
 /**
  * LinksProps
  */
-export type LinksProps = HTMLAttributes<HTMLDivElement>;
+type LinksProps = {
+  /** 無効状態かどうか */
+  disabled?: boolean;
+} & HTMLAttributes<HTMLDivElement>;
 
 /**
  * Links
  *
  * ナビゲーションリンクを提供します。
  */
-export const Links = memo<LinksProps>(({ ...props }) => {
+export const Links = memo<LinksProps>(({ disabled = false, ...props }) => {
   const pathname = usePathname();
 
   return (
@@ -57,6 +60,7 @@ export const Links = memo<LinksProps>(({ ...props }) => {
               isActive
                 ? "bg-brand text-foreground hover:text-foreground"
                 : "text-secondary hover:text-primary",
+              disabled && "disabled pointer-events-none",
             )}
             mark={link.mark}
             markPosition="left"

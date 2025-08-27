@@ -10,7 +10,7 @@ type DescriptionSize = "small" | "default" | "large";
 /**
  * DescriptionProps
  */
-export type DescriptionProps = {
+type DescriptionProps = {
   /** 説明文のサイズ */
   size?: DescriptionSize;
   /** 最大幅を設定するかどうか */

@@ -18,7 +18,7 @@ import { SelectGroupState } from "./select-group";
 /**
  * SelectOptionProps
  */
-export type SelectOptionProps = {
+type SelectOptionProps = {
   /** オプションのラベル */
   label: string;
   /** オプションの値 */

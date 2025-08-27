@@ -14,17 +14,17 @@ import { cn } from "@/styles/functions";
 /**
  * トグルの状態
  */
-export type ToggleStatus = "default" | "error" | "success";
+type ToggleStatus = "default" | "error" | "success";
 
 /**
  * トグルのサイズ
  */
-export type ToggleSize = "default" | "large";
+type ToggleSize = "default" | "large";
 
 /**
  * ToggleProps
  */
-export type ToggleProps = {
+type ToggleProps = {
   /** トグルのラベル */
   label?: string;
   /** トグルのサイズ */
@@ -159,7 +159,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
                 "relative inline-flex cursor-pointer items-center rounded-full bg-outline transition-colors duration-200",
                 isChecked ? "bg-brand" : "bg-outline",
                 toggleSizeStyles[size],
-                disabled && "disabled cursor-not-allowed",
+                disabled && "disabled",
                 statusBorderStyles[status],
               )}
             >
@@ -180,7 +180,7 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
               className={cn(
                 "flex cursor-pointer items-center font-medium text-primary",
                 labelSizeStyles[size],
-                disabled && "disabled cursor-not-allowed",
+                disabled && "disabled",
               )}
             >
               {label}

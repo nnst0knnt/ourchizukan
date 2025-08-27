@@ -189,5 +189,3 @@ export const keeper = (kv: KeyValueStorage) => ({
   whitelist: whitelist(kv),
   attempts: attempts(kv),
 });
-
-export type Keeper = ReturnType<typeof keeper>;

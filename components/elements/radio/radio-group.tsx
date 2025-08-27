@@ -37,7 +37,7 @@ export const RadioGroupState = createContext<{
 /**
  * RadioGroupProps
  */
-export type RadioGroupProps = {
+type RadioGroupProps = {
   /** グループのラベル */
   label?: string;
   /** 現在の選択値 */

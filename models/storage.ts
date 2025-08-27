@@ -15,4 +15,6 @@ export type KeyValueStorage = {
 /**
  * キーバリューストレージのファクトリ
  */
-export type CreateKeyValueStorage = (namespace: KVNamespace) => KeyValueStorage;
+export type KeyValueStorageFactory = (
+  namespace: KVNamespace,
+) => KeyValueStorage;

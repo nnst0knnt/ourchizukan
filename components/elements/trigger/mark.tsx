@@ -30,7 +30,7 @@ type TooltipPosition = "top" | "right" | "bottom" | "left";
 /**
  * MarkProps
  */
-export type MarkProps = {
+type MarkProps = {
   /** 印 */
   value:
     | LucideIcon

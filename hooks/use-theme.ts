@@ -12,7 +12,7 @@ export const ThemeKind = {
   Light: "light",
   Dark: "dark",
 } as const;
-export type ThemeKind = (typeof ThemeKind)[keyof typeof ThemeKind];
+type ThemeKind = (typeof ThemeKind)[keyof typeof ThemeKind];
 
 const useStore = create<{
   value: ThemeKind | null;

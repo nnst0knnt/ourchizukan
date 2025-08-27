@@ -29,7 +29,7 @@ type TextareaStatus = "default" | "error" | "success";
 /**
  * TextareaProps
  */
-export type TextareaProps = {
+type TextareaProps = {
   /** テキストエリアのラベル */
   label?: string;
   /** テキストエリアのサイズ */

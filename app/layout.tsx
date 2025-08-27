@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
 import { Content, Footer, Header } from "@/components/structures";
-import { TransitionProgress } from "@/components/tools";
+import { MemberProvider, TransitionProgress } from "@/components/tools";
 
 export const metadata: Metadata = {
   title: {
@@ -56,10 +56,16 @@ export default function Layout({
         />
       </head>
       <body className="flex h-full flex-col bg-foundation text-primary antialiased">
-        <TransitionProgress />
-        <Header />
-        <Content>{children}</Content>
-        <Footer />
+        <MemberProvider>
+          {(member) => (
+            <>
+              <TransitionProgress />
+              <Header member={member} />
+              <Content>{children}</Content>
+              <Footer member={member} />
+            </>
+          )}
+        </MemberProvider>
       </body>
     </html>
   );

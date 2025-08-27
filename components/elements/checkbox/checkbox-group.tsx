@@ -37,7 +37,7 @@ export const CheckboxGroupState = createContext<{
 /**
  * CheckboxGroupProps
  */
-export type CheckboxGroupProps = {
+type CheckboxGroupProps = {
   /** グループのラベル */
   label?: string;
   /** 現在の選択値 */

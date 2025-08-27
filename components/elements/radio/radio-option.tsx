@@ -22,7 +22,7 @@ export type RadioStatus = "default" | "error" | "success";
 /**
  * RadioOptionProps
  */
-export type RadioOptionProps = {
+type RadioOptionProps = {
   /** ラジオボタンのラベル */
   label?: string;
   /** ラジオボタンのサイズ */

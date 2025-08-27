@@ -12,7 +12,7 @@ import { Mark } from "../../elements/trigger";
 /**
  * AccessibilityControlsProps
  */
-export type AccessibilityControlsProps = HTMLAttributes<HTMLDivElement>;
+type AccessibilityControlsProps = HTMLAttributes<HTMLDivElement>;
 
 /**
  * AccessibilityControls

@@ -15,7 +15,7 @@ export const app = factory
   .basePath("/api")
   .use(
     except(
-      ["/api/families/me"],
+      ["/api/families/member"],
       guard({
         guests: ["/api/families/enter"],
         failure: {

@@ -1,4 +1,4 @@
-import type { CreateKeyValueStorage } from "@/models";
+import type { KeyValueStorageFactory } from "@/models";
 import { date } from "../../date";
 
 type Entry = {
@@ -8,7 +8,7 @@ type Entry = {
 
 const store = new Map<string, Entry>();
 
-export const createInMemory: CreateKeyValueStorage = () => {
+export const createInMemory: KeyValueStorageFactory = () => {
   if (!store.has("whitelist:ips")) {
     store.set("whitelist:ips", {
       value: JSON.stringify(["127.0.0.1", "::1", "::ffff:127.0.0.1"]),

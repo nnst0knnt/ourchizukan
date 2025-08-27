@@ -19,7 +19,7 @@ import type { SelectSize, SelectStatus } from "./select-group";
 /**
  * DesktopSelectGroupProps
  */
-export type DesktopSelectGroupProps = {
+type DesktopSelectGroupProps = {
   /** 開閉状態 */
   open: boolean;
   /** ID */

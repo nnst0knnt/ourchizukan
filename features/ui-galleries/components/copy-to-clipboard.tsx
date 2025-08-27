@@ -4,10 +4,18 @@ import { memo, useCallback, useState } from "react";
 
 import { Check, Clipboard } from "lucide-react";
 
+/**
+ * CopyToClipboardProps
+ */
 type CopyToClipboardProps = {
   code: string;
 };
 
+/**
+ * CopyToClipboard
+ *
+ * コードをコピーするボタンです。
+ */
 export const CopyToClipboard = memo<CopyToClipboardProps>(({ code }) => {
   const [copied, setCopied] = useState(false);
 

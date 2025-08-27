@@ -12,7 +12,7 @@ import type { LucideIcon } from "lucide-react";
 /**
  * TitleProps
  */
-export type TitleProps = {
+type TitleProps = {
   /** アクセシブルな見出しレベル (デフォルトはh1) */
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   /** アクセント下線を表示するかどうか */

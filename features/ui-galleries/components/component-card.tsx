@@ -11,7 +11,7 @@ import type { BundledLanguage } from "shiki";
 /**
  * ComponentCardProps
  */
-export type ComponentCardProps = {
+type ComponentCardProps = {
   /** コンポーネントのタイトル */
   title: string;
   /** コンポーネントの説明 */

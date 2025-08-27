@@ -52,7 +52,7 @@ export const SelectGroupState = createContext<{
 /**
  * SelectGroupProps
  */
-export type SelectGroupProps = {
+type SelectGroupProps = {
   /** グループのラベル */
   label?: string;
   /** 選択された値 */

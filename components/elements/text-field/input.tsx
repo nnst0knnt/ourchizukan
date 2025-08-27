@@ -26,7 +26,7 @@ type InputStatus = "default" | "error" | "success";
 /**
  * InputProps
  */
-export type InputProps = {
+type InputProps = {
   /** 入力欄のラベル */
   label?: string;
   /** 入力欄のサイズ */

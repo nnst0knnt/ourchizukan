@@ -10,11 +10,13 @@ import { Link, type LinkProps } from "./link";
 /**
  * LogoLinkProps
  */
-export type LogoLinkProps = {
+type LogoLinkProps = {
   /** リンクのサイズ */
   size?: LinkProps["size"];
   /** 印のみ表示 */
   markOnly?: boolean;
+  /** 無効状態かどうか */
+  disabled?: boolean;
   /** リンクとしての機能をオフにする */
   fake?: boolean;
 } & HTMLAttributes<HTMLAnchorElement>;
@@ -26,7 +28,16 @@ export type LogoLinkProps = {
  * 押下時にルートへ遷移します。
  */
 export const LogoLink = forwardRef<HTMLAnchorElement, LogoLinkProps>(
-  ({ size = "default", markOnly = false, className, ...props }, ref) => {
+  (
+    {
+      size = "default",
+      markOnly = false,
+      disabled = false,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
     const sizeStyles = {
       small: "text-base",
       default: "text-lg",
@@ -41,7 +52,11 @@ export const LogoLink = forwardRef<HTMLAnchorElement, LogoLinkProps>(
           kind="default"
           mark={Logo}
           size={size}
-          className={cn("flex flex-row items-center gap-2", className)}
+          className={cn(
+            "flex flex-row items-center gap-2",
+            disabled && "pointer-events-none opacity-100!",
+            className,
+          )}
           underline={false}
           aria-label="おうちずかんのトップページへ戻る"
           /** プリフェッチによって未認証時に / へ遷移できる状態を回避する */

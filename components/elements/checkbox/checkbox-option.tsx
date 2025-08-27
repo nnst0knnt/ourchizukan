@@ -24,7 +24,7 @@ export type CheckboxStatus = "default" | "error" | "success";
 /**
  * CheckboxOptionProps
  */
-export type CheckboxOptionProps = {
+type CheckboxOptionProps = {
   /** チェックボックスのラベル */
   label?: string;
   /** チェックボックスのサイズ */
