@@ -1,3 +1,4 @@
+import { ObjectKey } from "@/models";
 import type { ListPicturesQueryParameter } from "@/routes/endpoints/pictures/list/schema";
 import type { UploadPicturesBody } from "@/routes/endpoints/pictures/upload/schema";
 import { date } from "@/services/date";
@@ -18,7 +19,8 @@ export const list = async (queries: ListPicturesQueryParameter) => {
   return (await response.json()).map((picture) => ({
     id: picture.id,
     albumId: picture.albumId,
-    url: `${env.APP_URL}/api/pictures/${picture.id}`,
+    originalUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.original}`,
+    thumbnailUrl: `${env.APP_URL}/api/pictures/${picture.id}?kind=${ObjectKey.Picture.thumbnail}`,
     takenAt: date(picture.takenAt).format("YYYY-MM-DD"),
   }));
 };

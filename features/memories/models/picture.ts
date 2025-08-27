@@ -1,6 +1,7 @@
 export type PictureCard = {
   id: string;
   albumId: string | null;
-  url: string;
+  originalUrl: string;
+  thumbnailUrl: string;
   takenAt: string;
 };

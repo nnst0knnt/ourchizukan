@@ -53,7 +53,7 @@ export const Viewer = memo<ViewerProps>(
                 )}
               >
                 <Image
-                  src={datum.url}
+                  src={datum.originalUrl}
                   alt={`${datum.takenAt}の写真`}
                   className="max-h-full max-w-full object-contain"
                   fill

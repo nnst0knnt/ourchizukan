@@ -18,7 +18,7 @@ export const Card = memo<CardProps>(
       >
         <div className="absolute inset-0 z-0 rounded-lg bg-primary/20" />
         <Image
-          src={datum.url}
+          src={datum.thumbnailUrl}
           alt={`${datum.takenAt}の写真`}
           fill
           sizes="(max-width: 768px) 50vw, 33vw"
