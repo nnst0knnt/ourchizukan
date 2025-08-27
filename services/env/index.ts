@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const Env = z.object({
-  APP_ENV: z.enum(["development", "production"]).default("development"),
+  APP_ENV: z.enum(["preview", "production"]).default("preview"),
   APP_URL: z.url(),
   APP_DEBUG: z.preprocess((value) => JSON.parse(`${value}`), z.boolean()),
   APP_ANALYZE: z.preprocess((value) => JSON.parse(`${value}`), z.boolean()),
