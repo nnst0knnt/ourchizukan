@@ -2,7 +2,7 @@
 
 import { memo, useState } from "react";
 
-import { Home, Heart, Settings, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Heart, Home, Settings } from "lucide-react";
 
 import {
   AsyncButton,

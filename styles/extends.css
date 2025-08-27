@@ -28,7 +28,7 @@
   }
 }
 
-/* nextjs-toploaderの背景 */
+/* nextjs-toploader */
 #nprogress::after {
   content: "";
   position: fixed;
@@ -38,4 +38,37 @@
   height: 6px;
   background-color: var(--color-track);
   z-index: 1999;
+}
+
+/* shiki */
+[data-theme="dark"] .shiki,
+[data-theme="dark"] .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+.shiki {
+  background-color: var(--color-foundation) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation
+    Mono, Courier New, monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+  padding: 1rem;
+  margin: 0;
+  border-radius: 0.375rem;
+  overflow: auto;
+  height: 100%;
+}
+
+.shiki .line::before {
+  content: attr(data-line);
+  display: inline-block;
+  width: fit-content;
+  text-align: left !important;
+  margin: 0 !important;
+  color: var(--color-secondary);
+  opacity: 0.5;
 }
