@@ -48,6 +48,7 @@ export const AccessibilityControls = forwardRef<
         aria-label={
           theme.isLight ? "ダークモードに変更する" : "ライトモードに変更する"
         }
+        role="switch"
       />
 
       <IconButton
@@ -61,24 +62,29 @@ export const AccessibilityControls = forwardRef<
             ? "高コントラストに変更する"
             : "通常コントラストに変更する"
         }
+        role="switch"
       />
 
       <IconButton
         icon={ZoomIn}
         size="small"
         kind="ghost"
+        filled={size.isLarge}
         onClick={size.increase}
         disabled={size.isLarge}
         aria-label="文字を大きくする"
+        role="button"
       />
 
       <IconButton
         icon={ZoomOut}
         size="small"
         kind="ghost"
+        filled={size.isSmall}
         onClick={size.decrease}
         disabled={size.isSmall}
         aria-label="文字を小さくする"
+        role="button"
       />
     </div>
   );

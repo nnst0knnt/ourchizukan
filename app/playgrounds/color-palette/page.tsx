@@ -149,13 +149,13 @@ export default function ColorPalette() {
               <Palette size={48} />
             </span>
           </h1>
-          <div className="flex flex-col gap-2 text-sm">
-            <p className="text-secondary">
-              <strong className="font-medium">おうちずかん</strong>
+          <div className="flex flex-col gap-2 text-secondary text-sm">
+            <p>
+              <strong>おうちずかん</strong>
               <span>で使用している色を紹介します。</span>
             </p>
-            <p className="text-secondary">
-              高齢者にも見やすく使いやすいよう、色の組み合わせに配慮しています。
+            <p>
+              十分なコントラスト比を確保し、視認性を向上させる配色を採用しています。
             </p>
           </div>
         </div>
@@ -285,7 +285,7 @@ export default function ColorPalette() {
         <section className="flex flex-col gap-4">
           <h2 className="relative inline-flex items-center font-bold text-2xl tracking-tight">
             <span className="relative z-10">評価</span>
-            <span className="absolute bottom-1 left-0 z-0 h-3 w-28 rounded-sm bg-accent opacity-20" />
+            <span className="absolute bottom-1 left-0 z-0 h-3 w-16 rounded-sm bg-accent opacity-20" />
           </h2>
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">

@@ -37,7 +37,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="ja" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="ja" className="no-scrollbar" suppressHydrationWarning>
       <head>
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
         <script

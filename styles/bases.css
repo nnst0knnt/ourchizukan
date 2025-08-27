@@ -5,6 +5,17 @@
     scroll-padding-top: 1rem;
   }
 
+  /* スクロールバー非表示 */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* WebKit向けのスクロールバー非表示 */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   /* 動きを減らす設定がある場合はスムーズスクロールを無効化 */
   @media (prefers-reduced-motion: reduce) {
     html {
@@ -95,5 +106,10 @@
   [data-contrast="high"] [role="button"]:focus-visible,
   [data-contrast="high"] [tabindex]:focus-visible {
     @apply ring-4 ring-offset-4;
+  }
+
+  /* 強調表示 */
+  strong {
+    font-weight: 800;
   }
 }
