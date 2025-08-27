@@ -2,7 +2,7 @@
 
 import { useForwardedRef } from "@/hooks";
 import { cn } from "@/styles/functions";
-import { ArrowDown, Loader2 } from "lucide-react";
+import { ArrowDown, RotateCw } from "lucide-react";
 import {
   type HTMLAttributes,
   forwardRef,
@@ -12,14 +12,32 @@ import {
   useState,
 } from "react";
 
+const Dimensions = {
+  /** 抵抗が切り替わる距離 */
+  Break: 50,
+  /** リフレッシュ時の高さ */
+  RefreshHeight: 60,
+  /** 最大の高さ */
+  MaxHeight: 100,
+  /** 距離に対する高さの比率 */
+  HeightRatio: 1.5,
+} as const;
+
+const Resistances = {
+  /** 初期抵抗（85%） */
+  Default: 0.85,
+  /** 強抵抗（20%） */
+  Strong: 0.2,
+} as const;
+
 /**
  * PullToRefreshProps
  */
 type PullToRefreshProps = {
   /** リフレッシュに必要な引き下げ距離（ピクセル） */
   threshold?: number;
-  /** 引き下げに対する抵抗値 */
-  resistance?: number;
+  /** 誤動作防止の最小距離（ピクセル） */
+  deadzone?: number;
   /** リフレッシュしたときのハンドラー */
   onRefresh?: () => Promise<void>;
 } & HTMLAttributes<HTMLDivElement>;
@@ -32,14 +50,7 @@ type PullToRefreshProps = {
  */
 export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
   (
-    {
-      threshold = 70,
-      resistance = 2.5,
-      onRefresh,
-      className,
-      children,
-      ...props
-    },
+    { threshold = 50, deadzone = 5, onRefresh, className, children, ...props },
     ref,
   ) => {
     const containerRef = useForwardedRef(ref);
@@ -91,14 +102,29 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
         if (startY.current === 0 || isRefreshing) return;
 
         moveY.current = e.touches[0].clientY;
-        const diff = moveY.current - startY.current;
+        let difference = moveY.current - startY.current;
 
-        if (diff > 0) {
+        /** 誤動作防止のため、deadzone以下の動きは無視 */
+        if (difference <= deadzone) return;
+
+        if (difference > 0) {
+          /** デッドゾーンを除いた引き下げ距離 */
+          difference = difference - deadzone;
+
           /**
-           * 実際の移動距離からUI上の距離を計算
-           * resistance値が大きいほど動きが鈍くなる
+           * 抵抗計算
+           *
+           * - 最初の50pxまでは実際の動きの85%
+           * - それ以降は動きの20%（大きく引いても少ししか動かない）
            */
-          const distance = diff / resistance;
+          let distance: number;
+          if (difference <= Dimensions.Break) {
+            distance = difference * Resistances.Default;
+          } else {
+            distance =
+              Dimensions.Break * Resistances.Default +
+              (difference - Dimensions.Break) * Resistances.Strong;
+          }
 
           setDistance(distance);
           setIsActive(distance >= threshold);
@@ -106,7 +132,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
           e.preventDefault();
         }
       },
-      [isRefreshing, resistance, threshold],
+      [isRefreshing, deadzone, threshold],
     );
 
     const end = useCallback(() => {
@@ -125,9 +151,7 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
 
       if (!element) return;
 
-      /**
-       * passiveの指定によって、ユーザー操作によるスクロールを無効化
-       */
+      /** ユーザー操作によるスクロールを無効化 */
       const options = { passive: false };
 
       element.addEventListener("touchstart", start, options);
@@ -150,17 +174,20 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
           )}
           style={{
             height: isRefreshing
-              ? "70px"
+              ? `${Dimensions.RefreshHeight}px`
               : distance > 0
-                ? `${Math.min(distance, 120)}px`
+                ? `${Math.min(
+                    distance * Dimensions.HeightRatio,
+                    Dimensions.MaxHeight,
+                  )}px`
                 : "0px",
             opacity: distance > 0 || isRefreshing ? 1 : 0,
           }}
         >
           {isRefreshing ? (
-            <div className="flex flex-col items-center justify-center p-2 text-brand">
-              <Loader2 className="h-6 w-6 animate-spin" />
-              <span className="font-bold text-sm">読み込み中...</span>
+            <div className="flex flex-col items-center justify-center p-2 text-primary">
+              <RotateCw className="mb-2 h-6 w-6 animate-spin" />
+              <span className="mb-2 font-bold text-sm">読み込み中</span>
             </div>
           ) : (
             <div
@@ -170,14 +197,13 @@ export const PullToRefresh = forwardRef<HTMLDivElement, PullToRefreshProps>(
                 distance > 0 ? "opacity-100" : "opacity-0",
               )}
             >
-              <ArrowDown
-                className={cn(
-                  "h-6 w-6 transition-transform",
-                  isActive ? "animate-bounce" : "",
-                )}
-              />
+              {isActive ? (
+                <RotateCw className="mb-2 h-6 w-6 animate-spin" />
+              ) : (
+                <ArrowDown className="h-6 w-6 animate-bounce" />
+              )}
               <span className="font-bold text-sm">
-                {isActive ? "指を離して更新" : "もう少し下へ..."}
+                {isActive ? "指を離して更新" : "もう少し下へ"}
               </span>
             </div>
           )}
