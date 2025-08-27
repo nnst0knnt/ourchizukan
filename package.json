@@ -23,7 +23,7 @@
     "lint": "run-p eslint biome",
     "format": "run-p eslint:fix biome:fix",
     "tsc": "tsc --noEmit",
-    "ci": "run-p format tsc"
+    "ci": "run-p format tsc cloudflare:env"
   },
   "dependencies": {
     "clsx": "^2.1.1",
