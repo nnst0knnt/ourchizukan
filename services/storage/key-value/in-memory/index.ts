@@ -38,7 +38,9 @@ export const createInMemory: KeyValueStorageFactory = () => {
     set: async (key, value, expirySeconds) => {
       store.set(key, {
         value,
-        expiry: expirySeconds ? date().valueOf() + expirySeconds : undefined,
+        expiry: expirySeconds
+          ? date().valueOf() + expirySeconds * 1000
+          : undefined,
       });
     },
     delete: async (key) => {

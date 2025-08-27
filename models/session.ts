@@ -9,5 +9,5 @@ export type Session = {
 };
 
 export const SessionOptions = {
-  LifetimeMilliseconds: 30 * 24 * 60 * 60,
+  LifetimeMilliseconds: 30 * 24 * 60 * 60 * 1000,
 } as const;

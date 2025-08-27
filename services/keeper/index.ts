@@ -42,7 +42,7 @@ const session = (kv: KeyValueStorage) => {
       await kv.set(
         generateKey(ip),
         JSON.stringify(created),
-        SessionOptions.LifetimeMilliseconds,
+        SessionOptions.LifetimeMilliseconds / 1000,
       );
 
       return created;
