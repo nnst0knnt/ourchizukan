@@ -14,7 +14,7 @@ export const SymbolGallery = memo(() => {
   return (
     <section className="flex flex-col gap-4">
       <Title as="h2" accented>
-        シンボル
+        Symbol
       </Title>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
