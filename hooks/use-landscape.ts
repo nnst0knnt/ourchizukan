@@ -4,10 +4,7 @@ import { useOrientation } from "react-use";
 export const useLandscape = () => {
   const orientation = useOrientation();
 
-  const isLandscape =
-    orientation.angle === 90 ||
-    orientation.angle === -90 ||
-    orientation.type?.includes("landscape");
+  const isLandscape = orientation.angle === 90 || orientation.angle === -90;
 
   return isMobile && isLandscape;
 };
