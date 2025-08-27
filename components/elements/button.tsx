@@ -1,10 +1,16 @@
-import { type ButtonHTMLAttributes, Children, forwardRef } from "react";
+import {
+  type ButtonHTMLAttributes,
+  Children,
+  type ForwardRefExoticComponent,
+  type RefAttributes,
+  forwardRef,
+} from "react";
 
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon, LucideProps } from "lucide-react";
 
 /**
  * ボタンの種類
@@ -41,7 +47,9 @@ export type ButtonProps = {
   /** ボタンのサイズ */
   size?: ButtonSize;
   /** 表示するアイコン */
-  icon?: LucideIcon;
+  icon?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
+  /** 表示するアイコンのプロパティ */
+  iconProps?: LucideProps;
   /** アイコンの表示位置 */
   iconPosition?: ButtonIconPosition;
   /** 横幅いっぱいに広げるかどうか */
@@ -66,6 +74,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       kind = "primary",
       size = "default",
       icon: Icon,
+      iconProps,
       iconPosition = "left",
       status = ButtonStatus.Idle,
       fullWidth = false,
@@ -150,13 +159,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           )}
         >
           {Icon && iconPosition === "left" && (
-            <Icon size={iconSizes[size]} aria-hidden="true" />
+            <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
           )}
 
           <span>{children}</span>
 
           {Icon && iconPosition === "right" && (
-            <Icon size={iconSizes[size]} aria-hidden="true" />
+            <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
           )}
         </div>
 

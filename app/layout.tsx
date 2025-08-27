@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 
-import { Content, Footer, Header, Navigation } from "@/components/structures";
+import { Content, Footer, Header } from "@/components/structures";
 import { AccessibilityProvider } from "@/components/tools";
 
 export const metadata: Metadata = {
@@ -52,7 +52,6 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col bg-foundation text-primary antialiased">
         <AccessibilityProvider>
           <Header />
-          <Navigation />
           <Content>{children}</Content>
           <Footer />
         </AccessibilityProvider>

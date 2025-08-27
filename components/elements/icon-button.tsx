@@ -1,6 +1,12 @@
 "use client";
 
-import { type ButtonHTMLAttributes, forwardRef, useState } from "react";
+import {
+  type ButtonHTMLAttributes,
+  type ForwardRefExoticComponent,
+  type RefAttributes,
+  forwardRef,
+  useState,
+} from "react";
 
 import { cn } from "@/styles/functions";
 
@@ -25,9 +31,9 @@ type TooltipPosition = "top" | "right" | "bottom" | "left";
  * IconButtonProps
  */
 export type IconButtonProps = {
-  /** アイコン */
-  icon: LucideIcon;
-  /** アイコンのプロパティ */
+  /** 表示するアイコン */
+  icon: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
+  /** 表示するアイコンのプロパティ */
   iconProps?: LucideProps;
   /** ボタンのサイズ */
   size?: IconButtonSize;

@@ -20,7 +20,8 @@ export type LogoLinkProps = {
 /**
  * LogoLink
  *
- * トップへ遷移するロゴのリンクです。
+ * おうちずかんのロゴのリンクです。
+ * 押下時にルートへ遷移します。
  */
 export const LogoLink = forwardRef<HTMLDivElement, LogoLinkProps>(
   ({ size = "default", iconOnly = true, className, ...props }, ref) => {

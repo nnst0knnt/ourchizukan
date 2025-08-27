@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { isMobile } from "react-device-detect";
 
 import { cn } from "@/styles/functions";
@@ -10,9 +11,10 @@ import { AccessibilityControls } from "../tools";
 /**
  * Header
  *
+ * アプリケーション全体のヘッダーです。
  * アプリケーションの最上部に常時表示され、ロゴとアクセシビリティ設定を提供します。
  */
-export const Header = () => {
+export const Header = memo(() => {
   return (
     <header className="sticky top-0 z-50 w-full border-outline border-b bg-foundation shadow-sm">
       <div
@@ -26,4 +28,6 @@ export const Header = () => {
       </div>
     </header>
   );
-};
+});
+
+Header.displayName = "Header";

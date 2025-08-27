@@ -7,7 +7,7 @@ import {
 
 import NextLink from "next/link";
 
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, type LucideIcon, type LucideProps } from "lucide-react";
 
 import { cn } from "@/styles/functions";
 
@@ -53,9 +53,9 @@ export type LinkProps = {
   /** リンクのサイズ */
   size?: LinkSize;
   /** 表示するアイコン */
-  icon?: ForwardRefExoticComponent<
-    { size: number } & RefAttributes<SVGSVGElement>
-  >;
+  icon?: LucideIcon | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>;
+  /** 表示するアイコンのプロパティ */
+  iconProps?: LucideProps;
   /** アイコンの表示位置 */
   iconPosition?: IconPosition;
   /** 下線を表示するかどうか */
@@ -79,6 +79,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       kind = "default",
       size = "default",
       icon: Icon,
+      iconProps,
       iconPosition = "left",
       underline = true,
       openInNewTab = false,
@@ -156,7 +157,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         {...props}
       >
         {Icon && iconPosition === "left" && (
-          <Icon size={iconSizes[size]} aria-hidden="true" />
+          <Icon size={iconSizes[size]} aria-hidden="true" {...iconProps} />
         )}
         <span>{children}</span>
         {Icon && iconPosition === "right" && (

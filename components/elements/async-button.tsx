@@ -23,6 +23,7 @@ export type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
 /**
  * AsyncButton
  *
+ * 非同期処理を実行するボタンです。
  * 内部で状態管理を行い、非同期処理の状態に応じてボタンの表示を切り替えます。
  * 高齢者にも使いやすいよう、処理中や結果を視覚的に分かりやすく表示します。
  */

@@ -2,6 +2,12 @@ import type { PropsWithChildren } from "react";
 
 import { cn } from "@/styles/functions";
 
+/**
+ * Content
+ *
+ * アプリケーション全体のコンテンツ部分です。
+ * アプリケーションの中心部分に常時表示されます。
+ */
 export const Content = ({ children }: PropsWithChildren) => (
   <main
     className={cn(
