@@ -6,6 +6,7 @@ export {
 } from "./use-contrast";
 export { useEnabledWindow } from "./use-enabled-window";
 export { useForwardedRef } from "./use-forwarded-ref";
+export { useInfinityScroll } from "./use-infinity-scroll";
 export { useKeyboard } from "./use-keyboard";
 export { useLandscape } from "./use-landscape";
 export { useLockOnFocus } from "./use-lock-on-focus";
