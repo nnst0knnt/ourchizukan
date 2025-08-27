@@ -6,4 +6,5 @@ export const GetPicture = z.object({
     message: "IDの形式が正しくありません",
   }),
 });
+
 export type GetPicture = z.infer<typeof GetPicture>;

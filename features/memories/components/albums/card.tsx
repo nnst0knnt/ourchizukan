@@ -1,4 +1,4 @@
-import { ImageIcon } from "lucide-react";
+import { Images } from "lucide-react";
 import Image from "next/image";
 import { memo } from "react";
 import type { AlbumCard } from "../../models/card";
@@ -34,7 +34,7 @@ export const Card = memo<CardProps>(({ model = null, loading = false }) => {
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-outline/10">
-            <ImageIcon className="h-12 w-12" />
+            <Images className="h-12 w-12" />
           </div>
         )}
       </div>

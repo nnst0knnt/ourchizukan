@@ -2,6 +2,7 @@
 
 import { type MouseEvent, forwardRef, useState } from "react";
 
+import { sleep } from "@/services/timer";
 import { Button, type ButtonProps, ButtonStatus } from "./button";
 
 /**
@@ -18,6 +19,8 @@ type AsyncButtonProps = Omit<ButtonProps, "status" | "onClick"> & {
   autoReset?: boolean;
   /** ステータスを自動リセットするまでの時間 */
   resetDelayMs?: number;
+  /** 成功もしくはエラー後の待機時間 */
+  waitMs?: number;
 };
 
 /**
@@ -35,6 +38,7 @@ export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
       onError,
       autoReset = true,
       resetDelayMs = 3000,
+      waitMs = 1500,
       children,
       ...props
     },
@@ -54,19 +58,28 @@ export const AsyncButton = forwardRef<HTMLButtonElement, AsyncButtonProps>(
 
       try {
         setStatus(ButtonStatus.Loading);
+
         await onClick?.(event);
+
         setStatus(ButtonStatus.Success);
+
+        timeout = await sleep(waitMs);
+
         onSuccess?.();
       } catch (e) {
         setStatus(ButtonStatus.Error);
+
+        timeout = await sleep(waitMs);
+
         onError?.(e);
       }
 
       if (autoReset) {
-        timeout = setTimeout(() => {
-          setStatus(ButtonStatus.Idle);
-          timeout = null;
-        }, resetDelayMs);
+        timeout = await sleep(resetDelayMs);
+
+        setStatus(ButtonStatus.Idle);
+
+        timeout = null;
       }
     };
 

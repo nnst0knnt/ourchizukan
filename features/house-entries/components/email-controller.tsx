@@ -57,6 +57,7 @@ export const EmailController = memo(() => {
                       helperText:
                         "メールアドレスを入力して、おうちに入りましょう",
                     })}
+              required
               fullWidth
             />
             <AsyncButton onClick={submit} disabled={!isValid} fullWidth>

@@ -3,6 +3,7 @@ import type { ValidationTargets } from "hono";
 import { every } from "hono/combine";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { type ZodSchema, z } from "zod";
+import { factory, toBody } from "../helpers";
 
 /**
  * リクエストボディ必須のミドルウェア
@@ -24,16 +25,10 @@ const hasBody = <Kind extends keyof Pick<ValidationTargets, "json" | "form">>(
   );
 
 /**
- * リクエストボディのバリデーションを行うミドルウェア
+ * JSONボディのバリデーションを行うミドルウェア
  */
-const body = <
-  Kind extends keyof Pick<ValidationTargets, "json" | "form">,
-  Schema extends ZodSchema,
->(
-  schema: Schema,
-  kind: Kind,
-) => {
-  const middleware = zValidator(kind, schema, ({ success }, context) => {
+const json = <Schema extends ZodSchema>(schema: Schema) => {
+  const middleware = zValidator("json", schema, ({ success }, context) => {
     if (!success) {
       return context.json(
         ReasonPhrases.UNPROCESSABLE_ENTITY,
@@ -42,7 +37,27 @@ const body = <
     }
   });
 
-  return every(hasBody(kind), middleware) as typeof middleware;
+  return every(hasBody("json"), middleware) as typeof middleware;
+};
+
+/**
+ * フォームボディのバリデーションを行うミドルウェア
+ */
+const form = <Schema extends ZodSchema>(schema: Schema) => {
+  const middleware = factory.createMiddleware(async (context, next) => {
+    const body = await toBody(context, schema);
+
+    if (!body) {
+      return context.json(
+        ReasonPhrases.UNPROCESSABLE_ENTITY,
+        StatusCodes.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    await next();
+  });
+
+  return middleware;
 };
 
 /**
@@ -75,7 +90,8 @@ const query = <Schema extends ZodSchema>(schema: Schema) =>
  * リクエストをバリデーションするミドルウェア
  */
 export const validator = {
-  body,
+  json,
+  form,
   path,
   query,
 };

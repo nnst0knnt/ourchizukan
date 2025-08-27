@@ -41,13 +41,13 @@ export const Viewer = memo<ViewerProps>(
         )}
         onKeyDown={keydown}
       >
-        <header className="flex w-full items-center bg-foundation p-4">
+        <div className="flex w-full items-center bg-foundation p-4">
           <Button kind="secondary" onClick={onClose} aria-label="戻る">
             <span>戻る</span>
           </Button>
-        </header>
+        </div>
 
-        <main className="relative flex flex-1 items-center justify-center border-outline border-t border-b p-4">
+        <div className="relative flex flex-1 items-center justify-center border-outline border-t border-b p-4">
           {loading || !model ? (
             <div className="flex h-full w-full items-center justify-center">
               <div className="aspect-square w-3/4 max-w-3xl animate-pulse rounded-lg bg-primary/20" />
@@ -105,9 +105,9 @@ export const Viewer = memo<ViewerProps>(
               <p className="text-lg">写真の読み込みに失敗しました</p>
             </div>
           )}
-        </main>
+        </div>
 
-        <footer className="w-full bg-foundation p-4">
+        <div className="w-full bg-foundation p-4">
           {!loading && model ? (
             <p className="flex items-center gap-2 text-sm">
               <Camera className="inline-block h-4 w-4" />
@@ -116,7 +116,7 @@ export const Viewer = memo<ViewerProps>(
           ) : (
             <p className="text-base text-secondary">&nbsp;</p>
           )}
-        </footer>
+        </div>
       </div>
     );
   },

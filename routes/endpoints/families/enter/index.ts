@@ -5,7 +5,7 @@ import { factory } from "../../../helpers";
 import { EnterFamily } from "./schema";
 
 export const enter = factory.createHandlers(
-  validator.body(EnterFamily, "json"),
+  validator.json(EnterFamily),
   async (context) => {
     const body = context.req.valid("json");
 

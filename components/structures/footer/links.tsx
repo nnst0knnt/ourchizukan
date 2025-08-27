@@ -2,7 +2,7 @@
 
 import { Link } from "@/components/elements/anchor";
 import { cn } from "@/styles/functions";
-import { Film, Image, type LucideIcon } from "lucide-react";
+import { Image, type LucideIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { type HTMLAttributes, memo } from "react";
 
@@ -12,14 +12,9 @@ const links: {
   mark: LucideIcon;
 }[] = [
   {
-    name: "写真",
-    href: "/albums",
+    name: "思い出",
+    href: "/memories",
     mark: Image,
-  },
-  {
-    name: "動画",
-    href: "/movies",
-    mark: Film,
   },
 ];
 

@@ -1,7 +1,18 @@
+import { cn } from "@/styles/functions";
 import { type PropsWithChildren, memo } from "react";
 
-export const Centered = memo<PropsWithChildren>(({ children }) => (
-  <div className="mx-auto h-auto max-w-lg sm:h-full sm:content-center [&>*]:last:pb-4 md:[&>*]:last:pb-6 lg:[&>*]:last:pb-8">
+type CenteredProps = {
+  className?: string;
+} & PropsWithChildren;
+
+export const Centered = memo<CenteredProps>(({ className, children }) => (
+  <div
+    className={cn(
+      "mx-auto h-auto max-w-lg sm:h-full sm:content-center",
+      "[&>*]:last:pb-0 md:[&>*]:last:pb-6 lg:[&>*]:last:pb-8",
+      className,
+    )}
+  >
     {children}
   </div>
 ));

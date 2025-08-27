@@ -48,7 +48,8 @@
         "useKeyWithClickEvents": "off"
       },
       "style": {
-        "noUnusedTemplateLiteral": "off"
+        "noUnusedTemplateLiteral": "off",
+        "noNonNullAssertion": "off"
       }
     }
   },
