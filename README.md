@@ -1,16 +1,23 @@
-# おうちずかん
+# ourchizukan
 
-Hono、Next.js、Cloudflareの技術検証用アプリケーションです。
+## 概要
 
-## 🚀 技術スタック
+Cloudflare Workersエコシステムを活用したWebアプリケーション技術検証を行うリポジトリです。
 
-| 分類 | 技術 | 用途 |
-|------|------|------|
-| **フロントエンド** | Next.js 15 | Reactフレームワーク |
-| **バックエンド** | Hono | 軽量Webフレームワーク |
-| **ランタイム** | Cloudflare Workers | エッジコンピューティング |
-| **データベース** | Cloudflare D1 | SQLite |
-| **ストレージ** | Cloudflare R2 | オブジェクトストレージ |
-| **キャッシュ** | Cloudflare KV | キーバリューストア |
-| **ORM** | Drizzle | 型安全データベースORM |
-| **バリデーション** | Zod | スキーマ検証 |
+## 技術スタック
+
+- Next.js
+- Hono
+- Cloudflare Workers
+- Cloudflare D1
+- Cloudflare R2
+- Cloudflare KV
+- Drizzle ORM
+- Zod
+- TypeScript
+
+## 使用方法
+
+```bash
+make setup
+```
